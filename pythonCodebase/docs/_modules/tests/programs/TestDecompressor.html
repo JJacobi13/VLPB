@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>tests.programs.TestDecompressor &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for tests.programs.TestDecompressor</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">unittest</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">shutil</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;../../src&quot;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">model</span> <span class="kn">import</span> <span class="n">Pool</span><span class="p">,</span> <span class="n">Sample</span>
+<span class="kn">from</span> <span class="nn">programs</span> <span class="kn">import</span> <span class="n">Decompressor</span>
+
+<div class="viewcode-block" id="TestDecompressor"><a class="viewcode-back" href="../../../tests.programs.html#tests.programs.TestDecompressor.TestDecompressor">[docs]</a><span class="k">class</span> <span class="nc">TestDecompressor</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    
+    <span class="n">outFileSize</span> <span class="o">=</span> <span class="mi">156850</span>
+    <span class="n">forwardOut</span> <span class="o">=</span> <span class="s">&quot;/mnt/geninf15/work/jetsej/vlpb/scripts/pythonCodeBase/tests/testFiles/output/testPool/testLib/test.fq&quot;</span>
+    <span class="n">revOut</span> <span class="o">=</span> <span class="s">&quot;/mnt/geninf15/work/jetsej/vlpb/scripts/pythonCodeBase/tests/testFiles/output/testPool/testLib/revTest.fq&quot;</span>
+    <span class="n">fqFile</span> <span class="o">=</span> <span class="s">&quot;../testFiles/input/test.fq&quot;</span>
+    <span class="n">gzFile</span> <span class="o">=</span> <span class="s">&quot;../testFiles/input/test.fq.gz&quot;</span>
+    <span class="n">refGzFile</span> <span class="o">=</span> <span class="s">&quot;../testFiles/input/revTest.fq.gz&quot;</span>
+    <span class="n">tarGzFile</span> <span class="o">=</span> <span class="s">&quot;../testFiles/input/test.tar.gz&quot;</span>
+    
+    
+<div class="viewcode-block" id="TestDecompressor.setUp"><a class="viewcode-back" href="../../../tests.programs.html#tests.programs.TestDecompressor.TestDecompressor.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s">&quot;../testFiles/output/&quot;</span><span class="p">):</span>
+            <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&quot;../testFiles/output/&quot;</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">testPool</span> <span class="o">=</span> <span class="n">Pool</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="s">&quot;testPool&quot;</span><span class="p">,</span> <span class="s">&quot;../testFiles/output/&quot;</span><span class="p">,</span> <span class="s">&quot;../testFiles/input/smallRefGenome.fa&quot;</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s">&quot;../../src/VlpbConfig/config.ini&quot;</span><span class="p">)</span>
+        <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="n">Sample</span><span class="o">.</span><span class="n">Sample</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">testPool</span><span class="p">,</span> <span class="s">&quot;testLib&quot;</span><span class="p">)</span>
+        <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">testPool</span><span class="o">.</span><span class="n">addSample</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">sample</span><span class="p">)</span>
+        <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">setForwardFq</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">gzFile</span><span class="p">)</span>
+        <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">setReversedFq</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">refGzFile</span><span class="p">)</span>
+        <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">decompressor</span> <span class="o">=</span> <span class="n">Decompressor</span><span class="o">.</span><span class="n">Decompressor</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="TestDecompressor.testGz"><a class="viewcode-back" href="../../../tests.programs.html#tests.programs.TestDecompressor.TestDecompressor.testGz">[docs]</a>    <span class="k">def</span> <span class="nf">testGz</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">setForwardFq</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">gzFile</span><span class="p">)</span>
+        <span class="n">outputFile</span> <span class="o">=</span> <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">decompressor</span><span class="o">.</span><span class="n">_extractGz</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">forwardFq</span><span class="p">,</span> <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">outputDir</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outputFile</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">forwardOut</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outputFile</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; not is &quot;</span> <span class="o">+</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">forwardOut</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">outFileSize</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">outputFile</span><span class="p">),</span> <span class="s">&quot;filesize: &quot;</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">outputFile</span><span class="p">))</span> <span class="o">+</span> <span class="s">&quot; is not &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">outFileSize</span><span class="p">))</span>
+        
+        <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">setForwardFq</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">gzFile</span><span class="p">)</span>
+        <span class="n">outputFile</span> <span class="o">=</span> <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">decompressor</span><span class="o">.</span><span class="n">_extractGz</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">reversedFq</span><span class="p">,</span> <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">outputDir</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outputFile</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">revOut</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outputFile</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; not is &quot;</span> <span class="o">+</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">revOut</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">outFileSize</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">outputFile</span><span class="p">),</span> <span class="s">&quot;filesize: &quot;</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">outputFile</span><span class="p">))</span> <span class="o">+</span> <span class="s">&quot; is not &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">outFileSize</span><span class="p">))</span>
+        
+    </div>
+<div class="viewcode-block" id="TestDecompressor.testTarGz"><a class="viewcode-back" href="../../../tests.programs.html#tests.programs.TestDecompressor.TestDecompressor.testTarGz">[docs]</a>    <span class="k">def</span> <span class="nf">testTarGz</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">setForwardFq</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">tarGzFile</span><span class="p">)</span>
+        <span class="n">outputFile</span> <span class="o">=</span> <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">decompressor</span><span class="o">.</span><span class="n">_extractTarGz</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">forwardFq</span><span class="p">,</span> <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">outputDir</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outputFile</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">forwardOut</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outputFile</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; not is &quot;</span> <span class="o">+</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">forwardOut</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">outFileSize</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">outputFile</span><span class="p">),</span> <span class="s">&quot;filesize: &quot;</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">outputFile</span><span class="p">))</span> <span class="o">+</span> <span class="s">&quot; is not &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">outFileSize</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="TestDecompressor.testExtract"><a class="viewcode-back" href="../../../tests.programs.html#tests.programs.TestDecompressor.TestDecompressor.testExtract">[docs]</a>    <span class="k">def</span> <span class="nf">testExtract</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c">#test tar.gz</span>
+        <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">setForwardFq</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">tarGzFile</span><span class="p">)</span>
+        <span class="n">outputFile</span> <span class="o">=</span> <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">decompressor</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">forwardFq</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outputFile</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">forwardOut</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outputFile</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; not is &quot;</span> <span class="o">+</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">forwardOut</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">outFileSize</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">outputFile</span><span class="p">),</span> <span class="s">&quot;filesize: &quot;</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">outputFile</span><span class="p">))</span> <span class="o">+</span> <span class="s">&quot; is not &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">outFileSize</span><span class="p">))</span>
+        
+        <span class="c">#test .gz</span>
+        <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">setForwardFq</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">gzFile</span><span class="p">)</span>
+        <span class="n">outputFile</span> <span class="o">=</span> <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">decompressor</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">forwardFq</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outputFile</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">forwardOut</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outputFile</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; not is &quot;</span> <span class="o">+</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">forwardOut</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">outFileSize</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">outputFile</span><span class="p">),</span> <span class="s">&quot;filesize: &quot;</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">outputFile</span><span class="p">))</span> <span class="o">+</span> <span class="s">&quot; is not &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">outFileSize</span><span class="p">))</span>
+        
+        <span class="c">#test exception</span>
+        <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">setForwardFq</span><span class="p">(</span><span class="s">&quot;somerandomFileName.foo&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="n">TestDecompressor</span><span class="o">.</span><span class="n">decompressor</span><span class="o">.</span><span class="n">extract</span><span class="p">,</span><span class="n">TestDecompressor</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">forwardFq</span><span class="p">)</span>
+</div></div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>        
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

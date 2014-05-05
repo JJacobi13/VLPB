@@ -1,0 +1,291 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>phenotyper Package &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="index.html" />
+    <link rel="up" title="programs Package" href="programs.html" />
+    <link rel="next" title="phenotypeModel Package" href="programs.phenotyper.phenotypeModel.html" />
+    <link rel="prev" title="programs Package" href="programs.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="programs.phenotyper.phenotypeModel.html" title="phenotypeModel Package"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="programs.html" title="programs Package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >VLPB</a> &raquo;</li>
+          <li><a href="programs.html" accesskey="U">programs Package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="phenotyper-package">
+<h1>phenotyper Package<a class="headerlink" href="#phenotyper-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-programs.phenotyper.AllelicDiversity">
+<span id="allelicdiversity-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">AllelicDiversity</span></tt> Module<a class="headerlink" href="#module-programs.phenotyper.AllelicDiversity" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="programs.phenotyper.AllelicDiversity.AllelicDiversity">
+<em class="property">class </em><tt class="descclassname">programs.phenotyper.AllelicDiversity.</tt><tt class="descname">AllelicDiversity</tt><big>(</big><em>pool</em>, <em>gffFile</em><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/AllelicDiversity.html#AllelicDiversity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.AllelicDiversity.AllelicDiversity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>The class AllelicDiversity includes all methods and variables needed for calculation of the allelic diversity.</p>
+<dl class="method">
+<dt id="programs.phenotyper.AllelicDiversity.AllelicDiversity.getAllelicDiversity">
+<tt class="descname">getAllelicDiversity</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/AllelicDiversity.html#AllelicDiversity.getAllelicDiversity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.AllelicDiversity.AllelicDiversity.getAllelicDiversity" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method getAllelicDiversity calculates the allelic diversity and writes the output to a file.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="locifinder-module">
+<h2><tt class="xref py py-mod docutils literal"><span class="pre">LociFinder</span></tt> Module<a class="headerlink" href="#locifinder-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-programs.phenotyper.Mendel">
+<span id="mendel-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">Mendel</span></tt> Module<a class="headerlink" href="#module-programs.phenotyper.Mendel" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="programs.phenotyper.Mendel.Mendel">
+<em class="property">class </em><tt class="descclassname">programs.phenotyper.Mendel.</tt><tt class="descname">Mendel</tt><a class="reference internal" href="_modules/programs/phenotyper/Mendel.html#Mendel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.Mendel.Mendel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>The Mendel class does all difficult calculations to calculate the phenotype of the haplotype.</p>
+<dl class="method">
+<dt id="programs.phenotyper.Mendel.Mendel.calculatePhenotypeChances">
+<tt class="descname">calculatePhenotypeChances</tt><big>(</big><em>phenotype</em><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/Mendel.html#Mendel.calculatePhenotypeChances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.Mendel.Mendel.calculatePhenotypeChances" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method calculatePhenotypeChances constructs an dictionary with dictionaries.
+The key of the first dictionary is a haplotype, the value is a dictionary with all chances on an allele.
+In this second dictionary the key is the allele and the value is the chance on this allele.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="programs.phenotyper.Mendel.Mendel.getHaplotypeToAlleleConversionDict">
+<tt class="descname">getHaplotypeToAlleleConversionDict</tt><big>(</big><em>haplotypes</em>, <em>phenotype</em><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/Mendel.html#Mendel.getHaplotypeToAlleleConversionDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.Mendel.Mendel.getHaplotypeToAlleleConversionDict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="programs.phenotyper.Mendel.Mendel.isNumeric">
+<tt class="descname">isNumeric</tt><big>(</big><em>array</em><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/Mendel.html#Mendel.isNumeric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.Mendel.Mendel.isNumeric" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-programs.phenotyper.Readers">
+<span id="readers-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">Readers</span></tt> Module<a class="headerlink" href="#module-programs.phenotyper.Readers" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="programs.phenotyper.Readers.AccessionConverter">
+<em class="property">class </em><tt class="descclassname">programs.phenotyper.Readers.</tt><tt class="descname">AccessionConverter</tt><a class="reference internal" href="_modules/programs/phenotyper/Readers.html#AccessionConverter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.Readers.AccessionConverter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#programs.phenotyper.Readers.Reader" title="programs.phenotyper.Readers.Reader"><tt class="xref py py-class docutils literal"><span class="pre">programs.phenotyper.Readers.Reader</span></tt></a></p>
+<dl class="method">
+<dt id="programs.phenotyper.Readers.AccessionConverter.getAccession">
+<tt class="descname">getAccession</tt><big>(</big><em>eusolID</em><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/Readers.html#AccessionConverter.getAccession"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.Readers.AccessionConverter.getAccession" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter for retrieving the accession of an eusol ID.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>eusolID</strong> (<em>str.</em>) &#8211; The ID of eusol</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the accession of an eusol ID</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises :</th><td class="field-body">KeyError when there is no accession ID for this eusol ID.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="programs.phenotyper.Readers.GffReader">
+<em class="property">class </em><tt class="descclassname">programs.phenotyper.Readers.</tt><tt class="descname">GffReader</tt><big>(</big><em>phenotypes=None</em>, <em>chrom=None</em><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/Readers.html#GffReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.Readers.GffReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#programs.phenotyper.Readers.Reader" title="programs.phenotyper.Readers.Reader"><tt class="xref py py-class docutils literal"><span class="pre">programs.phenotyper.Readers.Reader</span></tt></a></p>
+<p>The GffReader reads a GFF3 file.</p>
+<dl class="attribute">
+<dt id="programs.phenotyper.Readers.GffReader.idRegex">
+<tt class="descname">idRegex</tt><em class="property"> = &lt;_sre.SRE_Pattern object at 0x033FF020&gt;</em><a class="headerlink" href="#programs.phenotyper.Readers.GffReader.idRegex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="programs.phenotyper.Readers.LociReader">
+<em class="property">class </em><tt class="descclassname">programs.phenotyper.Readers.</tt><tt class="descname">LociReader</tt><a class="reference internal" href="_modules/programs/phenotyper/Readers.html#LociReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.Readers.LociReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#programs.phenotyper.Readers.Reader" title="programs.phenotyper.Readers.Reader"><tt class="xref py py-class docutils literal"><span class="pre">programs.phenotyper.Readers.Reader</span></tt></a></p>
+<p>The LociReader reads a file with all candidate genes of a phenotype.
+This file consists of 2 columns, the first column describes the phenotype, the second column describes the contig ID
+All phenotypes and contigs can occur multiple times!
+Format:
++&#8212;&#8212;&#8212;&#8212;&#8212;-+
+<a href="#id17"><span class="problematic" id="id18">|phenotype|contig|</span></a>
++&#8212;&#8212;&#8212;+&#8212;&#8212;+
+<a href="#id19"><span class="problematic" id="id20">|phenotype|contig|</span></a>
++&#8212;&#8212;&#8212;+&#8212;&#8212;+</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="programs.phenotyper.Readers.PhenotypeReader">
+<em class="property">class </em><tt class="descclassname">programs.phenotyper.Readers.</tt><tt class="descname">PhenotypeReader</tt><a class="reference internal" href="_modules/programs/phenotyper/Readers.html#PhenotypeReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.Readers.PhenotypeReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#programs.phenotyper.Readers.Reader" title="programs.phenotyper.Readers.Reader"><tt class="xref py py-class docutils literal"><span class="pre">programs.phenotyper.Readers.Reader</span></tt></a></p>
+<p>The method PhenotypeReader reads a phenotype file.
+The phenotype file is a tab separated file, the header line indicates the accessions.
+All other lines indicate the alleles of a phenotype of an accession.
+File format:
++&#8212;&#8212;&#8212;&#8211;+&#8212;&#8212;&#8212;+&#8212;&#8212;&#8212;+&#8212;&#8212;&#8212;+
+<a href="#id21"><span class="problematic" id="id22">|description|phenotype|phenotype|phenotype|</span></a>
++&#8212;&#8212;&#8212;&#8211;+&#8212;&#8212;&#8212;+&#8212;&#8212;&#8212;+&#8212;&#8212;&#8212;+
+<a href="#id1"><span class="problematic" id="id2">|</span></a>accession  <a href="#id3"><span class="problematic" id="id4">|</span></a>allele   <a href="#id5"><span class="problematic" id="id6">|</span></a>allele   <a href="#id7"><span class="problematic" id="id8">|</span></a>allele   |
++&#8212;&#8212;&#8212;&#8211;+&#8212;&#8212;&#8212;+&#8212;&#8212;&#8212;+&#8212;&#8212;&#8212;+
+<a href="#id9"><span class="problematic" id="id10">|</span></a>accession  <a href="#id11"><span class="problematic" id="id12">|</span></a>allele   <a href="#id13"><span class="problematic" id="id14">|</span></a>allele   <a href="#id15"><span class="problematic" id="id16">|</span></a>allele   |
++&#8212;&#8212;&#8212;&#8211;+&#8212;&#8212;&#8212;+&#8212;&#8212;&#8212;+&#8212;&#8212;&#8212;+</p>
+<dl class="method">
+<dt id="programs.phenotyper.Readers.PhenotypeReader.genoIDToAccession">
+<tt class="descname">genoIDToAccession</tt><big>(</big><em>genoID</em><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/Readers.html#PhenotypeReader.genoIDToAccession"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.Readers.PhenotypeReader.genoIDToAccession" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="programs.phenotyper.Readers.Reader">
+<em class="property">class </em><tt class="descclassname">programs.phenotyper.Readers.</tt><tt class="descname">Reader</tt><a class="reference internal" href="_modules/programs/phenotyper/Readers.html#Reader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.Readers.Reader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>The reader is an abstract class for reading tab delimited files.</p>
+<dl class="method">
+<dt id="programs.phenotyper.Readers.Reader.readFile">
+<tt class="descname">readFile</tt><big>(</big><em>inFile</em><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/Readers.html#Reader.readFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.Readers.Reader.readFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method readFile reads a tab delimited file. Lines starting with a &#8216;#&#8217; are skipped.
+When de line starts with #CHROM this will be the header information of the vcf file.
+Every other line will execute the method _parseLine in the child objects, is required!
+Afterwards the method actionAfterReading in the child objects will be called, is optional
+:param inFile: The file to read
+:type inFile: str &#8211; path to the file</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="programs.phenotyper.Readers.VcfReader">
+<em class="property">class </em><tt class="descclassname">programs.phenotyper.Readers.</tt><tt class="descname">VcfReader</tt><big>(</big><em>contigs</em><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/Readers.html#VcfReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.Readers.VcfReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#programs.phenotyper.Readers.Reader" title="programs.phenotyper.Readers.Reader"><tt class="xref py py-class docutils literal"><span class="pre">programs.phenotyper.Readers.Reader</span></tt></a></p>
+<p>The VcfReader reads a vcf file.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="genotypephenotypeassociator-module">
+<h2><tt class="xref py py-mod docutils literal"><span class="pre">genotypePhenotypeAssociator</span></tt> Module<a class="headerlink" href="#genotypephenotypeassociator-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="programs.phenotyper.phenotypeModel.html">phenotypeModel Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="programs.phenotyper.phenotypeModel.html#module-programs.phenotyper.phenotypeModel.Accession"><tt class="docutils literal"><span class="pre">Accession</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="programs.phenotyper.phenotypeModel.html#module-programs.phenotyper.phenotypeModel.Contig"><tt class="docutils literal"><span class="pre">Contig</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="programs.phenotyper.phenotypeModel.html#module-programs.phenotyper.phenotypeModel.Phenotype"><tt class="docutils literal"><span class="pre">Phenotype</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="programs.phenotyper.phenotypeModel.html#module-programs.phenotyper.phenotypeModel.Snp"><tt class="docutils literal"><span class="pre">Snp</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">phenotyper Package</a><ul>
+<li><a class="reference internal" href="#module-programs.phenotyper.AllelicDiversity"><tt class="docutils literal"><span class="pre">AllelicDiversity</span></tt> Module</a></li>
+<li><a class="reference internal" href="#locifinder-module"><tt class="docutils literal"><span class="pre">LociFinder</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-programs.phenotyper.Mendel"><tt class="docutils literal"><span class="pre">Mendel</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-programs.phenotyper.Readers"><tt class="docutils literal"><span class="pre">Readers</span></tt> Module</a></li>
+<li><a class="reference internal" href="#genotypephenotypeassociator-module"><tt class="docutils literal"><span class="pre">genotypePhenotypeAssociator</span></tt> Module</a></li>
+<li><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="programs.html"
+                        title="previous chapter">programs Package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="programs.phenotyper.phenotypeModel.html"
+                        title="next chapter">phenotypeModel Package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/programs.phenotyper.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="programs.phenotyper.phenotypeModel.html" title="phenotypeModel Package"
+             >next</a></li>
+        <li class="right" >
+          <a href="programs.html" title="programs Package"
+             >previous</a> |</li>
+        <li><a href="index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >VLPB</a> &raquo;</li>
+          <li><a href="programs.html" >programs Package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

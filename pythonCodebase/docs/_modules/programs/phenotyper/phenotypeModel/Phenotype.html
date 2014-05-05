@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>programs.phenotyper.phenotypeModel.Phenotype &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for programs.phenotyper.phenotypeModel.Phenotype</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">Contig</span>
+<div class="viewcode-block" id="Phenotype"><a class="viewcode-back" href="../../../../programs.phenotyper.phenotypeModel.html#programs.phenotyper.phenotypeModel.Phenotype.Phenotype">[docs]</a><span class="k">class</span> <span class="nc">Phenotype</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An instance of the Phenotype object represents one single Phenotype.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">description</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The constructor of the phenotype object sets the given description as instance variable, creates a list of contigs with the given contig.</span>
+<span class="sd">        Also an empty list of alleles is created.</span>
+<span class="sd">        :param description: the description of this phenotype</span>
+<span class="sd">        :type description: str</span>
+<span class="sd">        :param contigId: the ID of the contig</span>
+<span class="sd">        :type contigId: str</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">contigs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alleles</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
+        
+<div class="viewcode-block" id="Phenotype.addContig"><a class="viewcode-back" href="../../../../programs.phenotyper.phenotypeModel.html#programs.phenotyper.phenotypeModel.Phenotype.Phenotype.addContig">[docs]</a>    <span class="k">def</span> <span class="nf">addContig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contigId</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method addContig creates a contig object and adds this object to the list of contigs involved with this phenotype.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">contigs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Contig</span><span class="o">.</span><span class="n">Contig</span><span class="p">(</span><span class="n">contigId</span><span class="p">,</span> <span class="bp">self</span><span class="p">))</span>
+        </div>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;Phenotype[Description: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">+</span> <span class="s">&quot;, no of contigs: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">contigs</span><span class="p">))</span> <span class="o">+</span> <span class="s">&quot;]&quot;</span>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

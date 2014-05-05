@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>main.main &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for main.main</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">argparse</span><span class="o">,</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">model</span> <span class="kn">import</span> <span class="n">Sample</span><span class="p">,</span> <span class="n">Pool</span><span class="p">,</span> <span class="n">FastqFile</span><span class="p">,</span> <span class="n">BamFile</span><span class="p">,</span> <span class="n">VcfFile</span>
+<span class="kn">from</span> <span class="nn">programs</span> <span class="kn">import</span> <span class="n">Haplotyper</span><span class="p">,</span> <span class="n">Mapper</span><span class="p">,</span> <span class="n">Program</span>
+<span class="kn">from</span> <span class="nn">programs.snvCallers</span> <span class="kn">import</span> <span class="n">SamtoolsMpileup</span>
+<span class="kn">from</span> <span class="nn">model.cluster</span> <span class="kn">import</span> <span class="n">Grid</span>
+<span class="kn">from</span> <span class="nn">programs.phenotyper</span> <span class="kn">import</span> <span class="n">AllelicDiversity</span>
+
+
+<div class="viewcode-block" id="VLPBcli"><a class="viewcode-back" href="../../main.html#main.main.VLPBcli">[docs]</a><span class="k">class</span> <span class="nc">VLPBcli</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The VLPBcli represents the commandline interface of the VLPB project. This class regulates the input parameters and gives the command to execute a program.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="VLPBcli.main"><a class="viewcode-back" href="../../main.html#main.main.VLPBcli.main">[docs]</a>    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The main is the main of the program, this main parses the arguments, and gives the command to execute a program</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">argParser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s">&#39;Finding some phenotypes of your data...&#39;</span><span class="p">)</span>
+        
+        <span class="n">argParser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;inputDirectory&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;The directory where you hid your fastq files in&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store&quot;</span><span class="p">)</span>
+        <span class="n">argParser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;outputDirectory&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;The directory where to write all mess to&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store&quot;</span><span class="p">)</span>
+        <span class="n">argParser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--name&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;The name of the pool&quot;</span><span class="p">)</span>
+        <span class="n">argParser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--mapper&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;BWA&quot;</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="s">&quot;BWA&quot;</span><span class="p">)</span>
+        <span class="n">argParser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--snvCaller&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;samtools&quot;</span><span class="p">,</span> <span class="s">&quot;GATK&quot;</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="s">&quot;samtools&quot;</span><span class="p">)</span>
+        <span class="n">argParser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--inFormat&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;fq&quot;</span><span class="p">,</span> <span class="s">&quot;bam&quot;</span><span class="p">,</span><span class="s">&quot;vcf&quot;</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="s">&quot;fq&quot;</span><span class="p">)</span>
+        <span class="n">argParser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--end&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;mapping&quot;</span><span class="p">,</span><span class="s">&quot;snvCalling&quot;</span><span class="p">,</span> <span class="s">&quot;haplotyping&quot;</span><span class="p">,</span><span class="s">&quot;phenotyping&quot;</span><span class="p">,</span><span class="s">&quot;allelicDiversity&quot;</span><span class="p">,</span><span class="s">&quot;findLoci&quot;</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="s">&quot;phenotyping&quot;</span><span class="p">)</span>
+        <span class="n">argParser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--gff&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">FileType</span><span class="p">())</span>
+        <span class="n">argParser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--phen&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">FileType</span><span class="p">())</span>
+        <span class="n">argParser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--grid&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">action</span><span class="o">=</span><span class="s">&quot;store_true&quot;</span><span class="p">)</span>
+        
+        <span class="n">args</span><span class="o">=</span> <span class="n">argParser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">outputDirectory</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">findFastqFiles</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">inputDirectory</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">inFormat</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">parseOptionalArguments</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="VLPBcli.parseOptionalArguments"><a class="viewcode-back" href="../../main.html#main.main.VLPBcli.parseOptionalArguments">[docs]</a>    <span class="k">def</span> <span class="nf">parseOptionalArguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method parseOptionalArguments forwards optional arguments to the configuration object of the program module.</span>
+<span class="sd">        :param args: the parsed commandline arguments</span>
+<span class="sd">        :type args: an :py:class:`argparse.Namespace` instance</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">mapper</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">mapper</span>
+        <span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">snvCaller</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">snvCaller</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">gff</span><span class="p">:</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">gff</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">gffFile</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">gff</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">gffFile</span> <span class="o">=</span> <span class="bp">None</span>
+            
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">phen</span><span class="p">:</span>
+            <span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">phenoData</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">phen</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">phenoData</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">grid</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">Grid</span><span class="o">.</span><span class="n">useGrid</span> <span class="o">=</span> <span class="bp">True</span>
+        </div>
+<div class="viewcode-block" id="VLPBcli.execute"><a class="viewcode-back" href="../../main.html#main.main.VLPBcli.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executable</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method execute checks which program has to be executed and executes this program</span>
+<span class="sd">        :param executable: the argument of the commandline which determines which program has to be executed</span>
+<span class="sd">        :type executable: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">executable</span> <span class="o">==</span> <span class="s">&quot;phenotyping&quot;</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;pheno!&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">executable</span> <span class="o">==</span> <span class="s">&quot;haplotyping&quot;</span><span class="p">:</span>
+            <span class="n">Haplotyper</span><span class="o">.</span><span class="n">executeBeagleMultiThread</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">executable</span> <span class="o">==</span> <span class="s">&quot;snvCalling&quot;</span><span class="p">:</span>
+            <span class="n">SamtoolsMpileup</span><span class="o">.</span><span class="n">executeSamtoolsMultiThreaded</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">executable</span> <span class="o">==</span> <span class="s">&quot;mapping&quot;</span><span class="p">:</span>
+            <span class="n">mapper</span> <span class="o">=</span> <span class="n">Mapper</span><span class="o">.</span><span class="n">Mapper</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">:</span>
+                <span class="n">mapper</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">executable</span> <span class="o">==</span> <span class="s">&quot;allelicDiversity&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">gffFile</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>  <span class="c"># @UndefinedVariable</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">&quot;When calculating the allelic diversity, a gff file is needed, this option can be set with the option --gff &lt;file&gt;&quot;</span><span class="p">)</span>
+                <span class="nb">exit</span><span class="p">()</span>
+            <span class="n">allelicDiverityCalculator</span> <span class="o">=</span> <span class="n">AllelicDiversity</span><span class="o">.</span><span class="n">AllelicDiversity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">,</span> <span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">gffFile</span><span class="p">)</span>  <span class="c"># @UndefinedVariable</span>
+            <span class="n">allelicDiverityCalculator</span><span class="o">.</span><span class="n">getAllelicDiversity</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">executable</span> <span class="o">==</span> <span class="s">&quot;findLoci&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">gffFile</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>  <span class="c"># @UndefinedVariable</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">&quot;When finding loci, a gff file is needed, this option can be set with the option --phen &lt;file&gt;&quot;</span><span class="p">)</span>
+                <span class="nb">exit</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">phenoData</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>  <span class="c"># @UndefinedVariable</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">&quot;When finding loci, a file with phenotype data is needed, this option can be set with the option --gff &lt;file&gt;&quot;</span><span class="p">)</span>
+                <span class="nb">exit</span><span class="p">()</span>
+            </div>
+<div class="viewcode-block" id="VLPBcli.getChromosomeFromVcf"><a class="viewcode-back" href="../../main.html#main.main.VLPBcli.getChromosomeFromVcf">[docs]</a>    <span class="k">def</span> <span class="nf">getChromosomeFromVcf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method getChromosomeFromVcf checks a vcf file on which chromosome it contains. </span>
+<span class="sd">        When multiple chromosomes are in the file, only the first on will be returned.</span>
+<span class="sd">        :param fileName: the name of the vcf file</span>
+<span class="sd">        :type fileName: str.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">vcfReader</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">vcfReader</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;#&quot;</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="k">return</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="VLPBcli.findFastqFiles"><a class="viewcode-back" href="../../main.html#main.main.VLPBcli.findFastqFiles">[docs]</a>    <span class="k">def</span> <span class="nf">findFastqFiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory</span><span class="p">,</span> <span class="n">format</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method findFastqFiles finds all fastq files recursively in a directory, from each directory with fastq files a sample is created.</span>
+<span class="sd">        :param directory: the directory where the user hid his fastq files</span>
+<span class="sd">        :type directory: str -- path to the directory</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fastqFiles</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">fileName</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+            <span class="n">fileName</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span> <span class="o">+</span> <span class="n">fileName</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">fileName</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">findFastqFiles</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">format</span> <span class="o">==</span> <span class="s">&quot;bam&quot;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">fileName</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;.bam&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">fileName</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;.bam.gz&quot;</span><span class="p">):</span>
+                        <span class="n">newSamp</span> <span class="o">=</span> <span class="n">Sample</span><span class="o">.</span><span class="n">Sample</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">fileName</span><span class="p">)[</span><span class="mi">0</span><span class="p">]))</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">newSamp</span><span class="p">)</span>
+                        <span class="n">newSamp</span><span class="o">.</span><span class="n">bam</span> <span class="o">=</span> <span class="n">BamFile</span><span class="o">.</span><span class="n">BamFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">,</span> <span class="n">newSamp</span><span class="p">,</span> <span class="n">fileName</span><span class="p">,</span> <span class="n">sortedBam</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">headerLine</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">duplicates</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">mdTag</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">addSample</span><span class="p">(</span><span class="n">newSamp</span><span class="p">)</span>
+                <span class="k">elif</span><span class="p">(</span><span class="n">fileName</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;.fq&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">fileName</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;.fq.gz&quot;</span><span class="p">)):</span>
+                    <span class="n">fastqFiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fileName</span><span class="p">)</span>
+                <span class="k">elif</span><span class="p">(</span><span class="n">fileName</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;.vcf&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">fileName</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;.vcf.gz&quot;</span><span class="p">)):</span>
+                    <span class="n">chrom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChromosomeFromVcf</span><span class="p">(</span><span class="n">fileName</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">vcf</span><span class="p">[</span><span class="n">chrom</span><span class="p">]</span> <span class="o">=</span> <span class="n">VcfFile</span><span class="o">.</span><span class="n">VcfFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">,</span> <span class="n">fileName</span><span class="p">,</span> <span class="n">bcf</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">filtered</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">phased</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">chrom</span><span class="o">=</span><span class="n">chrom</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">format</span> <span class="o">==</span> <span class="s">&quot;bam&quot;</span> <span class="ow">or</span> <span class="n">format</span> <span class="o">==</span><span class="s">&quot;vcf&quot;</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fastqFiles</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c">#create a library name from the file name</span>
+            <span class="n">libName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fastqFiles</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">libName</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;_1.fq&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">libName</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;_2.fq&quot;</span><span class="p">):</span>
+                <span class="n">libName</span> <span class="o">=</span> <span class="n">libName</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">libName</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;_1.fq.gz&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">libName</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;_2.fq.gz&quot;</span><span class="p">):</span>
+                <span class="n">libName</span> <span class="o">=</span> <span class="n">libName</span><span class="p">[:</span><span class="o">-</span><span class="mi">8</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">libName</span> <span class="o">=</span> <span class="n">libName</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+                
+            <span class="c">#create the sample</span>
+            <span class="n">sample</span> <span class="o">=</span> <span class="n">Sample</span><span class="o">.</span><span class="n">Sample</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">,</span> <span class="n">libName</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+            
+            <span class="c">#add the fastq files to the sample</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fastqFiles</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">sample</span><span class="o">.</span><span class="n">setForwardFq</span><span class="p">(</span><span class="n">fastqFiles</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">fastqFiles</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="n">sample</span><span class="o">.</span><span class="n">setReversedFq</span><span class="p">(</span><span class="n">fastqFiles</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">fastqFiles</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">fastqFiles</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;_1.fq&quot;</span><span class="p">):</span>
+                    <span class="n">suffix</span> <span class="o">=</span> <span class="s">&quot;_1.fq&quot;</span>
+                <span class="k">elif</span> <span class="n">fastqFiles</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;_1.fq.gz&quot;</span><span class="p">):</span>
+                    <span class="n">suffix</span> <span class="o">=</span> <span class="s">&quot;_1.fq.gz&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s">&quot;WARNING: files do not end with _1.fq or _1.fq.gz or _2.fq or _2.fq.gz, using all files in one directory as 1 sample with only forward reads&quot;</span><span class="p">)</span>
+                    <span class="n">suffix</span> <span class="o">=</span> <span class="n">fastqFiles</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span>
+                <span class="c">#create a list of forward fastq files and one of reversed fastq files</span>
+                <span class="n">forward</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">reversedFastq</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">fastqFile</span> <span class="ow">in</span> <span class="n">fastqFiles</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">fastqFile</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">suffix</span><span class="p">):</span>
+                        <span class="n">forward</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fastqFile</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">reversedFastq</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fastqFile</span><span class="p">)</span>
+                        
+                <span class="c">#Convert files to fastqFile objects</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">forward</span><span class="p">)):</span>
+                    <span class="n">forward</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">FastqFile</span><span class="o">.</span><span class="n">FastqFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span> <span class="n">forward</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">reversedFastq</span><span class="p">)):</span>
+                    <span class="n">reversedFastq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">FastqFile</span><span class="o">.</span><span class="n">FastqFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span> <span class="n">reversedFastq</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">forward</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                    
+                <span class="c">#add the fastq files to the sample</span>
+                <span class="n">sample</span><span class="o">.</span><span class="n">forwardFq</span> <span class="o">=</span> <span class="n">forward</span>
+                <span class="n">sample</span><span class="o">.</span><span class="n">reversedFq</span> <span class="o">=</span> <span class="n">reversedFastq</span>
+ </div></div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>        
+    <span class="n">VLPBcli</span><span class="p">()</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>           
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

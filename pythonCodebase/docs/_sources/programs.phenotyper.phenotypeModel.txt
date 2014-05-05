@@ -1,0 +1,35 @@
+phenotypeModel Package
+======================
+
+:mod:`Accession` Module
+-----------------------
+
+.. automodule:: programs.phenotyper.phenotypeModel.Accession
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`Contig` Module
+--------------------
+
+.. automodule:: programs.phenotyper.phenotypeModel.Contig
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`Phenotype` Module
+-----------------------
+
+.. automodule:: programs.phenotyper.phenotypeModel.Phenotype
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`Snp` Module
+-----------------
+
+.. automodule:: programs.phenotyper.phenotypeModel.Snp
+    :members:
+    :undoc-members:
+    :show-inheritance:
+

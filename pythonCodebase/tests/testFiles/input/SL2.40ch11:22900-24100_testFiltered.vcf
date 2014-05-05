@@ -1,0 +1,45 @@
+##fileformat=VCFv4.1
+##BeagleOutputToVCF="analysis_type=BeagleOutputToVCF input_file=[] read_buffer_size=null phone_home=STANDARD gatk_key=null tag=NA read_filter=[] intervals=null excludeIntervals=null interval_set_rule=UNION interval_merging=ALL interval_padding=0 reference_sequence=../testFiles/input/smallRefGenome.fa nonDeterministicRandomSeed=false disableDithering=false maxRuntime=-1 maxRuntimeUnits=MINUTES downsampling_type=BY_SAMPLE downsample_to_fraction=null downsample_to_coverage=1000 baq=OFF baqGapOpenPenalty=40.0 fix_misencoded_quality_scores=false allow_potentially_misencoded_quality_scores=false performanceLog=null useOriginalQualities=false BQSR=null quantize_quals=0 disable_indel_quals=false emit_original_quals=false preserve_qscores_less_than=6 globalQScorePrior=-1.0 allow_bqsr_on_reduced_bams_despite_repeated_warnings=false defaultBaseQualities=-1 validation_strictness=SILENT remove_program_records=false keep_program_records=false unsafe=LENIENT_VCF_PROCESSING disable_auto_index_creation_and_locking_when_reading_rods=false num_threads=1 num_cpu_threads_per_data_thread=1 num_io_threads=0 monitorThreadEfficiency=false num_bam_file_handles=null read_group_black_list=null pedigree=[] pedigreeString=[] pedigreeValidationType=STRICT allow_intervals_with_unindexed_bam=false generateShadowBCF=false logging_level=INFO log_to_file=null help=false version=false variant=(RodBinding name=variant source=../testFiles/input/testFiltered.vcf) comp=(RodBinding name= source=UNBOUND) beagleR2=(RodBinding name=beagleR2 source=../testFiles/output//testPool/out.testPoolSL2.40ch11:22900-24100.BEAGLE.PL.r2) beagleProbs=(RodBinding name=beagleProbs source=../testFiles/output//testPool/out.testPoolSL2.40ch11:22900-24100.BEAGLE.PL.gprobs) beaglePhased=(RodBinding name=beaglePhased source=../testFiles/output//testPool/out.testPoolSL2.40ch11:22900-24100.BEAGLE.PL.phased) out=org.broadinstitute.sting.gatk.io.stubs.VariantContextWriterStub no_cmdline_in_header=org.broadinstitute.sting.gatk.io.stubs.VariantContextWriterStub sites_only=org.broadinstitute.sting.gatk.io.stubs.VariantContextWriterStub bcf=org.broadinstitute.sting.gatk.io.stubs.VariantContextWriterStub dont_mark_monomorphic_sites_as_filtered=false nocall_threshold=0.0 filter_mismatching_base_and_quals=false filter_bases_not_stored=false"
+##FILTER=<ID=BGL_RM_WAS_A,Description="This 'A' site was set to monomorphic by Beagle">
+##FILTER=<ID=BGL_RM_WAS_C,Description="This 'C' site was set to monomorphic by Beagle">
+##FILTER=<ID=BGL_RM_WAS_G,Description="This 'G' site was set to monomorphic by Beagle">
+##FILTER=<ID=BGL_RM_WAS_T,Description="This 'T' site was set to monomorphic by Beagle">
+##FORMAT=<ID=DP,Number=1,Type=Integer,Description="# high-quality bases">
+##FORMAT=<ID=DV,Number=1,Type=Integer,Description="# high-quality non-reference bases">
+##FORMAT=<ID=GL,Number=3,Type=Float,Description="Likelihoods for RR,RA,AA genotypes (R=ref,A=alt)">
+##FORMAT=<ID=GQ,Number=1,Type=Integer,Description="Genotype Quality">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=OG,Number=1,Type=String,Description="Original Genotype input to Beagle">
+##FORMAT=<ID=PL,Number=G,Type=Integer,Description="List of Phred-scaled genotype likelihoods">
+##FORMAT=<ID=SP,Number=1,Type=Integer,Description="Phred-scaled strand bias P-value">
+##INFO=<ID=AC,Number=A,Type=Integer,Description="Allele count in genotypes for each ALT allele, in the same order as listed">
+##INFO=<ID=AC1,Number=1,Type=Float,Description="Max-likelihood estimate of the first ALT allele count (no HWE assumption)">
+##INFO=<ID=AF1,Number=1,Type=Float,Description="Max-likelihood estimate of the first ALT allele frequency (assuming HWE)">
+##INFO=<ID=AN,Number=1,Type=Integer,Description="Total number of alleles in called genotypes">
+##INFO=<ID=CGT,Number=1,Type=String,Description="The most probable constrained genotype configuration in the trio">
+##INFO=<ID=CLR,Number=1,Type=Integer,Description="Log ratio of genotype likelihoods with and without the constraint">
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Raw read depth">
+##INFO=<ID=DP4,Number=4,Type=Integer,Description="# high-quality ref-forward bases, ref-reverse, alt-forward and alt-reverse bases">
+##INFO=<ID=FQ,Number=1,Type=Float,Description="Phred probability of all samples being the same">
+##INFO=<ID=G3,Number=3,Type=Float,Description="ML estimate of genotype frequencies">
+##INFO=<ID=HWE,Number=1,Type=Float,Description="Chi^2 based HWE test P-value based on G3">
+##INFO=<ID=INDEL,Number=0,Type=Flag,Description="Indicates that the variant is an INDEL.">
+##INFO=<ID=IS,Number=2,Type=Float,Description="Maximum number of reads supporting an indel and fraction of indel reads">
+##INFO=<ID=MDV,Number=1,Type=Integer,Description="Maximum number of high-quality nonRef reads in samples">
+##INFO=<ID=MQ,Number=1,Type=Integer,Description="Root-mean-square mapping quality of covering reads">
+##INFO=<ID=NumGenotypesChanged,Number=1,Type=Integer,Description="The number of genotypes changed by Beagle">
+##INFO=<ID=PC2,Number=2,Type=Integer,Description="Phred probability of the nonRef allele frequency in group1 samples being larger (,smaller) than in group2.">
+##INFO=<ID=PCHI2,Number=1,Type=Float,Description="Posterior weighted chi^2 P-value for testing the association between group1 and group2 samples.">
+##INFO=<ID=PR,Number=1,Type=Integer,Description="# permutations yielding a smaller PCHI2.">
+##INFO=<ID=PV4,Number=4,Type=Float,Description="P-values for strand bias, baseQ bias, mapQ bias and tail distance bias">
+##INFO=<ID=QBD,Number=1,Type=Float,Description="Quality by Depth: QUAL/#reads">
+##INFO=<ID=QCHI2,Number=1,Type=Integer,Description="Phred scaled PCHI2.">
+##INFO=<ID=R2,Number=1,Type=Float,Description="r2 Value reported by Beagle on each site">
+##INFO=<ID=RPB,Number=1,Type=Float,Description="Read Position Bias">
+##INFO=<ID=UGT,Number=1,Type=String,Description="The most probable unconstrained genotype configuration in the trio">
+##INFO=<ID=VDB,Number=1,Type=Float,Description="Variant Distance Bias (v2) for filtering splice-site artefacts in RNA-seq data. Note: this version may be broken.">
+##contig=<ID=SL2.40ch11:22900-24100,length=1201>
+##reference=file:///mnt/nexenta/nobackup/jetse/pythonCodebase/tests/programs/../testFiles/input/smallRefGenome.fa
+##samtoolsVersion=0.1.19-44428cd
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	../testFiles/output//test/testMD.bam
+SL2.40ch11:22900-24100	455	.	C	T	222	.	AC=2;AC1=2;AF=1.00;AF1=1;AN=2;DP=42;DP4=0,0,14,26;FQ=-147;MQ=37;NumGenotypesChanged=0;VDB=1.437519e-02	GT:GQ:OG:PL	1|1:60:.:255,120,0

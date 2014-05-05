@@ -1,0 +1,43 @@
+gui Package
+===========
+
+:mod:`GuiFactory` Module
+------------------------
+
+.. automodule:: gui.GuiFactory
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`PoolPanel` Module
+-----------------------
+
+.. automodule:: gui.PoolPanel
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`ProgramGui` Module
+------------------------
+
+.. automodule:: gui.ProgramGui
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`ProgramPanel` Module
+--------------------------
+
+.. automodule:: gui.ProgramPanel
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`SamplePanel` Module
+-------------------------
+
+.. automodule:: gui.SamplePanel
+    :members:
+    :undoc-members:
+    :show-inheritance:
+

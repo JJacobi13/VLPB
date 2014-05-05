@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>model.cluster.ClusterJob &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for model.cluster.ClusterJob</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">PIPE</span>
+<span class="kn">import</span> <span class="nn">re</span><span class="o">,</span> <span class="nn">logging</span><span class="o">,</span> <span class="nn">time</span><span class="o">,</span> <span class="nn">os</span>
+
+<div class="viewcode-block" id="ClusterJob"><a class="viewcode-back" href="../../../model.cluster.html#model.cluster.ClusterJob.ClusterJob">[docs]</a><span class="k">class</span> <span class="nc">ClusterJob</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;The clusterJob tracks all executed commands, which can be executed on the Cluster. These jobs can also be executed when a single job has failed (on cluster or locally)</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jobFile</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The constructor creates the job file</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jobFile</span> <span class="o">=</span> <span class="n">jobFile</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jobFile</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">jobWriter</span><span class="p">:</span>
+            <span class="n">jobWriter</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;#!/bin/bash&quot;</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxMemNeeded</span> <span class="o">=</span> <span class="mi">0</span> <span class="c">#in GB</span>
+        
+<div class="viewcode-block" id="ClusterJob.addCommand"><a class="viewcode-back" href="../../../model.cluster.html#model.cluster.ClusterJob.ClusterJob.addCommand">[docs]</a>    <span class="k">def</span> <span class="nf">addCommand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method is always called when a program is executed. It adds the command to the job file</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jobFile</span><span class="p">,</span> <span class="s">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">jobWriter</span><span class="p">:</span>
+            <span class="n">jobWriter</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">command</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="ClusterJob.getNode"><a class="viewcode-back" href="../../../model.cluster.html#model.cluster.ClusterJob.ClusterJob.getNode">[docs]</a>    <span class="k">def</span> <span class="nf">getNode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method getNode checks on which node this job is beeing executed.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">output</span><span class="p">,</span><span class="n">error</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span><span class="s">&quot;qstat | grep &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jobId</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">jobId</span> <span class="ow">in</span> <span class="n">output</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">output</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="p">)[</span><span class="mi">7</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Error: waiting for not submitted job...&quot;</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="ClusterJob.submit"><a class="viewcode-back" href="../../../model.cluster.html#model.cluster.ClusterJob.ClusterJob.submit">[docs]</a>    <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodeName</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method submit submits a job, submits to a specific node if given.</span>
+<span class="sd">        </span>
+<span class="sd">        :param nodeName: The node to submit to, None if just submitted to the grid.</span>
+<span class="sd">        :type nodeName: str.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="s">&quot;qsub -e &quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jobFile</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;.err -o &quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jobFile</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;.out &quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jobFile</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nodeName</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="s">&quot;qsub -q all.q@&quot;</span> <span class="o">+</span> <span class="n">nodeName</span> <span class="o">+</span> <span class="s">&quot;.local -e &quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jobFile</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;.err -o &quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jobFile</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;.out &quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jobFile</span><span class="p">)</span>
+        <span class="n">output</span><span class="p">,</span><span class="n">error</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jobId</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&quot;Your job (\d+) \(&quot;</span><span class="p">,</span><span class="n">output</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="ClusterJob.isFinished"><a class="viewcode-back" href="../../../model.cluster.html#model.cluster.ClusterJob.ClusterJob.isFinished">[docs]</a>    <span class="k">def</span> <span class="nf">isFinished</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method isFinished checks whether this job is running in the queue. If not in the queue, returns True.</span>
+<span class="sd">        </span>
+<span class="sd">        :raises ValueError: when this job has no ID, so never is submitted...</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">output</span><span class="p">,</span><span class="n">error</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span><span class="s">&quot;qstat | grep &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jobId</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">jobId</span> <span class="ow">in</span> <span class="n">output</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">True</span>
+                
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Error: waiting for not submitted job...&quot;</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="ClusterJob.waitfor"><a class="viewcode-back" href="../../../model.cluster.html#model.cluster.ClusterJob.ClusterJob.waitfor">[docs]</a>    <span class="k">def</span> <span class="nf">waitfor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method waitfor waits till this job is finished.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">jobId</span>
+            <span class="k">while</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jobId</span> <span class="ow">in</span> <span class="n">output</span><span class="p">):</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+                <span class="n">output</span><span class="p">,</span><span class="n">error</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span><span class="s">&quot;qstat | grep &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jobId</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Error: waiting for not submitted job...&quot;</span><span class="p">)</span>
+    </div>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;ClusterJob[Filename: &quot;</span> <span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">jobFile</span><span class="o">+</span> <span class="s">&quot;]&quot;</span>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
+    </div>
+<span class="n">clusterJobs</span> <span class="o">=</span> <span class="p">{}</span>            
+<div class="viewcode-block" id="getClusterJob"><a class="viewcode-back" href="../../../model.cluster.html#model.cluster.ClusterJob.getClusterJob">[docs]</a><span class="k">def</span> <span class="nf">getClusterJob</span><span class="p">(</span><span class="n">pool</span><span class="p">,</span> <span class="n">sample</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">chrom</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>     
+    <span class="sd">&quot;&quot;&quot;Method for getting only a single clusterjob per sample and per chromosome. when sample and chrom are none, </span>
+<span class="sd">    a single threaded snv calling/haplotyping will be done...</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>   
+    <span class="k">if</span> <span class="n">sample</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sample</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">clusterJobs</span><span class="p">:</span>
+            <span class="n">clusterJobs</span><span class="p">[</span><span class="n">sample</span><span class="p">]</span> <span class="o">=</span> <span class="n">ClusterJob</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">outputDir</span> <span class="o">+</span> <span class="n">sample</span><span class="o">.</span><span class="n">libName</span> <span class="o">+</span> <span class="s">&quot;Job.sh&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">clusterJobs</span><span class="p">[</span><span class="n">sample</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">chrom</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">chrom</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">clusterJobs</span><span class="p">:</span>
+            <span class="n">clusterJobs</span><span class="p">[</span><span class="n">chrom</span><span class="p">]</span> <span class="o">=</span> <span class="n">ClusterJob</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">outputDir</span> <span class="o">+</span> <span class="n">chrom</span> <span class="o">+</span><span class="s">&quot;_&quot;</span> <span class="o">+</span> <span class="n">pool</span><span class="o">.</span><span class="n">poolName</span> <span class="o">+</span> <span class="s">&quot;Job.sh&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">clusterJobs</span><span class="p">[</span><span class="n">chrom</span><span class="p">]</span>
+    <span class="n">clusterJobs</span><span class="p">[</span><span class="n">pool</span><span class="p">]</span> <span class="o">=</span> <span class="n">ClusterJob</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">outputDir</span> <span class="o">+</span> <span class="n">pool</span><span class="o">.</span><span class="n">poolName</span> <span class="o">+</span> <span class="s">&quot;Job.sh&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">clusterJobs</span><span class="p">[</span><span class="n">pool</span><span class="p">]</span>
+    
+    
+    
+    
+    </div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>model.BamFile &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for model.BamFile</h1><div class="highlight"><pre>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Created on Jun 21, 2013</span>
+
+<span class="sd">@author: Jetse</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">File</span>
+<div class="viewcode-block" id="BamFile"><a class="viewcode-back" href="../../model.html#model.BamFile.BamFile">[docs]</a><span class="k">class</span> <span class="nc">BamFile</span><span class="p">(</span><span class="n">File</span><span class="o">.</span><span class="n">File</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The bamFile represents a sam or bam file and contains instance variables to indicate the processes used on this bam file</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">pool</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span> <span class="n">fileName</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">sam</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">sortedBam</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">headerLine</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">duplicates</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">mdTag</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The constructor of the bam file sets all default vaules of the instance variables</span>
+<span class="sd">        :param sam: boolean whether this file is a sam or bam file</span>
+<span class="sd">        :param sortedBam: boolean whether this file is sorted or not</span>
+<span class="sd">        :param headerLine: boolean whether this file contains an @rg tag</span>
+<span class="sd">        :param duplicates: boolean whether the possible pcr duplicates are already removed</span>
+<span class="sd">        :param mdTag: boolean whether the md tag is already added to this file</span>
+<span class="sd">        :param index: whether there is already created an index of this bam file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sam</span> <span class="o">=</span> <span class="n">sam</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sorted</span> <span class="o">=</span> <span class="n">sortedBam</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headerLine</span> <span class="o">=</span> <span class="n">headerLine</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duplicates</span> <span class="o">=</span> <span class="n">duplicates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mdTag</span> <span class="o">=</span> <span class="n">mdTag</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BamFile</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">pool</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span><span class="n">fileName</span><span class="p">)</span>
+        
+        
+<div class="viewcode-block" id="BamFile.getSuffix"><a class="viewcode-back" href="../../model.html#model.BamFile.BamFile.getSuffix">[docs]</a>    <span class="k">def</span> <span class="nf">getSuffix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sam</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&quot;.sam&quot;</span>
+        <span class="k">return</span> <span class="s">&quot;.bam&quot;</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

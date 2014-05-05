@@ -1,0 +1,66 @@
+model Package
+=============
+
+:mod:`BamFile` Module
+---------------------
+
+.. automodule:: model.BamFile
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`BeagleFile` Module
+------------------------
+
+.. automodule:: model.BeagleFile
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`FastqFile` Module
+-----------------------
+
+.. automodule:: model.FastqFile
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`File` Module
+------------------
+
+.. automodule:: model.File
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`Pool` Module
+------------------
+
+.. automodule:: model.Pool
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`Sample` Module
+--------------------
+
+.. automodule:: model.Sample
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`VcfFile` Module
+---------------------
+
+.. automodule:: model.VcfFile
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+    model.cluster
+

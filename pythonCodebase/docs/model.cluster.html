@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>cluster Package &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="index.html" />
+    <link rel="up" title="model Package" href="model.html" />
+    <link rel="next" title="programs Package" href="programs.html" />
+    <link rel="prev" title="model Package" href="model.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="programs.html" title="programs Package"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="model.html" title="model Package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >VLPB</a> &raquo;</li>
+          <li><a href="model.html" accesskey="U">model Package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="cluster-package">
+<h1>cluster Package<a class="headerlink" href="#cluster-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-model.cluster.ClusterJob">
+<span id="clusterjob-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">ClusterJob</span></tt> Module<a class="headerlink" href="#module-model.cluster.ClusterJob" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="model.cluster.ClusterJob.ClusterJob">
+<em class="property">class </em><tt class="descclassname">model.cluster.ClusterJob.</tt><tt class="descname">ClusterJob</tt><big>(</big><em>jobFile</em><big>)</big><a class="reference internal" href="_modules/model/cluster/ClusterJob.html#ClusterJob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.cluster.ClusterJob.ClusterJob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>The clusterJob tracks all executed commands, which can be executed on the Cluster. These jobs can also be executed when a single job has failed (on cluster or locally)</p>
+<dl class="method">
+<dt id="model.cluster.ClusterJob.ClusterJob.addCommand">
+<tt class="descname">addCommand</tt><big>(</big><em>command</em><big>)</big><a class="reference internal" href="_modules/model/cluster/ClusterJob.html#ClusterJob.addCommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.cluster.ClusterJob.ClusterJob.addCommand" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is always called when a program is executed. It adds the command to the job file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>command</strong> &#8211; the command to add to the shell file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.cluster.ClusterJob.ClusterJob.getNode">
+<tt class="descname">getNode</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/model/cluster/ClusterJob.html#ClusterJob.getNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.cluster.ClusterJob.ClusterJob.getNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method getNode checks on which node this job is beeing executed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.cluster.ClusterJob.ClusterJob.isFinished">
+<tt class="descname">isFinished</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/model/cluster/ClusterJob.html#ClusterJob.isFinished"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.cluster.ClusterJob.ClusterJob.isFinished" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method isFinished checks whether this job is running in the queue. If not in the queue, returns True.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Raises ValueError:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">when this job has no ID, so never is submitted...</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.cluster.ClusterJob.ClusterJob.submit">
+<tt class="descname">submit</tt><big>(</big><em>nodeName=None</em><big>)</big><a class="reference internal" href="_modules/model/cluster/ClusterJob.html#ClusterJob.submit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.cluster.ClusterJob.ClusterJob.submit" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method submit submits a job, submits to a specific node if given.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nodeName</strong> (<em>str.</em>) &#8211; The node to submit to, None if just submitted to the grid.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.cluster.ClusterJob.ClusterJob.waitfor">
+<tt class="descname">waitfor</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/model/cluster/ClusterJob.html#ClusterJob.waitfor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.cluster.ClusterJob.ClusterJob.waitfor" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method waitfor waits till this job is finished.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="model.cluster.ClusterJob.getClusterJob">
+<tt class="descclassname">model.cluster.ClusterJob.</tt><tt class="descname">getClusterJob</tt><big>(</big><em>pool</em>, <em>sample=None</em>, <em>chrom=None</em><big>)</big><a class="reference internal" href="_modules/model/cluster/ClusterJob.html#getClusterJob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.cluster.ClusterJob.getClusterJob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method for getting only a single clusterjob per sample and per chromosome. when sample and chrom are none, 
+a single threaded snv calling/haplotyping will be done...</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-model.cluster.Grid">
+<span id="grid-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">Grid</span></tt> Module<a class="headerlink" href="#module-model.cluster.Grid" title="Permalink to this headline">¶</a></h2>
+<p>Created on Sep 2, 2013</p>
+<p>&#64;author: Jetse</p>
+<dl class="class">
+<dt id="model.cluster.Grid.Grid">
+<em class="property">class </em><tt class="descclassname">model.cluster.Grid.</tt><tt class="descname">Grid</tt><a class="reference internal" href="_modules/model/cluster/Grid.html#Grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.cluster.Grid.Grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>The Grid object regulates all communication with the SGE.</p>
+<dl class="attribute">
+<dt id="model.cluster.Grid.Grid.nodes">
+<tt class="descname">nodes</tt><em class="property"> = {}</em><a class="headerlink" href="#model.cluster.Grid.Grid.nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="model.cluster.Grid.Grid.submitJobs">
+<tt class="descname">submitJobs</tt><big>(</big><em>jobs</em>, <em>specificNode=False</em><big>)</big><a class="reference internal" href="_modules/model/cluster/Grid.html#Grid.submitJobs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.cluster.Grid.Grid.submitJobs" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method submitJobs adds all given jobs to the waiting queue and calls the manageJobs function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>jobs</strong> (List of <tt class="xref py py-class docutils literal"><span class="pre">ClusterJob</span></tt>) &#8211; The jobs to add to the queue</li>
+<li><strong>specificNode</strong> (<em>boolean</em>) &#8211; When submitting the jobs to a specific node (mostly because of hdd mem usage)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-model.cluster.Node">
+<span id="node-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">Node</span></tt> Module<a class="headerlink" href="#module-model.cluster.Node" title="Permalink to this headline">¶</a></h2>
+<p>Created on Sep 2, 2013</p>
+<p>&#64;author: Jetse</p>
+<dl class="class">
+<dt id="model.cluster.Node.Node">
+<em class="property">class </em><tt class="descclassname">model.cluster.Node.</tt><tt class="descname">Node</tt><big>(</big><em>nodeName</em><big>)</big><a class="reference internal" href="_modules/model/cluster/Node.html#Node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.cluster.Node.Node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>The node object tracks whether a job can be submitted to this node or not.</p>
+<dl class="method">
+<dt id="model.cluster.Node.Node.addJob">
+<tt class="descname">addJob</tt><big>(</big><em>job</em><big>)</big><a class="reference internal" href="_modules/model/cluster/Node.html#Node.addJob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.cluster.Node.Node.addJob" title="Permalink to this definition">¶</a></dt>
+<dd><p>When adding a job, the node has to be updated...</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.cluster.Node.Node.getAvailableMem">
+<tt class="descname">getAvailableMem</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/model/cluster/Node.html#Node.getAvailableMem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.cluster.Node.Node.getAvailableMem" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method getAvailableMem is a simple getter for checking whether there is enough hdd memory on the node</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.cluster.Node.Node.getFreeProcs">
+<tt class="descname">getFreeProcs</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/model/cluster/Node.html#Node.getFreeProcs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.cluster.Node.Node.getFreeProcs" title="Permalink to this definition">¶</a></dt>
+<dd><p>getFreeProcs is a simple getter for getting the number of free processors</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.cluster.Node.Node.removeJob">
+<tt class="descname">removeJob</tt><big>(</big><em>job</em><big>)</big><a class="reference internal" href="_modules/model/cluster/Node.html#Node.removeJob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.cluster.Node.Node.removeJob" title="Permalink to this definition">¶</a></dt>
+<dd><p>When removing a job, the node has to be updated...</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">cluster Package</a><ul>
+<li><a class="reference internal" href="#module-model.cluster.ClusterJob"><tt class="docutils literal"><span class="pre">ClusterJob</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-model.cluster.Grid"><tt class="docutils literal"><span class="pre">Grid</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-model.cluster.Node"><tt class="docutils literal"><span class="pre">Node</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="model.html"
+                        title="previous chapter">model Package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="programs.html"
+                        title="next chapter">programs Package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/model.cluster.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="programs.html" title="programs Package"
+             >next</a></li>
+        <li class="right" >
+          <a href="model.html" title="model Package"
+             >previous</a> |</li>
+        <li><a href="index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >VLPB</a> &raquo;</li>
+          <li><a href="model.html" >model Package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>model.Pool &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for model.Pool</h1><div class="highlight"><pre>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Created on Jun 21, 2013</span>
+
+<span class="sd">@author: Jetse</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">VlpbConfig</span> <span class="kn">import</span> <span class="n">Configuration</span><span class="p">,</span> <span class="n">Logger</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<div class="viewcode-block" id="Pool"><a class="viewcode-back" href="../../model.html#model.Pool.Pool">[docs]</a><span class="k">class</span> <span class="nc">Pool</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The Pool object represents a pool of samples where programs can be executed on</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">poolName</span><span class="p">,</span> <span class="n">outputDir</span><span class="p">,</span> <span class="n">refGenome</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s">&quot;../VlpbConfig/config.ini&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The constructor of the Pool sets the instance variables, creates the output directory and a Logger object.</span>
+<span class="sd">        :param poolName: The name of this pool</span>
+<span class="sd">        :type poolName: str</span>
+<span class="sd">        :param outputDir: The output directory of this pool, a sub directory will be created for each pool.</span>
+<span class="sd">        :type outputDir: str -- Path to the output direcotory</span>
+<span class="sd">        :param refGenome: The reference genome</span>
+<span class="sd">        :type refGenome: str -- Path to the reference genome</span>
+<span class="sd">        :param configFile: The path to the configuration file, default is for the default 150 genomes project path</span>
+<span class="sd">        :type configFile: str -- path to the configuration file</span>
+<span class="sd">        </span>
+<span class="sd">        **Instance variables**</span>
+<span class="sd">        * samples: an array of all :py:class:`Sample.Sample`s in this pool</span>
+<span class="sd">        * vcf: an :py:class:`VcfFile.VcfFile` of this pool, None if not created yet</span>
+<span class="sd">        * beagleOut: an :py:class:`BeagleFile.BeagleFile` of this pool, None if not created yet</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vcf</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beagleOut</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">refGenome</span> <span class="o">=</span> <span class="n">refGenome</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">Configuration</span><span class="o">.</span><span class="n">Config</span><span class="p">(</span><span class="n">configFile</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">poolName</span> <span class="o">=</span> <span class="n">poolName</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputDir</span> <span class="o">=</span> <span class="n">outputDir</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span> <span class="o">+</span> <span class="n">poolName</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputDir</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputDir</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="n">Logger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputDir</span> <span class="o">+</span> <span class="n">poolName</span> <span class="o">+</span> <span class="s">&quot;.log&quot;</span><span class="p">)</span>
+        
+        
+            
+<div class="viewcode-block" id="Pool.addSample"><a class="viewcode-back" href="../../model.html#model.Pool.Pool.addSample">[docs]</a>    <span class="k">def</span> <span class="nf">addSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Method for adding a sample to the arraylist of samples</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

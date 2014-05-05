@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>programs.ConversionTools &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for programs.ConversionTools</h1><div class="highlight"><pre>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Created on May 31, 2013</span>
+
+<span class="sd">@author: Jetse</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">programs</span> <span class="kn">import</span> <span class="n">Program</span><span class="p">,</span> <span class="n">Mapper</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<div class="viewcode-block" id="ConversionTools"><a class="viewcode-back" href="../../programs.html#programs.ConversionTools.ConversionTools">[docs]</a><span class="k">class</span> <span class="nc">ConversionTools</span><span class="p">(</span><span class="n">Program</span><span class="o">.</span><span class="n">Program</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The class ConvertionTools regulates the support between the mappers and the programs for SV calling.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="ConversionTools.sortBam"><a class="viewcode-back" href="../../programs.html#programs.ConversionTools.ConversionTools.sortBam">[docs]</a>    <span class="k">def</span> <span class="nf">sortBam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputFile</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method sortBam sorts a bam file, if the input file is not a bam file, the file will be converted to a bam file.</span>
+<span class="sd">        </span>
+<span class="sd">        :param inputFile: the bam file which has to be sorted</span>
+<span class="sd">        :type inputFile: str. -- the path to this file</span>
+<span class="sd">        :returns: str. -- the sorted bam file</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="ow">or</span> <span class="n">inputFile</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;.bam&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="n">inputFile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convertToBam</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span>
+
+        <span class="n">outputFile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOutputFile</span><span class="p">(</span><span class="s">&quot;Sorted&quot;</span><span class="p">)</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">Program</span><span class="o">.</span><span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getProgramPath</span><span class="p">(</span><span class="s">&quot;samtools&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; sort &quot;</span> <span class="o">+</span> <span class="n">inputFile</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="n">outputFile</span>  <span class="c"># @UndefinedVariable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="s">&quot;samtools sort&quot;</span><span class="p">,</span> <span class="n">outputFile</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">outputFile</span> <span class="o">+</span> <span class="s">&quot;.bam&quot;</span>
+        </div>
+<div class="viewcode-block" id="ConversionTools.convertToBam"><a class="viewcode-back" href="../../programs.html#programs.ConversionTools.ConversionTools.convertToBam">[docs]</a>    <span class="k">def</span> <span class="nf">convertToBam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputFile</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method convertToBam converts a sam file to a bam file, if the file is not a sam file, the file first will be mapped</span>
+<span class="sd">        </span>
+<span class="sd">        :param inputFile: the sam file which has to be converted to a bam file</span>
+<span class="sd">        :type inputFile: str. -- the path to this file</span>
+<span class="sd">        :returns: str. -- the created bam file</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="ow">or</span> <span class="n">inputFile</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;.sam&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="n">mapper</span> <span class="o">=</span> <span class="n">Mapper</span><span class="o">.</span><span class="n">Mapper</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputDir</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">refGenome</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">libName</span><span class="p">)</span>
+            <span class="n">inputFile</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span>
+
+        <span class="n">outputFile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOutputFile</span><span class="p">(</span><span class="s">&quot;.bam&quot;</span><span class="p">)</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">Program</span><span class="o">.</span><span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getProgramPath</span><span class="p">(</span><span class="s">&quot;samtools&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; view &quot;</span><span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">getProgramArguments</span><span class="p">(</span><span class="s">&quot;samtools view&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="n">inputFile</span> <span class="o">+</span> <span class="s">&quot; &gt; &quot;</span> <span class="o">+</span> <span class="n">outputFile</span>  <span class="c"># @UndefinedVariable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="s">&quot;samtools view&quot;</span><span class="p">,</span> <span class="n">outputFile</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">outputFile</span>
+        </div>
+<div class="viewcode-block" id="ConversionTools.createBamIndex"><a class="viewcode-back" href="../../programs.html#programs.ConversionTools.ConversionTools.createBamIndex">[docs]</a>    <span class="k">def</span> <span class="nf">createBamIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputFile</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;creates a bam index file for the sorted bam file, if its not a sorted bam file, the file will be sorted</span>
+<span class="sd">        </span>
+<span class="sd">        :param inputFile: the sorted bam file which has to be indexed</span>
+<span class="sd">        :type inputFile: str. -- the path to this file</span>
+<span class="sd">        :returns: str. -- the sorted bam file</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="n">inputFile</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;.bam&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;can only index bam files...&quot;</span><span class="p">)</span>
+
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">Program</span><span class="o">.</span><span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getProgramPath</span><span class="p">(</span><span class="s">&quot;samtools&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; index &quot;</span> <span class="o">+</span> <span class="n">inputFile</span>  <span class="c"># @UndefinedVariable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="s">&quot;samtools index&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOutputFile</span><span class="p">(</span><span class="n">inputFile</span> <span class="o">+</span> <span class="s">&quot;.bai&quot;</span><span class="p">))</span>
+    </div>
+<div class="viewcode-block" id="ConversionTools.addHeaderLine"><a class="viewcode-back" href="../../programs.html#programs.ConversionTools.ConversionTools.addHeaderLine">[docs]</a>    <span class="k">def</span> <span class="nf">addHeaderLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputFile</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Adds a header line to a bam file</span>
+<span class="sd">        </span>
+<span class="sd">        :param inputFile: the sorted bam file with index where the header has to be added to</span>
+<span class="sd">        :type inputFile: str. -- the path to this file</span>
+<span class="sd">        :returns: str. -- the bam file with the new header line</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">inputFile</span> <span class="o">+</span> <span class="s">&quot;.bai&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="n">inputFile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sortBam</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span>
+        
+        <span class="n">outputFile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOutputFile</span><span class="p">(</span><span class="s">&quot;Wh.bam&quot;</span><span class="p">)</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="s">&quot;java -jar &quot;</span> <span class="o">+</span> <span class="n">Program</span><span class="o">.</span><span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getProgramPath</span><span class="p">(</span><span class="s">&quot;picardTools&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;AddOrReplaceReadGroups.jar I=&quot;</span> <span class="o">+</span> <span class="n">inputFile</span> <span class="o">+</span> <span class="s">&quot; O=&quot;</span> <span class="o">+</span> <span class="n">outputFile</span> <span class="o">+</span> <span class="s">&quot; LB=&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">libName</span> <span class="o">+</span> <span class="s">&quot; PL=illumina PU=lane SM=samplename&quot;</span>  <span class="c"># @UndefinedVariable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="s">&quot;picardtools AddOrReplaceReadGroups&quot;</span><span class="p">,</span> <span class="n">outputFile</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">outputFile</span>
+        </div>
+<div class="viewcode-block" id="ConversionTools.removeDuplicates"><a class="viewcode-back" href="../../programs.html#programs.ConversionTools.ConversionTools.removeDuplicates">[docs]</a>    <span class="k">def</span> <span class="nf">removeDuplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputFile</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method removeDuplicates removes all possible PCR duplicates</span>
+<span class="sd">        </span>
+<span class="sd">        :param inputFile: the bam file which has to be sorted</span>
+<span class="sd">        :type inputFile: str. -- the path to this file</span>
+<span class="sd">        :returns: str. -- the sorted bam file</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">inputFile</span> <span class="o">+</span> <span class="s">&quot;.bai&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="n">inputFile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sortBam</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span>
+        
+        <span class="n">outputFile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOutputFile</span><span class="p">(</span><span class="s">&quot;ND.bam&quot;</span><span class="p">)</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">Program</span><span class="o">.</span><span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getProgramPath</span><span class="p">(</span><span class="s">&quot;samtools&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; rmdup &quot;</span> <span class="o">+</span> <span class="n">inputFile</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="n">outputFile</span>  <span class="c"># @UndefinedVariable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="s">&quot;samtools rmdup&quot;</span><span class="p">,</span> <span class="n">outputFile</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">outputFile</span>
+    </div>
+<div class="viewcode-block" id="ConversionTools.addMdTag"><a class="viewcode-back" href="../../programs.html#programs.ConversionTools.ConversionTools.addMdTag">[docs]</a>    <span class="k">def</span> <span class="nf">addMdTag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputFile</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method addMdTag adds a md tag to the bam files</span>
+<span class="sd">        </span>
+<span class="sd">        :param inputFile: the bam file which has to be sorted</span>
+<span class="sd">        :type inputFile: str. -- the path to this file</span>
+<span class="sd">        :returns: str. -- the sorted bam file</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span> <span class="ow">or</span> <span class="n">inputFile</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;ND.bam&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="n">inputFile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">removeDuplicates</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span>
+        <span class="n">outputFile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOutputFile</span><span class="p">(</span><span class="s">&quot;MD.bam&quot;</span><span class="p">)</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">Program</span><span class="o">.</span><span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getProgramPath</span><span class="p">(</span><span class="s">&quot;samtools&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; calmd &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">getProgramArguments</span><span class="p">(</span><span class="s">&quot;samtools calmd&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="n">inputFile</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">refGenome</span> <span class="o">+</span> <span class="s">&quot; &gt; &quot;</span> <span class="o">+</span> <span class="n">outputFile</span>  <span class="c"># @UndefinedVariable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span><span class="s">&quot;samtools calmd&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">outputFile</span> 
+        </div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

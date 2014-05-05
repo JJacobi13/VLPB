@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>programs.snvCallers.SamtoolsMpileup &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for programs.snvCallers.SamtoolsMpileup</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">threading</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">model</span> <span class="kn">import</span> <span class="n">VcfFile</span>
+<span class="kn">from</span> <span class="nn">model.cluster</span> <span class="kn">import</span> <span class="n">Grid</span>
+<span class="kn">from</span> <span class="nn">programs</span> <span class="kn">import</span> <span class="n">Program</span>
+<span class="kn">from</span> <span class="nn">tools</span> <span class="kn">import</span> <span class="n">Tools</span>
+<span class="kn">from</span> <span class="nn">SnvCaller</span> <span class="kn">import</span> <span class="n">SnvCaller</span>
+
+<div class="viewcode-block" id="SamtoolsMpileup"><a class="viewcode-back" href="../../../programs.snvCallers.html#programs.snvCallers.SamtoolsMpileup.SamtoolsMpileup">[docs]</a><span class="k">class</span> <span class="nc">SamtoolsMpileup</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">,</span> <span class="n">SnvCaller</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pool</span><span class="p">,</span> <span class="n">chromosome</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SamtoolsMpileup</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkInput</span><span class="p">(</span><span class="n">pool</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chromosome</span> <span class="o">=</span> <span class="n">chromosome</span>
+        
+    
+<div class="viewcode-block" id="SamtoolsMpileup.run"><a class="viewcode-back" href="../../../programs.snvCallers.html#programs.snvCallers.SamtoolsMpileup.SamtoolsMpileup.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callSnvs</span><span class="p">()</span>
+            </div>
+<div class="viewcode-block" id="SamtoolsMpileup.callSnvs"><a class="viewcode-back" href="../../../programs.snvCallers.html#programs.snvCallers.SamtoolsMpileup.SamtoolsMpileup.callSnvs">[docs]</a>    <span class="k">def</span> <span class="nf">callSnvs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method samtoolsMpileup calls the single nucleotide variations of a pool with samtools mpileup.</span>
+<span class="sd">        </span>
+<span class="sd">        :param pool: the pool to call all SNVs from</span>
+<span class="sd">        :type pool: an instance of a :py:class:`Pool.Pool` object</span>
+<span class="sd">        :raises: LookupError if the pool has no samples to execute samtools on</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">LookupError</span><span class="p">(</span><span class="s">&quot;no samples for executing samtools&quot;</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">chromosome</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">vcf</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">vcf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">chromosome</span><span class="p">]</span> <span class="o">=</span> <span class="n">VcfFile</span><span class="o">.</span><span class="n">VcfFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">,</span> <span class="n">chrom</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chromosome</span><span class="p">,</span> <span class="n">bcf</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">inputFileString</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">samples</span><span class="p">:</span>
+                <span class="n">inputFileString</span> <span class="o">=</span> <span class="n">inputFileString</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="n">sample</span><span class="o">.</span><span class="n">bam</span><span class="o">.</span><span class="n">getFile</span><span class="p">()</span>
+                
+            <span class="n">outputFile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">vcf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">chromosome</span><span class="p">]</span><span class="o">.</span><span class="n">fileName</span>
+            
+            <span class="n">cmd</span> <span class="o">=</span> <span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getPath</span><span class="p">(</span><span class="s">&quot;samtools&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; mpileup &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">getProgramArguments</span><span class="p">(</span><span class="s">&quot;samtools mpileup&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">chromosome</span> <span class="o">!=</span><span class="bp">None</span><span class="p">:</span>
+                <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span> <span class="o">+</span> <span class="s">&quot; -r &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">chromosome</span>
+            <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span> <span class="o">+</span> <span class="s">&quot; -gf &quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getPath</span><span class="p">(</span><span class="s">&quot;refGenome&quot;</span><span class="p">))</span> <span class="o">+</span> <span class="n">inputFileString</span> <span class="o">+</span> <span class="s">&quot; &gt; &quot;</span> <span class="o">+</span> <span class="n">outputFile</span>
+    
+            <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="s">&quot;samtools mpileup&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">vcf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">chromosome</span><span class="p">])</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">_filterVcf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">vcf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">chromosome</span><span class="p">])</span>
+        </div>
+    <span class="k">def</span> <span class="nf">_filterVcf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vcfFile</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method filterVcf removes the insignificant SNVs from the vcf file.</span>
+<span class="sd">        </span>
+<span class="sd">        :param vcfFile: The vcf file which has to be filtered, when it is bcf, it first will be converted to vcf.</span>
+<span class="sd">        :type vcfFile: an instance of a :py:class:`VcfFile.VcfFile` object</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">vcfFile</span><span class="o">.</span><span class="n">filtered</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_convertToVcf</span><span class="p">(</span><span class="n">vcfFile</span><span class="p">)</span>
+        
+        <span class="n">outputFile</span> <span class="o">=</span> <span class="n">vcfFile</span><span class="o">.</span><span class="n">getNewFileName</span><span class="p">()</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="s">&quot;perl &quot;</span> <span class="o">+</span> <span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getPath</span><span class="p">(</span><span class="s">&quot;vcfutils&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; varFilter &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">getProgramArguments</span><span class="p">(</span><span class="s">&quot;vcfutils varFilter&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="n">vcfFile</span><span class="o">.</span><span class="n">getFile</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot; &gt; &quot;</span> <span class="o">+</span> <span class="n">outputFile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span><span class="s">&quot;vcfutils varFilter&quot;</span><span class="p">,</span> <span class="n">vcfFile</span><span class="p">)</span>
+        <span class="n">vcfFile</span><span class="o">.</span><span class="n">filtered</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">vcfFile</span><span class="o">.</span><span class="n">setFile</span><span class="p">(</span><span class="n">outputFile</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="executeSamtoolsMultiThreaded"><a class="viewcode-back" href="../../../programs.snvCallers.html#programs.snvCallers.SamtoolsMpileup.executeSamtoolsMultiThreaded">[docs]</a><span class="k">def</span> <span class="nf">executeSamtoolsMultiThreaded</span><span class="p">(</span><span class="n">pool</span><span class="p">):</span>
+    <span class="n">Grid</span><span class="o">.</span><span class="n">useGrid</span><span class="o">=</span><span class="bp">False</span>
+    <span class="n">threads</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">chrom</span> <span class="ow">in</span> <span class="n">Tools</span><span class="o">.</span><span class="n">getChromosomes</span><span class="p">(</span><span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getPath</span><span class="p">(</span><span class="s">&quot;refGenome&quot;</span><span class="p">)):</span>
+        <span class="n">samtools</span> <span class="o">=</span> <span class="n">SamtoolsMpileup</span><span class="p">(</span><span class="n">pool</span><span class="p">,</span> <span class="n">chrom</span><span class="p">)</span>
+        <span class="n">samtools</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="n">threads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">samtools</span><span class="p">)</span>
+    
+    <span class="c">#wait till jobs are finished</span>
+    <span class="k">for</span> <span class="n">thread</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">:</span>
+        <span class="n">thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        </div>
+<div class="viewcode-block" id="executeSamtoolsCluster"><a class="viewcode-back" href="../../../programs.snvCallers.html#programs.snvCallers.SamtoolsMpileup.executeSamtoolsCluster">[docs]</a><span class="k">def</span> <span class="nf">executeSamtoolsCluster</span><span class="p">(</span><span class="n">pool</span><span class="p">):</span>
+    <span class="n">Grid</span><span class="o">.</span><span class="n">useGrid</span><span class="o">=</span><span class="bp">True</span>
+    <span class="n">samtoolsCommands</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">jobs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c">#Fill the job files</span>
+    <span class="k">for</span> <span class="n">chrom</span> <span class="ow">in</span> <span class="n">Tools</span><span class="o">.</span><span class="n">getChromosomes</span><span class="p">(</span><span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getPath</span><span class="p">(</span><span class="s">&quot;refGenome&quot;</span><span class="p">)):</span>
+        <span class="n">samtoolsCommands</span><span class="p">[</span><span class="n">chrom</span><span class="p">]</span> <span class="o">=</span> <span class="n">SamtoolsMpileup</span><span class="p">(</span><span class="n">pool</span><span class="p">,</span> <span class="n">chrom</span><span class="p">)</span>
+        <span class="n">samtoolsCommands</span><span class="p">[</span><span class="n">chrom</span><span class="p">]</span><span class="o">.</span><span class="n">callSnvs</span><span class="p">()</span>
+    
+    <span class="c">#Get all jobs    </span>
+    <span class="k">for</span> <span class="n">vcf</span> <span class="ow">in</span> <span class="n">pool</span><span class="o">.</span><span class="n">vcf</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">jobs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vcf</span><span class="o">.</span><span class="n">gridJob</span><span class="p">)</span>
+    
+    <span class="c">#submit jobs to grid</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">Grid</span><span class="o">.</span><span class="n">Grid</span><span class="p">()</span> 
+    <span class="n">grid</span><span class="o">.</span><span class="n">submitJobs</span><span class="p">(</span><span class="n">jobs</span><span class="p">)</span>
+        
+        
+        
+        </div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

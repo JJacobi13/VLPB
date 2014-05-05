@@ -1,0 +1,50 @@
+phenotyper Package
+==================
+
+:mod:`AllelicDiversity` Module
+------------------------------
+
+.. automodule:: programs.phenotyper.AllelicDiversity
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`LociFinder` Module
+------------------------
+
+.. automodule:: programs.phenotyper.LociFinder
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`Mendel` Module
+--------------------
+
+.. automodule:: programs.phenotyper.Mendel
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`Readers` Module
+---------------------
+
+.. automodule:: programs.phenotyper.Readers
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`genotypePhenotypeAssociator` Module
+-----------------------------------------
+
+.. automodule:: programs.phenotyper.genotypePhenotypeAssociator
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+    programs.phenotyper.phenotypeModel
+

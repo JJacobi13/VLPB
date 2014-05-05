@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>programs.phenotyper.Readers &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for programs.phenotyper.Readers</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">phenotypeModel</span> <span class="kn">import</span> <span class="n">Phenotype</span><span class="p">,</span> <span class="n">Contig</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="sd">&quot;&quot;&quot;The module Readers contains all readers for reading tab delimited files of the phenotyping program.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Reader"><a class="viewcode-back" href="../../../programs.phenotyper.html#programs.phenotyper.Readers.Reader">[docs]</a><span class="k">class</span> <span class="nc">Reader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The reader is an abstract class for reading tab delimited files.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="Reader.readFile"><a class="viewcode-back" href="../../../programs.phenotyper.html#programs.phenotyper.Readers.Reader.readFile">[docs]</a>    <span class="k">def</span> <span class="nf">readFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inFile</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method readFile reads a tab delimited file. Lines starting with a &#39;#&#39; are skipped.</span>
+<span class="sd">        When de line starts with #CHROM this will be the header information of the vcf file.</span>
+<span class="sd">        Every other line will execute the method _parseLine in the child objects, is required!</span>
+<span class="sd">        Afterwards the method actionAfterReading in the child objects will be called, is optional</span>
+<span class="sd">        :param inFile: The file to read</span>
+<span class="sd">        :type inFile: str -- path to the file</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">inFile</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">infile</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;#&quot;</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;#CHROM&quot;</span><span class="p">):</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>     <span class="c">#remove the &#39;#&#39; so line[1:] instead of line</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">continue</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_parseLine</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_actionAfterReading</span><span class="p">()</span>
+        </div>
+    <span class="k">def</span> <span class="nf">_parseLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">header</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method _parseLine parses the line of a tab separated file.</span>
+<span class="sd">        This is different in all files so has to be implemented in the child objects</span>
+<span class="sd">        :param info: The splitted line of a tab separated file</span>
+<span class="sd">        :type info: list</span>
+<span class="sd">        :param header: The vcf header, other headers may be implemented later on</span>
+<span class="sd">        :type header: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;implement _parseLine in all subclasses&quot;</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">_actionAfterReading</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;If there has an action to be executed always after reading a file, this method can be implemented.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+        </div>
+<div class="viewcode-block" id="PhenotypeReader"><a class="viewcode-back" href="../../../programs.phenotyper.html#programs.phenotyper.Readers.PhenotypeReader">[docs]</a><span class="k">class</span> <span class="nc">PhenotypeReader</span><span class="p">(</span><span class="n">Reader</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The method PhenotypeReader reads a phenotype file.</span>
+<span class="sd">    The phenotype file is a tab separated file, the header line indicates the accessions.</span>
+<span class="sd">    All other lines indicate the alleles of a phenotype of an accession.</span>
+<span class="sd">    File format:</span>
+<span class="sd">    +-----------+---------+---------+---------+</span>
+<span class="sd">    |description|accession|accession|accession|</span>
+<span class="sd">    +-----------+---------+---------+---------+</span>
+<span class="sd">    |phenotype  |allele   |allele   |allele   |</span>
+<span class="sd">    +-----------+---------+---------+---------+</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The constructor of the PhenotypeReader sets the given phenotypes as instance variable</span>
+<span class="sd">        :param phenotypes: an dictionary phenotype objects where to add the alleles to</span>
+<span class="sd">        :type phenotypes: an dictionary of :py:class:`Phenotype.Phenotype` objects with the description as key</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phenotypes</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">def</span> <span class="nf">_parseLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Implementation of the super method (where the args are explained).</span>
+<span class="sd">        If the line is the first line, the accessions will be saved as an instance variable.</span>
+<span class="sd">        Else the alleles will be added to the phenotype object</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">info</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">info</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">phenotypes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Phenotype</span><span class="o">.</span><span class="n">Phenotype</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+            <span class="k">return</span>
+        
+        <span class="n">accession</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">info</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">phenotypes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">alleles</span><span class="p">[</span><span class="n">accession</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+     
+<div class="viewcode-block" id="PhenotypeReader.genoIDToAccession"><a class="viewcode-back" href="../../../programs.phenotyper.html#programs.phenotyper.Readers.PhenotypeReader.genoIDToAccession">[docs]</a>    <span class="k">def</span> <span class="nf">genoIDToAccession</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">genoID</span><span class="p">):</span>
+        <span class="k">pass</span>
+</div></div>
+<div class="viewcode-block" id="VcfReader"><a class="viewcode-back" href="../../../programs.phenotyper.html#programs.phenotyper.Readers.VcfReader">[docs]</a><span class="k">class</span> <span class="nc">VcfReader</span><span class="p">(</span><span class="n">Reader</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The VcfReader reads a vcf file.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contigs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The constructor sets the given contigs as an instance variable</span>
+<span class="sd">        :param contigs: a list of Contig objects to check whether the SNPs are in one of used contigs</span>
+<span class="sd">        :type contigs: a list of :py:class:`Contig.Contig` instances</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">contigs</span> <span class="o">=</span> <span class="n">contigs</span>
+                
+    <span class="k">def</span> <span class="nf">_parseLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Implementation of the super method (where the args are explained).</span>
+<span class="sd">        this method checks whether the SNP is in a contig, if this one is in a contig, the snp will be added to the contig, else do nothing...</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">contig</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">contigs</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">pos</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span> <span class="k">return</span>
+            <span class="k">if</span> <span class="n">pos</span> <span class="o">&gt;</span> <span class="nb">int</span><span class="p">(</span><span class="n">contig</span><span class="o">.</span><span class="n">start</span><span class="p">)</span> <span class="ow">and</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="nb">int</span><span class="p">(</span><span class="n">contig</span><span class="o">.</span><span class="n">end</span><span class="p">):</span>
+                <span class="n">contig</span><span class="o">.</span><span class="n">addSnp</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+                
+    <span class="k">def</span> <span class="nf">_actionAfterReading</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Implementation of the super method.</span>
+<span class="sd">        After reading the file, the haplotypes have to be calculated for each contig.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">contig</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">contigs</span><span class="p">:</span>
+            <span class="n">contig</span><span class="o">.</span><span class="n">constructHaplotypes</span><span class="p">()</span>
+        
+            </div>
+<div class="viewcode-block" id="LociReader"><a class="viewcode-back" href="../../../programs.phenotyper.html#programs.phenotyper.Readers.LociReader">[docs]</a><span class="k">class</span> <span class="nc">LociReader</span><span class="p">(</span><span class="n">Reader</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The LociReader reads a file with all candidate genes of a phenotype.</span>
+<span class="sd">    This file consists of 2 columns, the first column describes the phenotype, the second column describes the contig ID</span>
+<span class="sd">    All phenotypes and contigs can occur multiple times!</span>
+<span class="sd">    Format:</span>
+<span class="sd">    +----------------+</span>
+<span class="sd">    |phenotype|contig|</span>
+<span class="sd">    +---------+------+</span>
+<span class="sd">    |phenotype|contig|</span>
+<span class="sd">    +---------+------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The constructor of the LociReader creates an empty dictionary to save all contigs per phenotype in.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phenotypes</span> <span class="o">=</span> <span class="p">{}</span>
+        
+    <span class="k">def</span> <span class="nf">_parseLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Implementation of the super method (where the args are explained).</span>
+<span class="sd">        This method parses a line of a loci file, this method fills the phenotype dictionary with contigs which are involved in a phenotype.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">phenotypes</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">phenotypes</span><span class="p">[</span><span class="n">info</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">addContig</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">phenotypes</span><span class="p">[</span><span class="n">info</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Phenotype</span><span class="o">.</span><span class="n">Phenotype</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">info</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            
+        
+            </div>
+<div class="viewcode-block" id="GffReader"><a class="viewcode-back" href="../../../programs.phenotyper.html#programs.phenotyper.Readers.GffReader">[docs]</a><span class="k">class</span> <span class="nc">GffReader</span><span class="p">(</span><span class="n">Reader</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The GffReader reads a GFF3 file.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">idRegex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&quot;Name=([^;]*)&quot;</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phenotypes</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The constructor reads of all phenotypes all contigs, and converts this to one dictionary with contig objects with the contig ID as key.</span>
+<span class="sd">        if the phenotypes == None, an empty dictionary is created and all contigs will be added to this dictionary.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phenotypes</span> <span class="o">=</span> <span class="n">phenotypes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">contigs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">phenotypes</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">phenotype</span> <span class="ow">in</span> <span class="n">phenotypes</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">contig</span> <span class="ow">in</span> <span class="n">phenotype</span><span class="o">.</span><span class="n">contigs</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">contigs</span><span class="p">[</span><span class="n">contig</span><span class="o">.</span><span class="n">ID</span><span class="p">]</span> <span class="o">=</span> <span class="n">contig</span>
+        
+    <span class="k">def</span> <span class="nf">_parseLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Implementation of the super method (where the args are explained).</span>
+<span class="sd">        If the contig ID is in the dictionary of contigs, information is added to this contig.</span>
+<span class="sd">        If there is no phenotype, all contigs are added to the dictionary of contigs.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            
+            <span class="n">contigId</span> <span class="o">=</span> <span class="n">GffReader</span><span class="o">.</span><span class="n">idRegex</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">phenotypes</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">contigId</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">contigs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">contigs</span><span class="p">[</span><span class="n">contigId</span><span class="p">]</span><span class="o">.</span><span class="n">addInfo</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">info</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="n">info</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+              
+        <span class="k">elif</span> <span class="n">info</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;gene&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">contigs</span><span class="p">[</span><span class="n">contigId</span><span class="p">]</span> <span class="o">=</span> <span class="n">Contig</span><span class="o">.</span><span class="n">Contig</span><span class="p">(</span><span class="n">contigId</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">contigs</span><span class="p">[</span><span class="n">contigId</span><span class="p">]</span><span class="o">.</span><span class="n">addInfo</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">info</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="n">info</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="AccessionConverter"><a class="viewcode-back" href="../../../programs.phenotyper.html#programs.phenotyper.Readers.AccessionConverter">[docs]</a><span class="k">class</span> <span class="nc">AccessionConverter</span><span class="p">(</span><span class="n">Reader</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">EusolToAccession</span> <span class="o">=</span> <span class="p">{}</span>
+    
+    <span class="k">def</span> <span class="nf">_parseLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">info</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">EusolToAccession</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+        
+        
+<div class="viewcode-block" id="AccessionConverter.getAccession"><a class="viewcode-back" href="../../../programs.phenotyper.html#programs.phenotyper.Readers.AccessionConverter.getAccession">[docs]</a>    <span class="k">def</span> <span class="nf">getAccession</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eusolID</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Getter for retrieving the accession of an eusol ID.</span>
+<span class="sd">        </span>
+<span class="sd">        :param eusolID: The ID of eusol</span>
+<span class="sd">        :type eusolID: str.</span>
+<span class="sd">        :returns: the accession of an eusol ID</span>
+<span class="sd">        :raises: KeyError when there is no accession ID for this eusol ID.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">EusolToAccession</span><span class="p">[</span><span class="n">eusolID</span><span class="p">]</span>
+ 
+
+    </div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

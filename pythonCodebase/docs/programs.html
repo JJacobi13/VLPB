@@ -1,0 +1,419 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>programs Package &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="index.html" />
+    <link rel="up" title="VLPB" href="modules.html" />
+    <link rel="next" title="phenotyper Package" href="programs.phenotyper.html" />
+    <link rel="prev" title="cluster Package" href="model.cluster.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="programs.phenotyper.html" title="phenotyper Package"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="model.cluster.html" title="cluster Package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="modules.html" accesskey="U">VLPB</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="programs-package">
+<h1>programs Package<a class="headerlink" href="#programs-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-programs.ConversionTools">
+<span id="conversiontools-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">ConversionTools</span></tt> Module<a class="headerlink" href="#module-programs.ConversionTools" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="programs.ConversionTools.ConversionTools">
+<em class="property">class </em><tt class="descclassname">programs.ConversionTools.</tt><tt class="descname">ConversionTools</tt><a class="reference internal" href="_modules/programs/ConversionTools.html#ConversionTools"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.ConversionTools.ConversionTools" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#programs.Program.Program" title="programs.Program.Program"><tt class="xref py py-class docutils literal"><span class="pre">programs.Program.Program</span></tt></a></p>
+<p>The class ConvertionTools regulates the support between the mappers and the programs for SV calling.</p>
+<dl class="method">
+<dt id="programs.ConversionTools.ConversionTools.addHeaderLine">
+<tt class="descname">addHeaderLine</tt><big>(</big><em>sample</em><big>)</big><a class="reference internal" href="_modules/programs/ConversionTools.html#ConversionTools.addHeaderLine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.ConversionTools.ConversionTools.addHeaderLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a header line to the bam file of a given sample, if the input is not a sorted bam file, first the method <a class="reference internal" href="#programs.ConversionTools.ConversionTools.sortBam" title="programs.ConversionTools.ConversionTools.sortBam"><tt class="xref py py-meth docutils literal"><span class="pre">sortBam()</span></tt></a> will be executed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sample</strong> (<em>an instance of a Sample object</em>) &#8211; The sample which contains the bam file to add the headerline to</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="programs.ConversionTools.ConversionTools.addMdTag">
+<tt class="descname">addMdTag</tt><big>(</big><em>sample</em><big>)</big><a class="reference internal" href="_modules/programs/ConversionTools.html#ConversionTools.addMdTag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.ConversionTools.ConversionTools.addMdTag" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method addMdTag adds a md tag to the bam file of a given sample. If the file is not a bam file without duplicates, first the bam file will be converted to bam</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sample</strong> (<em>an instance of a Sample object</em>) &#8211; The sample which contains the bam file to add the md tags to</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="programs.ConversionTools.ConversionTools.convertToBam">
+<tt class="descname">convertToBam</tt><big>(</big><em>sample</em><big>)</big><a class="reference internal" href="_modules/programs/ConversionTools.html#ConversionTools.convertToBam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.ConversionTools.ConversionTools.convertToBam" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method convertToBam converts a sam file to a bam file of a given sample, if the file is not a sam file, the file first will be mapped
+by calling the <tt class="xref py py-meth docutils literal"><span class="pre">Mapper.Mapper.map()</span></tt> function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sample</strong> (<em>an instance of a Sample object</em>) &#8211; The sample which contains the sam file to be converted to a bam file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="programs.ConversionTools.ConversionTools.createBamIndex">
+<tt class="descname">createBamIndex</tt><big>(</big><em>sample</em><big>)</big><a class="reference internal" href="_modules/programs/ConversionTools.html#ConversionTools.createBamIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.ConversionTools.ConversionTools.createBamIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>creates a bam index file for the bam file of a given sample.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sample</strong> (<em>an instance of a Sample object</em>) &#8211; The sample which contains the bam file to create an index for</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises :</th><td class="field-body">A typeError when the sample contains no bam file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="programs.ConversionTools.ConversionTools.removeDuplicates">
+<tt class="descname">removeDuplicates</tt><big>(</big><em>sample</em><big>)</big><a class="reference internal" href="_modules/programs/ConversionTools.html#ConversionTools.removeDuplicates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.ConversionTools.ConversionTools.removeDuplicates" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method removeDuplicates removes all possible PCR duplicates of the bam file of a given sample. If the input file is not a sorted bam file, 
+first the method <a class="reference internal" href="#programs.ConversionTools.ConversionTools.sortBam" title="programs.ConversionTools.ConversionTools.sortBam"><tt class="xref py py-meth docutils literal"><span class="pre">sortBam()</span></tt></a> will be executed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sample</strong> (<em>an instance of a Sample object</em>) &#8211; The sample which contains the bam file to remove the duplicates from</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="programs.ConversionTools.ConversionTools.sortBam">
+<tt class="descname">sortBam</tt><big>(</big><em>sample</em><big>)</big><a class="reference internal" href="_modules/programs/ConversionTools.html#ConversionTools.sortBam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.ConversionTools.ConversionTools.sortBam" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method sortBam sorts a bam file of a given sample.
+The bam file can only be sorted when this is a bam file. If it is not a bam file, the file first will be converted to a bam file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sample</strong> (<em>an instance of a Sample object</em>) &#8211; The sample which contains the bam file to be sorted</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-programs.Decompressor">
+<span id="decompressor-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">Decompressor</span></tt> Module<a class="headerlink" href="#module-programs.Decompressor" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="programs.Decompressor.Decompressor">
+<em class="property">class </em><tt class="descclassname">programs.Decompressor.</tt><tt class="descname">Decompressor</tt><a class="reference internal" href="_modules/programs/Decompressor.html#Decompressor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.Decompressor.Decompressor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#programs.Program.Program" title="programs.Program.Program"><tt class="xref py py-class docutils literal"><span class="pre">programs.Program.Program</span></tt></a></p>
+<p>The Decompressor class regulates all Decompress functions</p>
+<span class="target" id="module-programs"></span><dl class="method">
+<dt id="programs.Decompressor.Decompressor.extract">
+<tt class="descname">extract</tt><big>(</big><em>inputFile</em><big>)</big><a class="reference internal" href="_modules/programs/Decompressor.html#Decompressor.extract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.Decompressor.Decompressor.extract" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function calls extractGz if the file .gz compressed, if this file is .tar.gz compressed, the method extractTarGz is called</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>inputFile</strong> (instance of a child object of the <tt class="xref py py-class docutils literal"><span class="pre">File.File</span></tt> object) &#8211; The compressed .gz or . tar.gz file which has to be extracted</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">str &#8211; The paths to the extracted file, if multiple files are extracted, the first file is returned</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises :</th><td class="field-body">TypeError &#8211; When the file type is not recognized</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-programs.Haplotyper">
+<span id="haplotyper-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">Haplotyper</span></tt> Module<a class="headerlink" href="#module-programs.Haplotyper" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="programs.Haplotyper.Haplotyper">
+<em class="property">class </em><tt class="descclassname">programs.Haplotyper.</tt><tt class="descname">Haplotyper</tt><big>(</big><em>pool</em>, <em>chrom</em><big>)</big><a class="reference internal" href="_modules/programs/Haplotyper.html#Haplotyper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.Haplotyper.Haplotyper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">threading.Thread</span></tt>, <a class="reference internal" href="#programs.Program.Program" title="programs.Program.Program"><tt class="xref py py-class docutils literal"><span class="pre">programs.Program.Program</span></tt></a></p>
+<p>The Haplotyper class regulates the haplotyping of a vcf file</p>
+<dl class="method">
+<dt id="programs.Haplotyper.Haplotyper.callHaplotypes">
+<tt class="descname">callHaplotypes</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/programs/Haplotyper.html#Haplotyper.callHaplotypes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.Haplotyper.Haplotyper.callHaplotypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method callHaplotypes calls the haplotypes of a vcf file. When the vcf file is not set, first the SNVs are called with the <tt class="xref py py-class docutils literal"><span class="pre">SnvCaller.SnvCaller</span></tt> object
+In future when multiple programs for haplotyping are implemented, here the check will be performed which haplotyper to execute. First only beagle is implemented so this method will be called
+:param pool: The pool a haplotyping tools has to be executed on
+:type pool: an instance of a <tt class="xref py py-class docutils literal"><span class="pre">Pool.Pool</span></tt> object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="programs.Haplotyper.Haplotyper.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#programs.Haplotyper.Haplotyper.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="programs.Haplotyper.executeBeagleCluster">
+<tt class="descclassname">programs.Haplotyper.</tt><tt class="descname">executeBeagleCluster</tt><big>(</big><em>pool</em><big>)</big><a class="headerlink" href="#programs.Haplotyper.executeBeagleCluster" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="programs.Haplotyper.executeBeagleMultiThread">
+<tt class="descclassname">programs.Haplotyper.</tt><tt class="descname">executeBeagleMultiThread</tt><big>(</big><em>pool</em><big>)</big><a class="headerlink" href="#programs.Haplotyper.executeBeagleMultiThread" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-programs.Mapper">
+<span id="mapper-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">Mapper</span></tt> Module<a class="headerlink" href="#module-programs.Mapper" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="programs.Mapper.Mapper">
+<em class="property">class </em><tt class="descclassname">programs.Mapper.</tt><tt class="descname">Mapper</tt><a class="reference internal" href="_modules/programs/Mapper.html#Mapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.Mapper.Mapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#programs.Program.Program" title="programs.Program.Program"><tt class="xref py py-class docutils literal"><span class="pre">programs.Program.Program</span></tt></a></p>
+<p>The class Mapper regulates all mapping processes, available mapper: BWA</p>
+<dl class="method">
+<dt id="programs.Mapper.Mapper.map">
+<tt class="descname">map</tt><big>(</big><em>sample</em><big>)</big><a class="reference internal" href="_modules/programs/Mapper.html#Mapper.map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.Mapper.Mapper.map" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method map checks which mapper has to be executed from the <tt class="xref py py-class docutils literal"><span class="pre">Configuration</span></tt> object.
+First the quality control has to be done to the samples, after the quality control, the mapping will be executed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sample</strong> (an instance of <tt class="xref py py-class docutils literal"><span class="pre">Sample.Sample</span></tt>) &#8211; The sample to map against his reference genome</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-programs.Program">
+<span id="program-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">Program</span></tt> Module<a class="headerlink" href="#module-programs.Program" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="programs.Program.Program">
+<em class="property">class </em><tt class="descclassname">programs.Program.</tt><tt class="descname">Program</tt><a class="reference internal" href="_modules/programs/Program.html#Program"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.Program.Program" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>The Program is a class which represents an executable program.</p>
+<dl class="method">
+<dt id="programs.Program.Program.checkOutput">
+<tt class="descname">checkOutput</tt><big>(</big><em>outputString</em><big>)</big><a class="headerlink" href="#programs.Program.Program.checkOutput" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="programs.Program.Program.execute">
+<tt class="descname">execute</tt><big>(</big><em>command</em>, <em>programName</em>, <em>analyzerFile</em><big>)</big><a class="reference internal" href="_modules/programs/Program.html#Program.execute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.Program.Program.execute" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method executes the command created by its children</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>command</strong> (<em>str.</em>) &#8211; The command to execute</li>
+<li><strong>programName</strong> (<em>str</em>) &#8211; The name of the program to execute</li>
+<li><strong>file</strong> (an instance of a <tt class="xref py py-class docutils literal"><span class="pre">File.File</span></tt> object) &#8211; the file this commands is executed on, #TODO create per file object a check if the output is valid</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="programs.Program.Program.getProgramArguments">
+<tt class="descname">getProgramArguments</tt><big>(</big><em>programName</em><big>)</big><a class="reference internal" href="_modules/programs/Program.html#Program.getProgramArguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.Program.Program.getProgramArguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method getProgramArguments asks the configuration object for all arguments and parses these to one space separated string.
+When the program needs the arguments in a different way, this method can be overrided.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>programName</strong> (<em>str.</em>) &#8211; The name of the program where to retrieve the options from</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The program arguments as a &lt;space&gt; separated string.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-programs.QualityControl">
+<span id="qualitycontrol-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">QualityControl</span></tt> Module<a class="headerlink" href="#module-programs.QualityControl" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="programs.QualityControl.QualityControl">
+<em class="property">class </em><tt class="descclassname">programs.QualityControl.</tt><tt class="descname">QualityControl</tt><a class="reference internal" href="_modules/programs/QualityControl.html#QualityControl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.QualityControl.QualityControl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#programs.Program.Program" title="programs.Program.Program"><tt class="xref py py-class docutils literal"><span class="pre">programs.Program.Program</span></tt></a></p>
+<p>The class qualityControl regulates all processes which have to do with the quality control.</p>
+<dl class="method">
+<dt id="programs.QualityControl.QualityControl.doQualityControl">
+<tt class="descname">doQualityControl</tt><big>(</big><em>sample</em><big>)</big><a class="reference internal" href="_modules/programs/QualityControl.html#QualityControl.doQualityControl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.QualityControl.QualityControl.doQualityControl" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method doQualityControl executes the quality control on the raw data of the forward and reversed reads of the sample</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sample</strong> (<tt class="xref py py-class docutils literal"><span class="pre">Sample.Sample</span></tt>) &#8211; The sample where to do a quality control on</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises :</th><td class="field-body">ValueError when the sample has no forward fastq file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="programs.phenotyper.html">phenotyper Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="programs.phenotyper.html#module-programs.phenotyper.AllelicDiversity"><tt class="docutils literal"><span class="pre">AllelicDiversity</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="programs.phenotyper.html#locifinder-module"><tt class="docutils literal"><span class="pre">LociFinder</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="programs.phenotyper.html#module-programs.phenotyper.Mendel"><tt class="docutils literal"><span class="pre">Mendel</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="programs.phenotyper.html#module-programs.phenotyper.Readers"><tt class="docutils literal"><span class="pre">Readers</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="programs.phenotyper.html#genotypephenotypeassociator-module"><tt class="docutils literal"><span class="pre">genotypePhenotypeAssociator</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="programs.phenotyper.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="programs.phenotyper.phenotypeModel.html">phenotypeModel Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="programs.phenotyper.phenotypeModel.html#module-programs.phenotyper.phenotypeModel.Accession"><tt class="docutils literal"><span class="pre">Accession</span></tt> Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="programs.phenotyper.phenotypeModel.html#module-programs.phenotyper.phenotypeModel.Contig"><tt class="docutils literal"><span class="pre">Contig</span></tt> Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="programs.phenotyper.phenotypeModel.html#module-programs.phenotyper.phenotypeModel.Phenotype"><tt class="docutils literal"><span class="pre">Phenotype</span></tt> Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="programs.phenotyper.phenotypeModel.html#module-programs.phenotyper.phenotypeModel.Snp"><tt class="docutils literal"><span class="pre">Snp</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="programs.snvCallers.html">snvCallers Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="programs.snvCallers.html#module-programs.snvCallers.Gatk"><tt class="docutils literal"><span class="pre">Gatk</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="programs.snvCallers.html#module-programs.snvCallers.SamtoolsMpileup"><tt class="docutils literal"><span class="pre">SamtoolsMpileup</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="programs.snvCallers.html#module-programs.snvCallers.SnvCaller"><tt class="docutils literal"><span class="pre">SnvCaller</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">programs Package</a><ul>
+<li><a class="reference internal" href="#module-programs.ConversionTools"><tt class="docutils literal"><span class="pre">ConversionTools</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-programs.Decompressor"><tt class="docutils literal"><span class="pre">Decompressor</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-programs.Haplotyper"><tt class="docutils literal"><span class="pre">Haplotyper</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-programs.Mapper"><tt class="docutils literal"><span class="pre">Mapper</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-programs.Program"><tt class="docutils literal"><span class="pre">Program</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-programs.QualityControl"><tt class="docutils literal"><span class="pre">QualityControl</span></tt> Module</a></li>
+<li><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="model.cluster.html"
+                        title="previous chapter">cluster Package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="programs.phenotyper.html"
+                        title="next chapter">phenotyper Package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/programs.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="programs.phenotyper.html" title="phenotyper Package"
+             >next</a></li>
+        <li class="right" >
+          <a href="model.cluster.html" title="cluster Package"
+             >previous</a> |</li>
+        <li><a href="index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >VLPB</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

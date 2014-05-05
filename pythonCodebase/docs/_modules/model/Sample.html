@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>model.Sample &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for model.Sample</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">model</span> <span class="kn">import</span> <span class="n">FastqFile</span><span class="p">,</span> <span class="n">BamFile</span>
+
+<div class="viewcode-block" id="Sample"><a class="viewcode-back" href="../../model.html#model.Sample.Sample">[docs]</a><span class="k">class</span> <span class="nc">Sample</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The sample class represents a sample.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pool</span><span class="p">,</span> <span class="n">libName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The constructor of the Sample object sets the given parameters as instance variables and creates the output directory if not exists</span>
+<span class="sd">        :param pool: the pool this sample is a part of</span>
+<span class="sd">        :type pool: :py:class:`Pool.Pool`</span>
+<span class="sd">        :param libName: The name of this sample</span>
+<span class="sd">        :type libName: Str</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">pool</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputDir</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">outputDir</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span> <span class="o">+</span> <span class="n">libName</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">libName</span> <span class="o">=</span> <span class="n">libName</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">forwardFq</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reversedFq</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bam</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputDir</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputDir</span><span class="p">)</span>
+        
+<div class="viewcode-block" id="Sample.setForwardFq"><a class="viewcode-back" href="../../model.html#model.Sample.Sample.setForwardFq">[docs]</a>    <span class="k">def</span> <span class="nf">setForwardFq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Setter for setting the forward fastq file as a :py:class:`FastqFile.FastqFile`</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forwardFq</span> <span class="o">=</span> <span class="n">FastqFile</span><span class="o">.</span><span class="n">FastqFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="Sample.setReversedFq"><a class="viewcode-back" href="../../model.html#model.Sample.Sample.setReversedFq">[docs]</a>    <span class="k">def</span> <span class="nf">setReversedFq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Setter for setting the reversed fastq file as a :py:class:`FastqFile.FastqFile`</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reversedFq</span> <span class="o">=</span> <span class="n">FastqFile</span><span class="o">.</span><span class="n">FastqFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="Sample.setbam"><a class="viewcode-back" href="../../model.html#model.Sample.Sample.setbam">[docs]</a>    <span class="k">def</span> <span class="nf">setbam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Setter for setting the bam file as a :py:class:`FastqFile.FastqFile`</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bam</span> <span class="o">=</span> <span class="n">BamFile</span><span class="o">.</span><span class="n">BamFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

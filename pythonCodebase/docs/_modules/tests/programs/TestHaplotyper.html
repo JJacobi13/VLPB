@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>tests.programs.TestHaplotyper &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for tests.programs.TestHaplotyper</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">unittest</span><span class="o">,</span> <span class="nn">shutil</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span> 
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;../../src&quot;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">programs</span> <span class="kn">import</span> <span class="n">Haplotyper</span>
+<span class="kn">from</span> <span class="nn">model</span> <span class="kn">import</span> <span class="n">Pool</span><span class="p">,</span> <span class="n">VcfFile</span>
+
+<div class="viewcode-block" id="TestHaplotyper"><a class="viewcode-back" href="../../../tests.programs.html#tests.programs.TestHaplotyper.TestHaplotyper">[docs]</a><span class="k">class</span> <span class="nc">TestHaplotyper</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="n">inputVcf</span> <span class="o">=</span> <span class="s">&quot;../testFiles/input/testFiltered.vcf&quot;</span>
+
+<div class="viewcode-block" id="TestHaplotyper.setUp"><a class="viewcode-back" href="../../../tests.programs.html#tests.programs.TestHaplotyper.TestHaplotyper.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s">&quot;../testFiles/output/&quot;</span><span class="p">):</span>
+            <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&quot;../testFiles/output/&quot;</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+            
+        <span class="n">TestHaplotyper</span><span class="o">.</span><span class="n">testPool</span> <span class="o">=</span> <span class="n">Pool</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="s">&quot;testPool&quot;</span><span class="p">,</span> <span class="s">&quot;../testFiles/output/&quot;</span><span class="p">,</span> <span class="s">&quot;../testFiles/input/smallRefGenome.fa&quot;</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s">&quot;../../src/VlpbConfig/config.ini&quot;</span><span class="p">)</span>
+        <span class="n">TestHaplotyper</span><span class="o">.</span><span class="n">testPool</span><span class="o">.</span><span class="n">vcf</span> <span class="o">=</span> <span class="n">VcfFile</span><span class="o">.</span><span class="n">VcfFile</span><span class="p">(</span><span class="n">TestHaplotyper</span><span class="o">.</span><span class="n">testPool</span><span class="p">,</span> <span class="n">TestHaplotyper</span><span class="o">.</span><span class="n">inputVcf</span><span class="p">,</span> <span class="n">bcf</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">TestHaplotyper</span><span class="o">.</span><span class="n">haplotyper</span> <span class="o">=</span> <span class="n">Haplotyper</span><span class="o">.</span><span class="n">Haplotyper</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="TestHaplotyper.testCreateBeagleInput"><a class="viewcode-back" href="../../../tests.programs.html#tests.programs.TestHaplotyper.TestHaplotyper.testCreateBeagleInput">[docs]</a>    <span class="k">def</span> <span class="nf">testCreateBeagleInput</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">expOutFile</span> <span class="o">=</span> <span class="s">&quot;../testFiles/output/testPool/testPoolSL2.40ch11:22900-24100.BEAGLE.PL&quot;</span>
+        <span class="n">expSize</span> <span class="o">=</span> <span class="mi">185</span>
+        <span class="n">outPrefix</span> <span class="o">=</span> <span class="n">TestHaplotyper</span><span class="o">.</span><span class="n">haplotyper</span><span class="o">.</span><span class="n">_createBeagleInput</span><span class="p">(</span><span class="n">TestHaplotyper</span><span class="o">.</span><span class="n">testPool</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outPrefix</span> <span class="o">+</span> <span class="s">&quot;.BEAGLE.PL&quot;</span><span class="p">),</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">expOutFile</span><span class="p">)</span> <span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outPrefix</span> <span class="o">+</span> <span class="s">&quot;.BEAGLE.PL&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; not is &quot;</span> <span class="o">+</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">expOutFile</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">expSize</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">expOutFile</span><span class="p">),</span> <span class="s">&quot;filesize: &quot;</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">expOutFile</span><span class="p">))</span> <span class="o">+</span> <span class="s">&quot; is not &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">expSize</span><span class="p">))</span>
+          </div>
+<div class="viewcode-block" id="TestHaplotyper.testChromosomeExtraction"><a class="viewcode-back" href="../../../tests.programs.html#tests.programs.TestHaplotyper.TestHaplotyper.testChromosomeExtraction">[docs]</a>    <span class="k">def</span> <span class="nf">testChromosomeExtraction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="s">&quot;SL2.40ch11:22900-24100&quot;</span><span class="p">,</span> <span class="n">TestHaplotyper</span><span class="o">.</span><span class="n">haplotyper</span><span class="o">.</span><span class="n">_getChromosomes</span><span class="p">(</span><span class="n">TestHaplotyper</span><span class="o">.</span><span class="n">testPool</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="s">&quot;chromosome not extracted from reference genome index&quot;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestHaplotyper.testExecuteBeagle"><a class="viewcode-back" href="../../../tests.programs.html#tests.programs.TestHaplotyper.TestHaplotyper.testExecuteBeagle">[docs]</a>    <span class="k">def</span> <span class="nf">testExecuteBeagle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">expOutFile</span> <span class="o">=</span> <span class="s">&quot;../testFiles/output/testPool/out.testPoolSL2.40ch11:22900-24100.BEAGLE.PL.phased.gz&quot;</span>
+        <span class="n">expSize</span> <span class="o">=</span> <span class="mi">91</span>
+        <span class="n">outPrefix</span> <span class="o">=</span> <span class="n">TestHaplotyper</span><span class="o">.</span><span class="n">haplotyper</span><span class="o">.</span><span class="n">_executeBeagle</span><span class="p">(</span><span class="n">TestHaplotyper</span><span class="o">.</span><span class="n">testPool</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outPrefix</span> <span class="o">+</span> <span class="s">&quot;.BEAGLE.PL.phased.gz&quot;</span><span class="p">),</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">expOutFile</span><span class="p">)</span> <span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">outPrefix</span> <span class="o">+</span> <span class="s">&quot;.BEAGLE.PL.phased.gz&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; not is &quot;</span> <span class="o">+</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">expOutFile</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">expSize</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">expOutFile</span><span class="p">),</span> <span class="s">&quot;filesize: &quot;</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">expOutFile</span><span class="p">))</span> <span class="o">+</span> <span class="s">&quot; is not &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">expSize</span><span class="p">))</span>
+</div></div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>        
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

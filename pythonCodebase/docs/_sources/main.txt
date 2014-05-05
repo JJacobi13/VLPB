@@ -1,0 +1,11 @@
+main Package
+============
+
+:mod:`main` Module
+------------------
+
+.. automodule:: main.main
+    :members:
+    :undoc-members:
+    :show-inheritance:
+

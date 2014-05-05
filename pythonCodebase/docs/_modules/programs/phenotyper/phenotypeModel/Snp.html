@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>programs.phenotyper.phenotypeModel.Snp &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for programs.phenotyper.phenotypeModel.Snp</h1><div class="highlight"><pre>
+<span class="k">class</span> <span class="nc">Snp</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Snp"><a class="viewcode-back" href="../../../../programs.phenotyper.phenotypeModel.html#programs.phenotyper.phenotypeModel.Snp.Snp">[docs]</a>    <span class="sd">&quot;&quot;&quot;The Snp object represents a SNP. </span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vcfLine</span><span class="p">,</span> <span class="n">vcfHeader</span><span class="p">,</span> <span class="n">contig</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The constructor calls a method to parse the line of the vcf file, also the contig is set as an instance variable</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parseVcfLine</span><span class="p">(</span><span class="n">vcfLine</span><span class="p">,</span> <span class="n">vcfHeader</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">contig</span> <span class="o">=</span> <span class="n">contig</span>
+        
+    <span class="k">def</span> <span class="nf">parseVcfLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vcfLine</span><span class="p">,</span> <span class="n">vcfHeader</span><span class="p">):</span> 
+<div class="viewcode-block" id="Snp.parseVcfLine"><a class="viewcode-back" href="../../../../programs.phenotyper.phenotypeModel.html#programs.phenotyper.phenotypeModel.Snp.Snp.parseVcfLine">[docs]</a>        <span class="sd">&quot;&quot;&quot;The method parseVcfLine parses one line of a vcf file.</span>
+<span class="sd">        The position, reference base, alternative base and quality are set as instance variables (all read from the given line).</span>
+<span class="sd">        This method also calls a method to parse the alleles of this line</span>
+<span class="sd">        :param vcfLine: the line from the vcf file</span>
+<span class="sd">        :type vcfLine: a list of elements from the vcf file</span>
+<span class="sd">        :param vcfHeader: the headerline which contains the accessions</span>
+<span class="sd">        :type vcfHeader: a list of names indicating whats in the vcfLine </span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="n">vcfLine</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ref</span> <span class="o">=</span> <span class="n">vcfLine</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alt</span> <span class="o">=</span> <span class="n">vcfLine</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qual</span> <span class="o">=</span> <span class="n">vcfLine</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parseAccessionAlleles</span><span class="p">(</span><span class="n">vcfLine</span><span class="p">[</span><span class="mi">9</span><span class="p">:],</span> <span class="n">vcfHeader</span><span class="p">[</span><span class="mi">9</span><span class="p">:])</span>
+        
+    <span class="k">def</span> <span class="nf">parseAccessionAlleles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vcfAccessionLines</span><span class="p">,</span> <span class="n">accNames</span><span class="p">):</span></div>
+<div class="viewcode-block" id="Snp.parseAccessionAlleles"><a class="viewcode-back" href="../../../../programs.phenotyper.phenotypeModel.html#programs.phenotyper.phenotypeModel.Snp.Snp.parseAccessionAlleles">[docs]</a>        <span class="sd">&quot;&quot;&quot;The method parseAccessionAlleles parses the alleles of each accession from a given list of alleles per allele</span>
+<span class="sd">        :param vcfAccessionLines: all lines which contain the information of an accession.</span>
+<span class="sd">        :type vcfAccessionLines: a list of accession information</span>
+<span class="sd">        :param accNames: the names of the accessions</span>
+<span class="sd">        :type accNames: a list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alleles</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vcfAccessionLines</span><span class="p">)):</span>
+            <span class="n">vcfAcc</span> <span class="o">=</span> <span class="n">vcfAccessionLines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">vcfAcc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">forward</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ref</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">forward</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alt</span>
+                
+            <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">vcfAcc</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">rev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ref</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">rev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alt</span>
+            <span class="n">haplotypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">forward</span><span class="p">,</span><span class="n">rev</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alleles</span><span class="p">[</span><span class="n">accNames</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">haplotypes</span>
+            
+            
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div>
+        <span class="k">return</span> <span class="s">&quot;Snp[pos: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">+</span> <span class="s">&quot;, ref: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ref</span> <span class="o">+</span> <span class="s">&quot;, alt: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">alt</span> <span class="o">+</span> <span class="s">&quot;]&quot;</span>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>  
+            
+        
+        
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

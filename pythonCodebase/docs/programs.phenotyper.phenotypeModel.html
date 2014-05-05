@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>phenotypeModel Package &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="index.html" />
+    <link rel="up" title="phenotyper Package" href="programs.phenotyper.html" />
+    <link rel="next" title="snvCallers Package" href="programs.snvCallers.html" />
+    <link rel="prev" title="phenotyper Package" href="programs.phenotyper.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="programs.snvCallers.html" title="snvCallers Package"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="programs.phenotyper.html" title="phenotyper Package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >VLPB</a> &raquo;</li>
+          <li><a href="programs.html" >programs Package</a> &raquo;</li>
+          <li><a href="programs.phenotyper.html" accesskey="U">phenotyper Package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="phenotypemodel-package">
+<h1>phenotypeModel Package<a class="headerlink" href="#phenotypemodel-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-programs.phenotyper.phenotypeModel.Accession">
+<span id="accession-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">Accession</span></tt> Module<a class="headerlink" href="#module-programs.phenotyper.phenotypeModel.Accession" title="Permalink to this headline">¶</a></h2>
+<p>Created on Aug 12, 2013</p>
+<p>&#64;author: Jetse</p>
+<dl class="class">
+<dt id="programs.phenotyper.phenotypeModel.Accession.Accession">
+<em class="property">class </em><tt class="descclassname">programs.phenotyper.phenotypeModel.Accession.</tt><tt class="descname">Accession</tt><big>(</big><em>accessionNo</em>, <em>phenoAllele</em>, <em>haplotype</em><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/phenotypeModel/Accession.html#Accession"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.phenotypeModel.Accession.Accession" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>The Accession object describes a single accession with a phenotype allele and a haplotype for combining information.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-programs.phenotyper.phenotypeModel.Contig">
+<span id="contig-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">Contig</span></tt> Module<a class="headerlink" href="#module-programs.phenotyper.phenotypeModel.Contig" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="programs.phenotyper.phenotypeModel.Contig.Contig">
+<em class="property">class </em><tt class="descclassname">programs.phenotyper.phenotypeModel.Contig.</tt><tt class="descname">Contig</tt><big>(</big><em>ID</em>, <em>phenotype</em><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/phenotypeModel/Contig.html#Contig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.phenotypeModel.Contig.Contig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>The Contig object represents a contig</p>
+<dl class="method">
+<dt id="programs.phenotyper.phenotypeModel.Contig.Contig.addInfo">
+<tt class="descname">addInfo</tt><big>(</big><em>chrom</em>, <em>start</em>, <em>end</em><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/phenotypeModel/Contig.html#Contig.addInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.phenotypeModel.Contig.Contig.addInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method addInfo is called when reading the vcf file so all information about this contig is known.
+On creation, only the phenotype and ID are known.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="programs.phenotyper.phenotypeModel.Contig.Contig.addSnp">
+<tt class="descname">addSnp</tt><big>(</big><em>vcfLine</em>, <em>header</em><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/phenotypeModel/Contig.html#Contig.addSnp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.phenotypeModel.Contig.Contig.addSnp" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method addSnp creates a Snp object and adds this object to the list of SNPs.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="programs.phenotyper.phenotypeModel.Contig.Contig.constructHaplotype">
+<tt class="descname">constructHaplotype</tt><big>(</big><em>accession</em>, <em>n</em><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/phenotypeModel/Contig.html#Contig.constructHaplotype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.phenotypeModel.Contig.Contig.constructHaplotype" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method constructHaplotype creates an haplotype string representation of all SNPs and their given strand of a given accession.
+:param accession: The accession where to calculate the haplotype string representation from
+:type accession: str
+:param n: The strand
+:type n: int</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="programs.phenotyper.phenotypeModel.Contig.Contig.constructHaplotypes">
+<tt class="descname">constructHaplotypes</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/phenotypeModel/Contig.html#Contig.constructHaplotypes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.phenotypeModel.Contig.Contig.constructHaplotypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method constructHaplotypes creates an haplotype string representation of all SNPs in all strands.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-programs.phenotyper.phenotypeModel.Phenotype">
+<span id="phenotype-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">Phenotype</span></tt> Module<a class="headerlink" href="#module-programs.phenotyper.phenotypeModel.Phenotype" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="programs.phenotyper.phenotypeModel.Phenotype.Phenotype">
+<em class="property">class </em><tt class="descclassname">programs.phenotyper.phenotypeModel.Phenotype.</tt><tt class="descname">Phenotype</tt><big>(</big><em>description</em><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/phenotypeModel/Phenotype.html#Phenotype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.phenotypeModel.Phenotype.Phenotype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>An instance of the Phenotype object represents one single Phenotype.</p>
+<dl class="method">
+<dt id="programs.phenotyper.phenotypeModel.Phenotype.Phenotype.addContig">
+<tt class="descname">addContig</tt><big>(</big><em>contigId</em><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/phenotypeModel/Phenotype.html#Phenotype.addContig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.phenotypeModel.Phenotype.Phenotype.addContig" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method addContig creates a contig object and adds this object to the list of contigs involved with this phenotype.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-programs.phenotyper.phenotypeModel.Snp">
+<span id="snp-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">Snp</span></tt> Module<a class="headerlink" href="#module-programs.phenotyper.phenotypeModel.Snp" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="programs.phenotyper.phenotypeModel.Snp.Snp">
+<em class="property">class </em><tt class="descclassname">programs.phenotyper.phenotypeModel.Snp.</tt><tt class="descname">Snp</tt><big>(</big><em>vcfLine</em>, <em>vcfHeader</em>, <em>contig</em><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/phenotypeModel/Snp.html#Snp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.phenotypeModel.Snp.Snp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>The Snp object represents a SNP.</p>
+<dl class="method">
+<dt id="programs.phenotyper.phenotypeModel.Snp.Snp.parseAccessionAlleles">
+<tt class="descname">parseAccessionAlleles</tt><big>(</big><em>vcfAccessionLines</em>, <em>accNames</em><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/phenotypeModel/Snp.html#Snp.parseAccessionAlleles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.phenotypeModel.Snp.Snp.parseAccessionAlleles" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method parseAccessionAlleles parses the alleles of each accession from a given list of alleles per allele
+:param vcfAccessionLines: all lines which contain the information of an accession.
+:type vcfAccessionLines: a list of accession information
+:param accNames: the names of the accessions
+:type accNames: a list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="programs.phenotyper.phenotypeModel.Snp.Snp.parseVcfLine">
+<tt class="descname">parseVcfLine</tt><big>(</big><em>vcfLine</em>, <em>vcfHeader</em><big>)</big><a class="reference internal" href="_modules/programs/phenotyper/phenotypeModel/Snp.html#Snp.parseVcfLine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.phenotyper.phenotypeModel.Snp.Snp.parseVcfLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method parseVcfLine parses one line of a vcf file.
+The position, reference base, alternative base and quality are set as instance variables (all read from the given line).
+This method also calls a method to parse the alleles of this line
+:param vcfLine: the line from the vcf file
+:type vcfLine: a list of elements from the vcf file
+:param vcfHeader: the headerline which contains the accessions
+:type vcfHeader: a list of names indicating whats in the vcfLine</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">phenotypeModel Package</a><ul>
+<li><a class="reference internal" href="#module-programs.phenotyper.phenotypeModel.Accession"><tt class="docutils literal"><span class="pre">Accession</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-programs.phenotyper.phenotypeModel.Contig"><tt class="docutils literal"><span class="pre">Contig</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-programs.phenotyper.phenotypeModel.Phenotype"><tt class="docutils literal"><span class="pre">Phenotype</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-programs.phenotyper.phenotypeModel.Snp"><tt class="docutils literal"><span class="pre">Snp</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="programs.phenotyper.html"
+                        title="previous chapter">phenotyper Package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="programs.snvCallers.html"
+                        title="next chapter">snvCallers Package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/programs.phenotyper.phenotypeModel.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="programs.snvCallers.html" title="snvCallers Package"
+             >next</a></li>
+        <li class="right" >
+          <a href="programs.phenotyper.html" title="phenotyper Package"
+             >previous</a> |</li>
+        <li><a href="index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >VLPB</a> &raquo;</li>
+          <li><a href="programs.html" >programs Package</a> &raquo;</li>
+          <li><a href="programs.phenotyper.html" >phenotyper Package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

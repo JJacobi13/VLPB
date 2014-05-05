@@ -1,0 +1,484 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>programs Package &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="index.html" />
+    <link rel="up" title="tests Package" href="tests.html" />
+    <link rel="next" title="tools Package" href="tools.html" />
+    <link rel="prev" title="tests Package" href="tests.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="tools.html" title="tools Package"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="tests.html" title="tests Package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >VLPB</a> &raquo;</li>
+          <li><a href="tests.html" accesskey="U">tests Package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="programs-package">
+<h1>programs Package<a class="headerlink" href="#programs-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="locitester-module">
+<h2><tt class="xref py py-mod docutils literal"><span class="pre">LociTester</span></tt> Module<a class="headerlink" href="#locitester-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-tests.programs.TestAllelicDiversity">
+<span id="testallelicdiversity-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">TestAllelicDiversity</span></tt> Module<a class="headerlink" href="#module-tests.programs.TestAllelicDiversity" title="Permalink to this headline">¶</a></h2>
+<p>Created on Jul 16, 2013</p>
+<p>&#64;author: Jetse</p>
+<dl class="class">
+<dt id="tests.programs.TestAllelicDiversity.TestAllelicDiversity">
+<em class="property">class </em><tt class="descclassname">tests.programs.TestAllelicDiversity.</tt><tt class="descname">TestAllelicDiversity</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="reference internal" href="_modules/tests/programs/TestAllelicDiversity.html#TestAllelicDiversity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestAllelicDiversity.TestAllelicDiversity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<dl class="attribute">
+<dt id="tests.programs.TestAllelicDiversity.TestAllelicDiversity.gffFile">
+<tt class="descname">gffFile</tt><em class="property"> = '../testFiles/input/chr12Accession.gff'</em><a class="headerlink" href="#tests.programs.TestAllelicDiversity.TestAllelicDiversity.gffFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestAllelicDiversity.TestAllelicDiversity.phasedVcf">
+<tt class="descname">phasedVcf</tt><em class="property"> = '../testFiles/input/testPhased.vcf'</em><a class="headerlink" href="#tests.programs.TestAllelicDiversity.TestAllelicDiversity.phasedVcf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestAllelicDiversity.TestAllelicDiversity.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestAllelicDiversity.html#TestAllelicDiversity.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestAllelicDiversity.TestAllelicDiversity.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestAllelicDiversity.TestAllelicDiversity.testAllelicDiversityPath">
+<tt class="descname">testAllelicDiversityPath</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestAllelicDiversity.html#TestAllelicDiversity.testAllelicDiversityPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestAllelicDiversity.TestAllelicDiversity.testAllelicDiversityPath" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestAllelicDiversity.TestAllelicDiversity.unPhasedVcf">
+<tt class="descname">unPhasedVcf</tt><em class="property"> = '../testFiles/input/testFiltered.vcf'</em><a class="headerlink" href="#tests.programs.TestAllelicDiversity.TestAllelicDiversity.unPhasedVcf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-tests.programs.TestConversionTools">
+<span id="testconversiontools-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">TestConversionTools</span></tt> Module<a class="headerlink" href="#module-tests.programs.TestConversionTools" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="tests.programs.TestConversionTools.TestConversionTools">
+<em class="property">class </em><tt class="descclassname">tests.programs.TestConversionTools.</tt><tt class="descname">TestConversionTools</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="reference internal" href="_modules/tests/programs/TestConversionTools.html#TestConversionTools"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestConversionTools.TestConversionTools" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<dl class="attribute">
+<dt id="tests.programs.TestConversionTools.TestConversionTools.bamFile">
+<tt class="descname">bamFile</tt><em class="property"> = '../testFiles/input/test.bam'</em><a class="headerlink" href="#tests.programs.TestConversionTools.TestConversionTools.bamFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestConversionTools.TestConversionTools.expBamOutFile">
+<tt class="descname">expBamOutFile</tt><em class="property"> = '../testFiles/output/testPool/testLib/testLib.bam'</em><a class="headerlink" href="#tests.programs.TestConversionTools.TestConversionTools.expBamOutFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestConversionTools.TestConversionTools.gzFile">
+<tt class="descname">gzFile</tt><em class="property"> = '../testFiles/input/pairedTest.tar.gz'</em><a class="headerlink" href="#tests.programs.TestConversionTools.TestConversionTools.gzFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestConversionTools.TestConversionTools.samFile">
+<tt class="descname">samFile</tt><em class="property"> = '../testFiles/input/test.sam'</em><a class="headerlink" href="#tests.programs.TestConversionTools.TestConversionTools.samFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestConversionTools.TestConversionTools.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestConversionTools.html#TestConversionTools.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestConversionTools.TestConversionTools.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestConversionTools.TestConversionTools.sortedBamFile">
+<tt class="descname">sortedBamFile</tt><em class="property"> = '../testFiles/input/testSorted.bam'</em><a class="headerlink" href="#tests.programs.TestConversionTools.TestConversionTools.sortedBamFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestConversionTools.TestConversionTools.testAddHeaderLine">
+<tt class="descname">testAddHeaderLine</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestConversionTools.html#TestConversionTools.testAddHeaderLine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestConversionTools.TestConversionTools.testAddHeaderLine" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestConversionTools.TestConversionTools.testAddMdTag">
+<tt class="descname">testAddMdTag</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestConversionTools.html#TestConversionTools.testAddMdTag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestConversionTools.TestConversionTools.testAddMdTag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestConversionTools.TestConversionTools.testConvertToBam">
+<tt class="descname">testConvertToBam</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestConversionTools.html#TestConversionTools.testConvertToBam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestConversionTools.TestConversionTools.testConvertToBam" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestConversionTools.TestConversionTools.testCreateBamIndex">
+<tt class="descname">testCreateBamIndex</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestConversionTools.html#TestConversionTools.testCreateBamIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestConversionTools.TestConversionTools.testCreateBamIndex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestConversionTools.TestConversionTools.testRemoveDuplicates">
+<tt class="descname">testRemoveDuplicates</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestConversionTools.html#TestConversionTools.testRemoveDuplicates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestConversionTools.TestConversionTools.testRemoveDuplicates" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestConversionTools.TestConversionTools.testSortBam">
+<tt class="descname">testSortBam</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestConversionTools.html#TestConversionTools.testSortBam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestConversionTools.TestConversionTools.testSortBam" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-tests.programs.TestDecompressor">
+<span id="testdecompressor-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">TestDecompressor</span></tt> Module<a class="headerlink" href="#module-tests.programs.TestDecompressor" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="tests.programs.TestDecompressor.TestDecompressor">
+<em class="property">class </em><tt class="descclassname">tests.programs.TestDecompressor.</tt><tt class="descname">TestDecompressor</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="reference internal" href="_modules/tests/programs/TestDecompressor.html#TestDecompressor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestDecompressor.TestDecompressor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<dl class="attribute">
+<dt id="tests.programs.TestDecompressor.TestDecompressor.forwardOut">
+<tt class="descname">forwardOut</tt><em class="property"> = '../testFiles/output/testPool/testLib/test.fq'</em><a class="headerlink" href="#tests.programs.TestDecompressor.TestDecompressor.forwardOut" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestDecompressor.TestDecompressor.fqFile">
+<tt class="descname">fqFile</tt><em class="property"> = '../testFiles/input/test.fq'</em><a class="headerlink" href="#tests.programs.TestDecompressor.TestDecompressor.fqFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestDecompressor.TestDecompressor.gzFile">
+<tt class="descname">gzFile</tt><em class="property"> = '../testFiles/input/test.fq.gz'</em><a class="headerlink" href="#tests.programs.TestDecompressor.TestDecompressor.gzFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestDecompressor.TestDecompressor.outFileSize">
+<tt class="descname">outFileSize</tt><em class="property"> = 156850</em><a class="headerlink" href="#tests.programs.TestDecompressor.TestDecompressor.outFileSize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestDecompressor.TestDecompressor.refGzFile">
+<tt class="descname">refGzFile</tt><em class="property"> = '../testFiles/input/revTest.fq.gz'</em><a class="headerlink" href="#tests.programs.TestDecompressor.TestDecompressor.refGzFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestDecompressor.TestDecompressor.revOut">
+<tt class="descname">revOut</tt><em class="property"> = '../testFiles/output/testPool/testLib/revTest.fq'</em><a class="headerlink" href="#tests.programs.TestDecompressor.TestDecompressor.revOut" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestDecompressor.TestDecompressor.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestDecompressor.html#TestDecompressor.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestDecompressor.TestDecompressor.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestDecompressor.TestDecompressor.tarGzFile">
+<tt class="descname">tarGzFile</tt><em class="property"> = '../testFiles/input/test.tar.gz'</em><a class="headerlink" href="#tests.programs.TestDecompressor.TestDecompressor.tarGzFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestDecompressor.TestDecompressor.testExtract">
+<tt class="descname">testExtract</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestDecompressor.html#TestDecompressor.testExtract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestDecompressor.TestDecompressor.testExtract" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestDecompressor.TestDecompressor.testGz">
+<tt class="descname">testGz</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestDecompressor.html#TestDecompressor.testGz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestDecompressor.TestDecompressor.testGz" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestDecompressor.TestDecompressor.testTarGz">
+<tt class="descname">testTarGz</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestDecompressor.html#TestDecompressor.testTarGz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestDecompressor.TestDecompressor.testTarGz" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-tests.programs.TestHaplotyper">
+<span id="testhaplotyper-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">TestHaplotyper</span></tt> Module<a class="headerlink" href="#module-tests.programs.TestHaplotyper" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="tests.programs.TestHaplotyper.TestHaplotyper">
+<em class="property">class </em><tt class="descclassname">tests.programs.TestHaplotyper.</tt><tt class="descname">TestHaplotyper</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="reference internal" href="_modules/tests/programs/TestHaplotyper.html#TestHaplotyper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestHaplotyper.TestHaplotyper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<dl class="method">
+<dt id="tests.programs.TestHaplotyper.TestHaplotyper.checkNoOfSnps">
+<tt class="descname">checkNoOfSnps</tt><big>(</big><em>outputFile</em><big>)</big><a class="headerlink" href="#tests.programs.TestHaplotyper.TestHaplotyper.checkNoOfSnps" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestHaplotyper.TestHaplotyper.chrIndex">
+<tt class="descname">chrIndex</tt><em class="property"> = 'SL2.40ch11_22900-24100'</em><a class="headerlink" href="#tests.programs.TestHaplotyper.TestHaplotyper.chrIndex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestHaplotyper.TestHaplotyper.inputBam">
+<tt class="descname">inputBam</tt><em class="property"> = '../testFiles/input/test.bam'</em><a class="headerlink" href="#tests.programs.TestHaplotyper.TestHaplotyper.inputBam" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestHaplotyper.TestHaplotyper.inputVcf">
+<tt class="descname">inputVcf</tt><em class="property"> = '../testFiles/input/testFiltered.vcf'</em><a class="headerlink" href="#tests.programs.TestHaplotyper.TestHaplotyper.inputVcf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestHaplotyper.TestHaplotyper.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestHaplotyper.html#TestHaplotyper.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestHaplotyper.TestHaplotyper.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestHaplotyper.TestHaplotyper.testCreateBeagleInput">
+<tt class="descname">testCreateBeagleInput</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestHaplotyper.html#TestHaplotyper.testCreateBeagleInput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestHaplotyper.TestHaplotyper.testCreateBeagleInput" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestHaplotyper.TestHaplotyper.testExecuteBeagle">
+<tt class="descname">testExecuteBeagle</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestHaplotyper.html#TestHaplotyper.testExecuteBeagle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestHaplotyper.TestHaplotyper.testExecuteBeagle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestHaplotyper.TestHaplotyper.testExecuteBeagleGrid">
+<tt class="descname">testExecuteBeagleGrid</tt><big>(</big><big>)</big><a class="headerlink" href="#tests.programs.TestHaplotyper.TestHaplotyper.testExecuteBeagleGrid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestHaplotyper.TestHaplotyper.testExecuteBeagleMultiThread">
+<tt class="descname">testExecuteBeagleMultiThread</tt><big>(</big><big>)</big><a class="headerlink" href="#tests.programs.TestHaplotyper.TestHaplotyper.testExecuteBeagleMultiThread" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestHaplotyper.TestHaplotyper.testHaplotyperFullPathGrid">
+<tt class="descname">testHaplotyperFullPathGrid</tt><big>(</big><big>)</big><a class="headerlink" href="#tests.programs.TestHaplotyper.TestHaplotyper.testHaplotyperFullPathGrid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestHaplotyper.TestHaplotyper.testHaplotyperPath">
+<tt class="descname">testHaplotyperPath</tt><big>(</big><big>)</big><a class="headerlink" href="#tests.programs.TestHaplotyper.TestHaplotyper.testHaplotyperPath" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestHaplotyper.TestHaplotyper.testHaplotyperPathGrid">
+<tt class="descname">testHaplotyperPathGrid</tt><big>(</big><big>)</big><a class="headerlink" href="#tests.programs.TestHaplotyper.TestHaplotyper.testHaplotyperPathGrid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-tests.programs.TestMapper">
+<span id="testmapper-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">TestMapper</span></tt> Module<a class="headerlink" href="#module-tests.programs.TestMapper" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="tests.programs.TestMapper.TestMapper">
+<em class="property">class </em><tt class="descclassname">tests.programs.TestMapper.</tt><tt class="descname">TestMapper</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="reference internal" href="_modules/tests/programs/TestMapper.html#TestMapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestMapper.TestMapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<dl class="attribute">
+<dt id="tests.programs.TestMapper.TestMapper.expOutFile">
+<tt class="descname">expOutFile</tt><em class="property"> = '../testFiles/output/testPool/testLib/testLib.sam'</em><a class="headerlink" href="#tests.programs.TestMapper.TestMapper.expOutFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestMapper.TestMapper.gzFile">
+<tt class="descname">gzFile</tt><em class="property"> = '../testFiles/input/test.fq.gz'</em><a class="headerlink" href="#tests.programs.TestMapper.TestMapper.gzFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestMapper.TestMapper.hqFqFile">
+<tt class="descname">hqFqFile</tt><em class="property"> = '../testFiles/input/test_0Hq.fq'</em><a class="headerlink" href="#tests.programs.TestMapper.TestMapper.hqFqFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestMapper.TestMapper.refGzFile">
+<tt class="descname">refGzFile</tt><em class="property"> = '../testFiles/input/revTest.fq.gz'</em><a class="headerlink" href="#tests.programs.TestMapper.TestMapper.refGzFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestMapper.TestMapper.revHqFqFile">
+<tt class="descname">revHqFqFile</tt><em class="property"> = '../testFiles/input/test_1Hq.fq'</em><a class="headerlink" href="#tests.programs.TestMapper.TestMapper.revHqFqFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestMapper.TestMapper.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestMapper.html#TestMapper.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestMapper.TestMapper.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestMapper.TestMapper.testBwaPaired">
+<tt class="descname">testBwaPaired</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestMapper.html#TestMapper.testBwaPaired"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestMapper.TestMapper.testBwaPaired" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestMapper.TestMapper.testBwaSingle">
+<tt class="descname">testBwaSingle</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestMapper.html#TestMapper.testBwaSingle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestMapper.TestMapper.testBwaSingle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestMapper.TestMapper.testMap">
+<tt class="descname">testMap</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestMapper.html#TestMapper.testMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestMapper.TestMapper.testMap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-tests.programs.TestSnvCaller">
+<span id="testsnvcaller-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">TestSnvCaller</span></tt> Module<a class="headerlink" href="#module-tests.programs.TestSnvCaller" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="tests.programs.TestSnvCaller.TestSnvCaller">
+<em class="property">class </em><tt class="descclassname">tests.programs.TestSnvCaller.</tt><tt class="descname">TestSnvCaller</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="reference internal" href="_modules/tests/programs/TestSnvCaller.html#TestSnvCaller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestSnvCaller.TestSnvCaller" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<dl class="method">
+<dt id="tests.programs.TestSnvCaller.TestSnvCaller.checkNoOfSnps">
+<tt class="descname">checkNoOfSnps</tt><big>(</big><em>outputFile</em><big>)</big><a class="headerlink" href="#tests.programs.TestSnvCaller.TestSnvCaller.checkNoOfSnps" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestSnvCaller.TestSnvCaller.expBcfFile">
+<tt class="descname">expBcfFile</tt><em class="property"> = '../testFiles/output/testPool/testPool.bcf'</em><a class="headerlink" href="#tests.programs.TestSnvCaller.TestSnvCaller.expBcfFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestSnvCaller.TestSnvCaller.expVcfFile">
+<tt class="descname">expVcfFile</tt><em class="property"> = '../testFiles/output/testPool/testPool.vcf'</em><a class="headerlink" href="#tests.programs.TestSnvCaller.TestSnvCaller.expVcfFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="tests.programs.TestSnvCaller.TestSnvCaller.inputBam">
+<tt class="descname">inputBam</tt><em class="property"> = '../testFiles/input/test.bam'</em><a class="headerlink" href="#tests.programs.TestSnvCaller.TestSnvCaller.inputBam" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestSnvCaller.TestSnvCaller.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestSnvCaller.html#TestSnvCaller.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestSnvCaller.TestSnvCaller.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestSnvCaller.TestSnvCaller.testGatk">
+<tt class="descname">testGatk</tt><big>(</big><big>)</big><a class="headerlink" href="#tests.programs.TestSnvCaller.TestSnvCaller.testGatk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestSnvCaller.TestSnvCaller.testGatkPath">
+<tt class="descname">testGatkPath</tt><big>(</big><big>)</big><a class="headerlink" href="#tests.programs.TestSnvCaller.TestSnvCaller.testGatkPath" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestSnvCaller.TestSnvCaller.testSamtoolsMpileupMultiThread">
+<tt class="descname">testSamtoolsMpileupMultiThread</tt><big>(</big><big>)</big><a class="headerlink" href="#tests.programs.TestSnvCaller.TestSnvCaller.testSamtoolsMpileupMultiThread" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestSnvCaller.TestSnvCaller.testSamtoolsMpileupSingleThread">
+<tt class="descname">testSamtoolsMpileupSingleThread</tt><big>(</big><big>)</big><a class="headerlink" href="#tests.programs.TestSnvCaller.TestSnvCaller.testSamtoolsMpileupSingleThread" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestSnvCaller.TestSnvCaller.testSamtoolsMultiple">
+<tt class="descname">testSamtoolsMultiple</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestSnvCaller.html#TestSnvCaller.testSamtoolsMultiple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestSnvCaller.TestSnvCaller.testSamtoolsMultiple" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tests.programs.TestSnvCaller.TestSnvCaller.testSamtoolsPath">
+<tt class="descname">testSamtoolsPath</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/programs/TestSnvCaller.html#TestSnvCaller.testSamtoolsPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.programs.TestSnvCaller.TestSnvCaller.testSamtoolsPath" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">programs Package</a><ul>
+<li><a class="reference internal" href="#locitester-module"><tt class="docutils literal"><span class="pre">LociTester</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-tests.programs.TestAllelicDiversity"><tt class="docutils literal"><span class="pre">TestAllelicDiversity</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-tests.programs.TestConversionTools"><tt class="docutils literal"><span class="pre">TestConversionTools</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-tests.programs.TestDecompressor"><tt class="docutils literal"><span class="pre">TestDecompressor</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-tests.programs.TestHaplotyper"><tt class="docutils literal"><span class="pre">TestHaplotyper</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-tests.programs.TestMapper"><tt class="docutils literal"><span class="pre">TestMapper</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-tests.programs.TestSnvCaller"><tt class="docutils literal"><span class="pre">TestSnvCaller</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="tests.html"
+                        title="previous chapter">tests Package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tools.html"
+                        title="next chapter">tools Package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/tests.programs.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="tools.html" title="tools Package"
+             >next</a></li>
+        <li class="right" >
+          <a href="tests.html" title="tests Package"
+             >previous</a> |</li>
+        <li><a href="index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >VLPB</a> &raquo;</li>
+          <li><a href="tests.html" >tests Package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

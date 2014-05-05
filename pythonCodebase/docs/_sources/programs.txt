@@ -1,0 +1,59 @@
+programs Package
+================
+
+:mod:`ConversionTools` Module
+-----------------------------
+
+.. automodule:: programs.ConversionTools
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`Decompressor` Module
+--------------------------
+
+.. automodule:: programs.Decompressor
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`Haplotyper` Module
+------------------------
+
+.. automodule:: programs.Haplotyper
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`Mapper` Module
+--------------------
+
+.. automodule:: programs.Mapper
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`Program` Module
+---------------------
+
+.. automodule:: programs.Program
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`QualityControl` Module
+----------------------------
+
+.. automodule:: programs.QualityControl
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+    programs.phenotyper
+    programs.snvCallers
+

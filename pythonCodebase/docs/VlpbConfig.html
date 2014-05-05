@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>VlpbConfig Package &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="index.html" />
+    <link rel="up" title="VLPB" href="modules.html" />
+    <link rel="next" title="gui Package" href="gui.html" />
+    <link rel="prev" title="VLPB" href="modules.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="gui.html" title="gui Package"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="modules.html" title="VLPB"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="modules.html" accesskey="U">VLPB</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="vlpbconfig-package">
+<h1>VlpbConfig Package<a class="headerlink" href="#vlpbconfig-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-VlpbConfig.Configuration">
+<span id="configuration-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">Configuration</span></tt> Module<a class="headerlink" href="#module-VlpbConfig.Configuration" title="Permalink to this headline">¶</a></h2>
+<p>The configuration module regulates all configuration settings which are in the ini file.
+This is done by 2 objects, <a class="reference internal" href="#VlpbConfig.Configuration.Config" title="VlpbConfig.Configuration.Config"><tt class="xref py py-class docutils literal"><span class="pre">Config</span></tt></a> and <a class="reference internal" href="#VlpbConfig.Configuration.Section" title="VlpbConfig.Configuration.Section"><tt class="xref py py-class docutils literal"><span class="pre">Section</span></tt></a>.
+The <a class="reference internal" href="#VlpbConfig.Configuration.Config" title="VlpbConfig.Configuration.Config"><tt class="xref py py-class docutils literal"><span class="pre">Config</span></tt></a> regulates the parsing of the ini file and the communication with other objects
+The <a class="reference internal" href="#VlpbConfig.Configuration.Section" title="VlpbConfig.Configuration.Section"><tt class="xref py py-class docutils literal"><span class="pre">Section</span></tt></a> represents a section of the ini file</p>
+<dl class="class">
+<dt id="VlpbConfig.Configuration.Config">
+<em class="property">class </em><tt class="descclassname">VlpbConfig.Configuration.</tt><tt class="descname">Config</tt><a class="reference internal" href="_modules/VlpbConfig/Configuration.html#Config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#VlpbConfig.Configuration.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>The Config class regulates everything of the configuration of the programs.
+This information is read from the iniFile config.ini which is located in this directory.</p>
+<dl class="method">
+<dt id="VlpbConfig.Configuration.Config.getGridOptions">
+<tt class="descname">getGridOptions</tt><big>(</big><em>item</em><big>)</big><a class="headerlink" href="#VlpbConfig.Configuration.Config.getGridOptions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="VlpbConfig.Configuration.Config.getPath">
+<tt class="descname">getPath</tt><big>(</big><em>item</em><big>)</big><a class="headerlink" href="#VlpbConfig.Configuration.Config.getPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method getPath retrieves the path of an item from the ini file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>item</strong> (<em>str</em>) &#8211; the item where to get the path from, can be the reference genome or a program</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">str &#8211; absolute path to the program</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="VlpbConfig.Configuration.Config.getProgram">
+<tt class="descname">getProgram</tt><big>(</big><em>possibleNames</em><big>)</big><a class="reference internal" href="_modules/VlpbConfig/Configuration.html#Config.getProgram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#VlpbConfig.Configuration.Config.getProgram" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method getPrograms checks which of the possibleNames occurs as a header in the ini file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="VlpbConfig.Configuration.Config.getProgramOptions">
+<tt class="descname">getProgramOptions</tt><big>(</big><em>programName</em><big>)</big><a class="reference internal" href="_modules/VlpbConfig/Configuration.html#Config.getProgramOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#VlpbConfig.Configuration.Config.getProgramOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method getProgramOptions retrieves all options from the ini file for one specific program.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>programName</strong> (<em>str</em>) &#8211; The name of the program where to get the options from</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a dictionary with all options (key value pairs, value is empty string if there is no value for param)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="VlpbConfig.Configuration.Config.parseIni">
+<tt class="descname">parseIni</tt><big>(</big><em>iniFile</em><big>)</big><a class="reference internal" href="_modules/VlpbConfig/Configuration.html#Config.parseIni"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#VlpbConfig.Configuration.Config.parseIni" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="VlpbConfig.Configuration.Config.setPath">
+<tt class="descname">setPath</tt><big>(</big><em>item</em>, <em>path</em><big>)</big><a class="headerlink" href="#VlpbConfig.Configuration.Config.setPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>For testing and for changing a reference genome the path can be changed with this method.
+:param item: the item where to set the path for, can be the reference genome or a program
+:type item: str
+:param path: the new path of this item
+:type item: str &#8211; path</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="VlpbConfig.Configuration.Section">
+<em class="property">class </em><tt class="descclassname">VlpbConfig.Configuration.</tt><tt class="descname">Section</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#VlpbConfig.Configuration.Section" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>The class section represents a section from the ini file.
+This section contains a header name and a dictionary of key-value pairs.
+The value is an empty string if this option has no value</p>
+<dl class="method">
+<dt id="VlpbConfig.Configuration.Section.getAllOptions">
+<tt class="descname">getAllOptions</tt><big>(</big><big>)</big><a class="headerlink" href="#VlpbConfig.Configuration.Section.getAllOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter for retrieving the full dictionary in once.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="VlpbConfig.Configuration.Section.getOption">
+<tt class="descname">getOption</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#VlpbConfig.Configuration.Section.getOption" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method getOption is a getter for retrieving a specific option</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="VlpbConfig.Configuration.Section.setOption">
+<tt class="descname">setOption</tt><big>(</big><em>name</em>, <em>value</em><big>)</big><a class="headerlink" href="#VlpbConfig.Configuration.Section.setOption" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method setOption is a setter for setting a new option, overwrites when exist.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-VlpbConfig.Logger">
+<span id="logger-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">Logger</span></tt> Module<a class="headerlink" href="#module-VlpbConfig.Logger" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="VlpbConfig.Logger.Logger">
+<em class="property">class </em><tt class="descclassname">VlpbConfig.Logger.</tt><tt class="descname">Logger</tt><big>(</big><em>logFile</em><big>)</big><a class="reference internal" href="_modules/VlpbConfig/Logger.html#Logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#VlpbConfig.Logger.Logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>The Logger regulates all writing and layout of the logfile</p>
+<dl class="method">
+<dt id="VlpbConfig.Logger.Logger.logError">
+<tt class="descname">logError</tt><big>(</big><em>errorMessage</em><big>)</big><a class="reference internal" href="_modules/VlpbConfig/Logger.html#Logger.logError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#VlpbConfig.Logger.Logger.logError" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method logError writes errors to the log file A little ascii art is also created so the user can scan easy for errors.
+This error is only printed if the message is not empty!</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>errorMessage</strong> (<em>str.</em>) &#8211; the error message which has to be printed.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="VlpbConfig.Logger.Logger.logOut">
+<tt class="descname">logOut</tt><big>(</big><em>outLines</em><big>)</big><a class="reference internal" href="_modules/VlpbConfig/Logger.html#Logger.logOut"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#VlpbConfig.Logger.Logger.logOut" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method logOut writes the output of the programs to the log file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>outLines</strong> (<em>str.</em>) &#8211; the lines which have to be written to the output file.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="VlpbConfig.Logger.Logger.nextProgram">
+<tt class="descname">nextProgram</tt><big>(</big><em>programName</em>, <em>command</em><big>)</big><a class="reference internal" href="_modules/VlpbConfig/Logger.html#Logger.nextProgram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#VlpbConfig.Logger.Logger.nextProgram" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method nextProgram print the next program with its command to the log file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>programName</strong> (<em>str.</em>) &#8211; The name of the next program</li>
+<li><strong>command</strong> (<em>str.</em>) &#8211; The command which is executed right now</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-VlpbConfig.Section">
+<span id="section-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">Section</span></tt> Module<a class="headerlink" href="#module-VlpbConfig.Section" title="Permalink to this headline">¶</a></h2>
+<p>Created on Jun 7, 2013</p>
+<p>&#64;author: Jetse</p>
+<dl class="class">
+<dt id="VlpbConfig.Section.Section">
+<em class="property">class </em><tt class="descclassname">VlpbConfig.Section.</tt><tt class="descname">Section</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/VlpbConfig/Section.html#Section"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#VlpbConfig.Section.Section" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="VlpbConfig.Section.Section.getAllOptions">
+<tt class="descname">getAllOptions</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/VlpbConfig/Section.html#Section.getAllOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#VlpbConfig.Section.Section.getAllOptions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="VlpbConfig.Section.Section.getOption">
+<tt class="descname">getOption</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/VlpbConfig/Section.html#Section.getOption"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#VlpbConfig.Section.Section.getOption" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="VlpbConfig.Section.Section.setOption">
+<tt class="descname">setOption</tt><big>(</big><em>name</em>, <em>value</em><big>)</big><a class="reference internal" href="_modules/VlpbConfig/Section.html#Section.setOption"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#VlpbConfig.Section.Section.setOption" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">VlpbConfig Package</a><ul>
+<li><a class="reference internal" href="#module-VlpbConfig.Configuration"><tt class="docutils literal"><span class="pre">Configuration</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-VlpbConfig.Logger"><tt class="docutils literal"><span class="pre">Logger</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-VlpbConfig.Section"><tt class="docutils literal"><span class="pre">Section</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="modules.html"
+                        title="previous chapter">VLPB</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="gui.html"
+                        title="next chapter">gui Package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/VlpbConfig.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="gui.html" title="gui Package"
+             >next</a></li>
+        <li class="right" >
+          <a href="modules.html" title="VLPB"
+             >previous</a> |</li>
+        <li><a href="index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >VLPB</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

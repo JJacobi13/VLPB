@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>snvCallers Package &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="index.html" />
+    <link rel="up" title="programs Package" href="programs.html" />
+    <link rel="next" title="tests Package" href="tests.html" />
+    <link rel="prev" title="phenotypeModel Package" href="programs.phenotyper.phenotypeModel.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="tests.html" title="tests Package"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="programs.phenotyper.phenotypeModel.html" title="phenotypeModel Package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >VLPB</a> &raquo;</li>
+          <li><a href="programs.html" accesskey="U">programs Package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="snvcallers-package">
+<h1>snvCallers Package<a class="headerlink" href="#snvcallers-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-programs.snvCallers.Gatk">
+<span id="gatk-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">Gatk</span></tt> Module<a class="headerlink" href="#module-programs.snvCallers.Gatk" title="Permalink to this headline">¶</a></h2>
+<p>Created on Sep 13, 2013</p>
+<p>&#64;author: Jetse</p>
+<dl class="class">
+<dt id="programs.snvCallers.Gatk.Gatk">
+<em class="property">class </em><tt class="descclassname">programs.snvCallers.Gatk.</tt><tt class="descname">Gatk</tt><big>(</big><em>pool</em>, <em>chromosome=None</em><big>)</big><a class="reference internal" href="_modules/programs/snvCallers/Gatk.html#Gatk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.snvCallers.Gatk.Gatk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#programs.snvCallers.SnvCaller.SnvCaller" title="programs.snvCallers.SnvCaller.SnvCaller"><tt class="xref py py-class docutils literal"><span class="pre">programs.snvCallers.SnvCaller.SnvCaller</span></tt></a></p>
+<dl class="method">
+<dt id="programs.snvCallers.Gatk.Gatk.callSnvs">
+<tt class="descname">callSnvs</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/programs/snvCallers/Gatk.html#Gatk.callSnvs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.snvCallers.Gatk.Gatk.callSnvs" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method samtoolsMpileup calls the single nucleotide variations of a pool with samtools mpileup.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pool</strong> (an instance of a <tt class="xref py py-class docutils literal"><span class="pre">Pool.Pool</span></tt> object) &#8211; the pool to call all SNVs from</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises :</th><td class="field-body">LookupError if the pool has no samples to execute samtools on</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-programs.snvCallers.SamtoolsMpileup">
+<span id="samtoolsmpileup-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">SamtoolsMpileup</span></tt> Module<a class="headerlink" href="#module-programs.snvCallers.SamtoolsMpileup" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="programs.snvCallers.SamtoolsMpileup.SamtoolsMpileup">
+<em class="property">class </em><tt class="descclassname">programs.snvCallers.SamtoolsMpileup.</tt><tt class="descname">SamtoolsMpileup</tt><big>(</big><em>pool</em>, <em>chromosome=None</em><big>)</big><a class="reference internal" href="_modules/programs/snvCallers/SamtoolsMpileup.html#SamtoolsMpileup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.snvCallers.SamtoolsMpileup.SamtoolsMpileup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">SnvCaller.SnvCaller</span></tt></p>
+<dl class="method">
+<dt id="programs.snvCallers.SamtoolsMpileup.SamtoolsMpileup.callSnvs">
+<tt class="descname">callSnvs</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/programs/snvCallers/SamtoolsMpileup.html#SamtoolsMpileup.callSnvs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.snvCallers.SamtoolsMpileup.SamtoolsMpileup.callSnvs" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method samtoolsMpileup calls the single nucleotide variations of a pool with samtools mpileup.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pool</strong> (an instance of a <tt class="xref py py-class docutils literal"><span class="pre">Pool.Pool</span></tt> object) &#8211; the pool to call all SNVs from</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises :</th><td class="field-body">LookupError if the pool has no samples to execute samtools on</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="programs.snvCallers.SamtoolsMpileup.executeSamtoolsCluster">
+<tt class="descclassname">programs.snvCallers.SamtoolsMpileup.</tt><tt class="descname">executeSamtoolsCluster</tt><big>(</big><em>pool</em><big>)</big><a class="reference internal" href="_modules/programs/snvCallers/SamtoolsMpileup.html#executeSamtoolsCluster"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.snvCallers.SamtoolsMpileup.executeSamtoolsCluster" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="programs.snvCallers.SamtoolsMpileup.executeSamtoolsMultiThreaded">
+<tt class="descclassname">programs.snvCallers.SamtoolsMpileup.</tt><tt class="descname">executeSamtoolsMultiThreaded</tt><big>(</big><em>pool</em><big>)</big><a class="reference internal" href="_modules/programs/snvCallers/SamtoolsMpileup.html#executeSamtoolsMultiThreaded"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.snvCallers.SamtoolsMpileup.executeSamtoolsMultiThreaded" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-programs.snvCallers.SnvCaller">
+<span id="snvcaller-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">SnvCaller</span></tt> Module<a class="headerlink" href="#module-programs.snvCallers.SnvCaller" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="programs.snvCallers.SnvCaller.SnvCaller">
+<em class="property">class </em><tt class="descclassname">programs.snvCallers.SnvCaller.</tt><tt class="descname">SnvCaller</tt><big>(</big><em>pool</em>, <em>chromosome=None</em><big>)</big><a class="reference internal" href="_modules/programs/snvCallers/SnvCaller.html#SnvCaller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.snvCallers.SnvCaller.SnvCaller" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">threading.Thread</span></tt>, <a class="reference internal" href="programs.html#programs.Program.Program" title="programs.Program.Program"><tt class="xref py py-class docutils literal"><span class="pre">programs.Program.Program</span></tt></a></p>
+<p>The SnvCaller class regulates all programs which can call the SNV&#8217;s</p>
+<dl class="method">
+<dt id="programs.snvCallers.SnvCaller.SnvCaller.callSnvs">
+<tt class="descname">callSnvs</tt><big>(</big><em>pool</em><big>)</big><a class="reference internal" href="_modules/programs/snvCallers/SnvCaller.html#SnvCaller.callSnvs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.snvCallers.SnvCaller.SnvCaller.callSnvs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="programs.snvCallers.SnvCaller.SnvCaller.checkInput">
+<tt class="descname">checkInput</tt><big>(</big><em>pool</em><big>)</big><a class="reference internal" href="_modules/programs/snvCallers/SnvCaller.html#SnvCaller.checkInput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#programs.snvCallers.SnvCaller.SnvCaller.checkInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method callSNVs checks if all conversion steps are executed on the bam file of all samples.
+Then the program to call SNVs with is read from the configuration file with the method: <tt class="xref py py-meth docutils literal"><span class="pre">Configuration.Configuration.getProgram()</span></tt>.
+After this check the read method is executed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="programs.snvCallers.SnvCaller.SnvCaller.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#programs.snvCallers.SnvCaller.SnvCaller.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">snvCallers Package</a><ul>
+<li><a class="reference internal" href="#module-programs.snvCallers.Gatk"><tt class="docutils literal"><span class="pre">Gatk</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-programs.snvCallers.SamtoolsMpileup"><tt class="docutils literal"><span class="pre">SamtoolsMpileup</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-programs.snvCallers.SnvCaller"><tt class="docutils literal"><span class="pre">SnvCaller</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="programs.phenotyper.phenotypeModel.html"
+                        title="previous chapter">phenotypeModel Package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tests.html"
+                        title="next chapter">tests Package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/programs.snvCallers.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="tests.html" title="tests Package"
+             >next</a></li>
+        <li class="right" >
+          <a href="programs.phenotyper.phenotypeModel.html" title="phenotypeModel Package"
+             >previous</a> |</li>
+        <li><a href="index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >VLPB</a> &raquo;</li>
+          <li><a href="programs.html" >programs Package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

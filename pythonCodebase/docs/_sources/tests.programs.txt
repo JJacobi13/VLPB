@@ -1,0 +1,59 @@
+programs Package
+================
+
+:mod:`LociTester` Module
+------------------------
+
+.. automodule:: tests.programs.LociTester
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`TestAllelicDiversity` Module
+----------------------------------
+
+.. automodule:: tests.programs.TestAllelicDiversity
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`TestConversionTools` Module
+---------------------------------
+
+.. automodule:: tests.programs.TestConversionTools
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`TestDecompressor` Module
+------------------------------
+
+.. automodule:: tests.programs.TestDecompressor
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`TestHaplotyper` Module
+----------------------------
+
+.. automodule:: tests.programs.TestHaplotyper
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`TestMapper` Module
+------------------------
+
+.. automodule:: tests.programs.TestMapper
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`TestSnvCaller` Module
+---------------------------
+
+.. automodule:: tests.programs.TestSnvCaller
+    :members:
+    :undoc-members:
+    :show-inheritance:
+

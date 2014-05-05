@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>programs.Decompressor &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for programs.Decompressor</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">programs</span> <span class="kn">import</span> <span class="n">Program</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">tarfile</span>
+
+<div class="viewcode-block" id="Decompressor"><a class="viewcode-back" href="../../programs.html#programs.Decompressor.Decompressor">[docs]</a><span class="k">class</span> <span class="nc">Decompressor</span><span class="p">(</span><span class="n">Program</span><span class="o">.</span><span class="n">Program</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The Decompressor class regulates all Decompress functions</span>
+<span class="sd">    </span>
+<span class="sd">    .. module:: programs</span>
+<span class="sd">    </span>
+<span class="sd">    .. moduleauthor:: Jetse Jacobi</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>    
+<div class="viewcode-block" id="Decompressor.extract"><a class="viewcode-back" href="../../programs.html#programs.Decompressor.Decompressor.extract">[docs]</a>    <span class="k">def</span> <span class="nf">extract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputFiles</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This function calls extractGz if the file .gz compressed, if this file is .tar.gz is compressed, the method extractTarGz is called</span>
+<span class="sd">        </span>
+<span class="sd">        :param inputFiles: The compressed .gz or . tar.gz files which have te be extracted</span>
+<span class="sd">        :type inputFilse: str[] -- the path to these files</span>
+<span class="sd">        :returns: str[] -- The paths to the extracted files</span>
+<span class="sd">        :raises: TypeError -- When the file type is not recognized</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">inputFiles</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;.tar.gz&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extractTarGz</span><span class="p">(</span><span class="n">inputFiles</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">inputFiles</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;.gz&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extractGz</span><span class="p">(</span><span class="n">inputFiles</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;Unrecognized file format!&quot;</span><span class="p">)</span>
+    </div>
+    <span class="k">def</span> <span class="nf">_extractGz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputFiles</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This function extracts the .gz compressed files</span>
+<span class="sd">        </span>
+<span class="sd">        :param inputFiles: The .gz file to extract</span>
+<span class="sd">        :type inputFiles: str[] -- the path to these files</span>
+<span class="sd">        :returns: str. -- The paths to the extracted files</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">outFiles</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inputFiles</span><span class="p">)):</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&quot;\.([a-zA-Z0-9]*)\.gz&quot;</span><span class="p">,</span> <span class="n">inputFiles</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">outFiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getOutputFile</span><span class="p">(</span><span class="s">&quot;_&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;.&quot;</span> <span class="o">+</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
+            <span class="n">cmd</span> <span class="o">=</span> <span class="s">&quot;gunzip -c &quot;</span> <span class="o">+</span> <span class="n">inputFiles</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot; &gt; &quot;</span> <span class="o">+</span> <span class="n">outFiles</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="s">&quot;gunzip&quot;</span><span class="p">,</span> <span class="n">outFiles</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">outFiles</span>
+    
+    <span class="k">def</span> <span class="nf">_extractTarGz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputFiles</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This function extracts the given .tar.gz compressed files</span>
+<span class="sd">        </span>
+<span class="sd">        :param inputFile: The .tar.gz file to extract</span>
+<span class="sd">        :type inputFile: str.</span>
+<span class="sd">        :returns: str. -- The path to the extracted file</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">outFiles</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">inputFile</span> <span class="ow">in</span> <span class="n">inputFiles</span><span class="p">:</span>
+            <span class="n">tar</span> <span class="o">=</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">inputFile</span><span class="p">,</span> <span class="s">&quot;r:gz&quot;</span><span class="p">)</span>
+            <span class="n">filesInTar</span> <span class="o">=</span> <span class="n">tar</span><span class="o">.</span><span class="n">getmembers</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">fileInTar</span> <span class="ow">in</span> <span class="n">filesInTar</span><span class="p">:</span>
+                <span class="n">outFiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getOutputDir</span><span class="p">()</span> <span class="o">+</span> <span class="n">fileInTar</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">tar</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">fileInTar</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOutputDir</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">outFiles</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

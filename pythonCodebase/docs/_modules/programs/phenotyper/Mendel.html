@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>programs.phenotyper.Mendel &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for programs.phenotyper.Mendel</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+<div class="viewcode-block" id="Mendel"><a class="viewcode-back" href="../../../programs.phenotyper.html#programs.phenotyper.Mendel.Mendel">[docs]</a><span class="k">class</span> <span class="nc">Mendel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The Mendel class does all difficult calculations to calculate the phenotype of the haplotype.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="Mendel.calculatePhenotypeChances"><a class="viewcode-back" href="../../../programs.phenotyper.html#programs.phenotyper.Mendel.Mendel.calculatePhenotypeChances">[docs]</a>    <span class="k">def</span> <span class="nf">calculatePhenotypeChances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phenotype</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method calculatePhenotypeChances constructs an dictionary with dictionaries.</span>
+<span class="sd">        The key of the first dictionary is a haplotype, the value is a dictionary with all chances on an allele.</span>
+<span class="sd">        In this second dictionary the key is the allele and the value is the chance on this allele.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">contigsWithSnps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">hapChancesPerContig</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">contig</span> <span class="ow">in</span> <span class="n">phenotype</span><span class="o">.</span><span class="n">contigs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">contig</span><span class="o">.</span><span class="n">snps</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">contigsWithSnps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">contig</span><span class="p">)</span>
+            <span class="n">haplotypes</span> <span class="o">=</span> <span class="n">contig</span><span class="o">.</span><span class="n">haplotypes</span>
+            <span class="n">hapToAllele</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHaplotypeToAlleleConversionDict</span><span class="p">(</span><span class="n">haplotypes</span><span class="p">,</span> <span class="n">phenotype</span><span class="p">)</span> 
+            <span class="n">hapChances</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">haplotype</span> <span class="ow">in</span> <span class="n">hapToAllele</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isNumeric</span><span class="p">(</span><span class="n">phenotype</span><span class="o">.</span><span class="n">alleles</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+                    <span class="n">hapChances</span><span class="p">[</span><span class="n">haplotype</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculateAverageHaplotype</span><span class="p">(</span><span class="n">hapToAllele</span><span class="p">[</span><span class="n">haplotype</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">hapChances</span><span class="p">[</span><span class="n">haplotype</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculateChances</span><span class="p">(</span><span class="n">hapToAllele</span><span class="p">[</span><span class="n">haplotype</span><span class="p">])</span>
+            <span class="n">hapChancesPerContig</span><span class="p">[</span><span class="n">contig</span><span class="p">]</span> <span class="o">=</span> <span class="n">hapChances</span>
+        <span class="k">return</span> <span class="n">hapChancesPerContig</span>
+          
+         
+           </div>
+<div class="viewcode-block" id="Mendel.getHaplotypeToAlleleConversionDict"><a class="viewcode-back" href="../../../programs.phenotyper.html#programs.phenotyper.Mendel.Mendel.getHaplotypeToAlleleConversionDict">[docs]</a>    <span class="k">def</span> <span class="nf">getHaplotypeToAlleleConversionDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">haplotypes</span><span class="p">,</span> <span class="n">phenotype</span><span class="p">):</span>  
+        <span class="n">haplotypeToAllele</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">haplotype</span> <span class="ow">in</span> <span class="n">haplotypes</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">accession</span> <span class="ow">in</span> <span class="n">haplotypes</span><span class="p">[</span><span class="n">haplotype</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">haplotype</span> <span class="ow">in</span> <span class="n">haplotypeToAllele</span><span class="p">:</span>
+                    <span class="n">haplotypeToAllele</span><span class="p">[</span><span class="n">haplotype</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phenotype</span><span class="o">.</span><span class="n">alleles</span><span class="p">[</span><span class="n">accession</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">haplotypeToAllele</span><span class="p">[</span><span class="n">haplotype</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">phenotype</span><span class="o">.</span><span class="n">alleles</span><span class="p">[</span><span class="n">accession</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">haplotypeToAllele</span>
+               
+    </div>
+    <span class="k">def</span> <span class="nf">_calculateAverageHaplotype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">values</span><span class="p">))</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">))</span>
+        
+    <span class="k">def</span> <span class="nf">_calculateChances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alleles</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method _calculateChances calculates the chance on a allele of a given set of phenotypes</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">alleles</span><span class="p">)</span>
+  
+        <span class="n">chances</span><span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">allele</span> <span class="ow">in</span> <span class="n">counts</span><span class="p">:</span>
+            <span class="n">chances</span><span class="p">[</span><span class="n">allele</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">counts</span><span class="p">[</span><span class="n">allele</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">counts</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">chances</span>
+            
+<div class="viewcode-block" id="Mendel.isNumeric"><a class="viewcode-back" href="../../../programs.phenotyper.html#programs.phenotyper.Mendel.Mendel.isNumeric">[docs]</a>    <span class="k">def</span> <span class="nf">isNumeric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">array</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span> 
+                <span class="nb">float</span><span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">return</span> <span class="bp">True</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span>
+    
+        </div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

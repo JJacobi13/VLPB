@@ -1,0 +1,365 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>model Package &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="index.html" />
+    <link rel="up" title="VLPB" href="modules.html" />
+    <link rel="next" title="cluster Package" href="model.cluster.html" />
+    <link rel="prev" title="main Package" href="main.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="model.cluster.html" title="cluster Package"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="main.html" title="main Package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="modules.html" accesskey="U">VLPB</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="model-package">
+<h1>model Package<a class="headerlink" href="#model-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-model.BamFile">
+<span id="bamfile-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">BamFile</span></tt> Module<a class="headerlink" href="#module-model.BamFile" title="Permalink to this headline">¶</a></h2>
+<p>Created on Jun 21, 2013</p>
+<p>&#64;author: Jetse</p>
+<dl class="class">
+<dt id="model.BamFile.BamFile">
+<em class="property">class </em><tt class="descclassname">model.BamFile.</tt><tt class="descname">BamFile</tt><big>(</big><em>pool</em>, <em>sample</em>, <em>fileName=None</em>, <em>sam=False</em>, <em>sortedBam=False</em>, <em>headerLine=False</em>, <em>duplicates=True</em>, <em>mdTag=False</em>, <em>index=False</em><big>)</big><a class="reference internal" href="_modules/model/BamFile.html#BamFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.BamFile.BamFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">File.File</span></tt></p>
+<p>The bamFile represents a sam or bam file and contains instance variables to indicate the processes used on this bam file</p>
+<dl class="method">
+<dt id="model.BamFile.BamFile.getSuffix">
+<tt class="descname">getSuffix</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/model/BamFile.html#BamFile.getSuffix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.BamFile.BamFile.getSuffix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-model.BeagleFile">
+<span id="beaglefile-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">BeagleFile</span></tt> Module<a class="headerlink" href="#module-model.BeagleFile" title="Permalink to this headline">¶</a></h2>
+<p>Created on Jun 21, 2013</p>
+<p>&#64;author: Jetse</p>
+<dl class="class">
+<dt id="model.BeagleFile.BeagleFile">
+<em class="property">class </em><tt class="descclassname">model.BeagleFile.</tt><tt class="descname">BeagleFile</tt><big>(</big><em>pool</em>, <em>chrom</em>, <em>fileName=None</em>, <em>beageleInput=True</em><big>)</big><a class="reference internal" href="_modules/model/BeagleFile.html#BeagleFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.BeagleFile.BeagleFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">File.File</span></tt></p>
+<p>The BeagleFile represents a BeagleFile file and contains instance variables to indicate the processes used on this BeagleFile file.
+The beaglefile contains multiple output files.</p>
+<dl class="method">
+<dt id="model.BeagleFile.BeagleFile.getFile">
+<tt class="descname">getFile</tt><big>(</big><em>outFile=None</em><big>)</big><a class="headerlink" href="#model.BeagleFile.BeagleFile.getFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method getFile overrides the super method getFile. When there is no outFile given, the index is returned.
+Else the output file of the given outFile is returned. When an file is compressed, the decompressed file is returned!
+Beagle returns compressed files by default.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>outFile</strong> (<em>&#8220;dose&#8221;, &#8220;gprobs&#8221; or &#8220;phased&#8221;</em>) &#8211; The file where to get the (extracted) filename of</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the name of the (extracted) file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.BeagleFile.BeagleFile.getSuffix">
+<tt class="descname">getSuffix</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/model/BeagleFile.html#BeagleFile.getSuffix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.BeagleFile.BeagleFile.getSuffix" title="Permalink to this definition">¶</a></dt>
+<dd><p>implements the getSuffix of the file object. In the beagle file it is an prefix
+returns the chromosome for not overwriting files with differend chromosomes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.BeagleFile.BeagleFile.setFile">
+<tt class="descname">setFile</tt><big>(</big><em>fileName</em><big>)</big><a class="headerlink" href="#model.BeagleFile.BeagleFile.setFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overrides the setFile of the <tt class="xref py py-class docutils literal"><span class="pre">File.File</span></tt> sets all files to the automatic generated files of beagle.
+:param fileName: The index filename of the beagle output
+:type fileName: str. &#8211; path to the file + index</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-model.FastqFile">
+<span id="fastqfile-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">FastqFile</span></tt> Module<a class="headerlink" href="#module-model.FastqFile" title="Permalink to this headline">¶</a></h2>
+<p>Created on Jun 21, 2013</p>
+<p>&#64;author: Jetse</p>
+<dl class="class">
+<dt id="model.FastqFile.FastqFile">
+<em class="property">class </em><tt class="descclassname">model.FastqFile.</tt><tt class="descname">FastqFile</tt><big>(</big><em>pool</em>, <em>sample</em>, <em>fileName=None</em>, <em>forward=True</em>, <em>hq=False</em><big>)</big><a class="reference internal" href="_modules/model/FastqFile.html#FastqFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.FastqFile.FastqFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">File.File</span></tt></p>
+<p>The FastqFile represents a fq file and contains instance variables to indicate the processes used on this fq file
+This fastq file holds the forward and reversed reads in an array list of files</p>
+<dl class="method">
+<dt id="model.FastqFile.FastqFile.getSuffix">
+<tt class="descname">getSuffix</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/model/FastqFile.html#FastqFile.getSuffix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.FastqFile.FastqFile.getSuffix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-model.File">
+<span id="file-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">File</span></tt> Module<a class="headerlink" href="#module-model.File" title="Permalink to this headline">¶</a></h2>
+<p>Created on Jun 21, 2013</p>
+<p>&#64;author: Jetse</p>
+<dl class="class">
+<dt id="model.File.File">
+<em class="property">class </em><tt class="descclassname">model.File.</tt><tt class="descname">File</tt><big>(</big><em>pool</em>, <em>sample=None</em>, <em>fileName=None</em><big>)</big><a class="reference internal" href="_modules/model/File.html#File"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.File.File" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>The File object represents a file. This is an abstract object, so can not be instantiated.</p>
+<dl class="attribute">
+<dt id="model.File.File.fileName">
+<tt class="descname">fileName</tt><a class="headerlink" href="#model.File.File.fileName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter for getting the filename so always the absolute path is returned.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.File.File.getFile">
+<tt class="descname">getFile</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/model/File.html#File.getFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.File.File.getFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method returns the filename, if the file is compressed, the extracted file will be returned.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.File.File.getNewFileName">
+<tt class="descname">getNewFileName</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/model/File.html#File.getNewFileName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.File.File.getNewFileName" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple getter for retrieving a new filename without overwriting the old one.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.File.File.getPreferredFileName">
+<tt class="descname">getPreferredFileName</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/model/File.html#File.getPreferredFileName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.File.File.getPreferredFileName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter for retrieving the preferred file name of a file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.File.File.getSuffix">
+<tt class="descname">getSuffix</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/model/File.html#File.getSuffix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.File.File.getSuffix" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method getSuffix returns the suffix of a file.
+this method is implemented in all subclasses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises :</th><td class="field-body">a NotImplementedError when this method is not implemented in a subclass</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.File.File.setFile">
+<tt class="descname">setFile</tt><big>(</big><em>fileName</em><big>)</big><a class="reference internal" href="_modules/model/File.html#File.setFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.File.File.setFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method setFile removes the old file and puts the new file in place with the preferred name of a file.
+:param fileName: The name of the new file
+:type fileName: Str. &#8211; path to the new file</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-model.Pool">
+<span id="pool-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">Pool</span></tt> Module<a class="headerlink" href="#module-model.Pool" title="Permalink to this headline">¶</a></h2>
+<p>Created on Jun 21, 2013</p>
+<p>&#64;author: Jetse</p>
+<dl class="class">
+<dt id="model.Pool.Pool">
+<em class="property">class </em><tt class="descclassname">model.Pool.</tt><tt class="descname">Pool</tt><big>(</big><em>poolName</em>, <em>outputDir</em><big>)</big><a class="reference internal" href="_modules/model/Pool.html#Pool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.Pool.Pool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>The Pool object represents a pool of samples where programs can be executed on</p>
+<dl class="method">
+<dt id="model.Pool.Pool.addBeagleFile">
+<tt class="descname">addBeagleFile</tt><big>(</big><em>chrom</em><big>)</big><a class="headerlink" href="#model.Pool.Pool.addBeagleFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method for adding a beagle file to the dictionary of beaglefiles.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.Pool.Pool.addSample">
+<tt class="descname">addSample</tt><big>(</big><em>sample</em><big>)</big><a class="reference internal" href="_modules/model/Pool.html#Pool.addSample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.Pool.Pool.addSample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method for adding a sample to the arraylist of samples</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.Pool.Pool.configureLogging">
+<tt class="descname">configureLogging</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#model.Pool.Pool.configureLogging" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="model.Pool.Pool.outputDir">
+<tt class="descname">outputDir</tt><a class="headerlink" href="#model.Pool.Pool.outputDir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter for the output directory, for always retrieving the absolute path of this directory</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="model.Pool.run_once">
+<tt class="descclassname">model.Pool.</tt><tt class="descname">run_once</tt><big>(</big><em>f</em><big>)</big><a class="headerlink" href="#model.Pool.run_once" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple decorator method to run a function only once in the program.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-model.Sample">
+<span id="sample-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">Sample</span></tt> Module<a class="headerlink" href="#module-model.Sample" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="model.Sample.Sample">
+<em class="property">class </em><tt class="descclassname">model.Sample.</tt><tt class="descname">Sample</tt><big>(</big><em>pool</em>, <em>libName</em><big>)</big><a class="reference internal" href="_modules/model/Sample.html#Sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.Sample.Sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>The sample class represents a sample.</p>
+<dl class="method">
+<dt id="model.Sample.Sample.setForwardFq">
+<tt class="descname">setForwardFq</tt><big>(</big><em>fileName</em><big>)</big><a class="reference internal" href="_modules/model/Sample.html#Sample.setForwardFq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.Sample.Sample.setForwardFq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setter for setting the forward fastq file as a <tt class="xref py py-class docutils literal"><span class="pre">FastqFile.FastqFile</span></tt></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.Sample.Sample.setReversedFq">
+<tt class="descname">setReversedFq</tt><big>(</big><em>fileName</em><big>)</big><a class="reference internal" href="_modules/model/Sample.html#Sample.setReversedFq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.Sample.Sample.setReversedFq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setter for setting the reversed fastq file as a <tt class="xref py py-class docutils literal"><span class="pre">FastqFile.FastqFile</span></tt></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="model.Sample.Sample.setbam">
+<tt class="descname">setbam</tt><big>(</big><em>fileName</em><big>)</big><a class="reference internal" href="_modules/model/Sample.html#Sample.setbam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.Sample.Sample.setbam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setter for setting the bam file as a <tt class="xref py py-class docutils literal"><span class="pre">FastqFile.FastqFile</span></tt></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-model.VcfFile">
+<span id="vcffile-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">VcfFile</span></tt> Module<a class="headerlink" href="#module-model.VcfFile" title="Permalink to this headline">¶</a></h2>
+<p>Created on Jun 21, 2013</p>
+<p>&#64;author: Jetse</p>
+<dl class="class">
+<dt id="model.VcfFile.VcfFile">
+<em class="property">class </em><tt class="descclassname">model.VcfFile.</tt><tt class="descname">VcfFile</tt><big>(</big><em>pool</em>, <em>fileName=None</em>, <em>bcf=False</em>, <em>filtered=False</em>, <em>phased=False</em>, <em>chrom=None</em><big>)</big><a class="reference internal" href="_modules/model/VcfFile.html#VcfFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.VcfFile.VcfFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">File.File</span></tt></p>
+<p>The VcfFile represents a vcf or bcf file and contains instance variables to indicate the processes used on this vcf file</p>
+<dl class="method">
+<dt id="model.VcfFile.VcfFile.getSuffix">
+<tt class="descname">getSuffix</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/model/VcfFile.html#VcfFile.getSuffix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#model.VcfFile.VcfFile.getSuffix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="model.cluster.html">cluster Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="model.cluster.html#module-model.cluster.ClusterJob"><tt class="docutils literal"><span class="pre">ClusterJob</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.cluster.html#module-model.cluster.Grid"><tt class="docutils literal"><span class="pre">Grid</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.cluster.html#module-model.cluster.Node"><tt class="docutils literal"><span class="pre">Node</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">model Package</a><ul>
+<li><a class="reference internal" href="#module-model.BamFile"><tt class="docutils literal"><span class="pre">BamFile</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-model.BeagleFile"><tt class="docutils literal"><span class="pre">BeagleFile</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-model.FastqFile"><tt class="docutils literal"><span class="pre">FastqFile</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-model.File"><tt class="docutils literal"><span class="pre">File</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-model.Pool"><tt class="docutils literal"><span class="pre">Pool</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-model.Sample"><tt class="docutils literal"><span class="pre">Sample</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-model.VcfFile"><tt class="docutils literal"><span class="pre">VcfFile</span></tt> Module</a></li>
+<li><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="main.html"
+                        title="previous chapter">main Package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="model.cluster.html"
+                        title="next chapter">cluster Package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/model.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="model.cluster.html" title="cluster Package"
+             >next</a></li>
+        <li class="right" >
+          <a href="main.html" title="main Package"
+             >previous</a> |</li>
+        <li><a href="index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >VLPB</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

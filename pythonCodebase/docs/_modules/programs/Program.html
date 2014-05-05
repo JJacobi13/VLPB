@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>programs.Program &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for programs.Program</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">.. module::programs</span>
+
+<span class="sd">.. moduleauthor:: Jetse Jacobi &lt;jetsejacobi@gmail.com&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">VlpbConfig</span> <span class="kn">import</span> <span class="n">Configuration</span><span class="p">,</span><span class="n">Logger</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">PIPE</span>
+
+<div class="viewcode-block" id="Program"><a class="viewcode-back" href="../../programs.html#programs.Program.Program">[docs]</a><span class="k">class</span> <span class="nc">Program</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The Program is a class which represents a program.</span>
+<span class="sd">    All information the programs need are set to class variables in the constructor of the program class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span><span class="o">=</span><span class="bp">None</span>
+    <span class="n">logger</span><span class="o">=</span><span class="bp">None</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputDir</span><span class="p">,</span> <span class="n">refGenome</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">libName</span><span class="o">=</span><span class="s">&quot;unknown&quot;</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s">&quot;VlpbConfig/config.ini&quot;</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;The constructor of program sets the arguments which the most of the programs need. A sub directory is created for the library.</span>
+<span class="sd">        </span>
+<span class="sd">        :param outputDir: The output directory where to write all files too</span>
+<span class="sd">        :type outputDir: str.</span>
+<span class="sd">        :param refGenome: The reference genome, needed by many programs but not all, so default is set to None</span>
+<span class="sd">        :type refGenome: str.</span>
+<span class="sd">        :param libName: The name of the library</span>
+<span class="sd">        :type libName: str.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    
+        <span class="k">if</span> <span class="n">Program</span><span class="o">.</span><span class="n">config</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">Program</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">Configuration</span><span class="o">.</span><span class="n">Config</span><span class="p">(</span><span class="n">configFile</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">Program</span><span class="o">.</span><span class="n">logger</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">Program</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="n">Logger</span><span class="p">(</span><span class="n">outputDir</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span> <span class="o">+</span> <span class="n">libName</span> <span class="o">+</span> <span class="s">&quot;.log&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputDir</span> <span class="o">=</span> <span class="n">outputDir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refGenome</span> <span class="o">=</span> <span class="n">refGenome</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">libName</span> <span class="o">=</span> <span class="n">libName</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">outputDir</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">outputDir</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getOutputDir</span><span class="p">()):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getOutputDir</span><span class="p">())</span>
+        
+<div class="viewcode-block" id="Program.getOutputFile"><a class="viewcode-back" href="../../programs.html#programs.Program.Program.getOutputFile">[docs]</a>    <span class="k">def</span> <span class="nf">getOutputFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">progressSuffix</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method gets the output fileName</span>
+<span class="sd">        </span>
+<span class="sd">        :param progressSuffix:The name of the progessSuffix represents the part where the file is in the pipeline</span>
+<span class="sd">        :type progressSuffix: one of these suffices:</span>
+<span class="sd">            - &#39;.tar.gz&#39; or &#39;.gz&#39;: The file is compressed, only can contain one fq file! </span>
+<span class="sd">            - &#39;.fq&#39; fastq format without quality control</span>
+<span class="sd">            - &#39;Hq.fq&#39; fastq format where quality control is done</span>
+<span class="sd">            - &#39;.sam&#39; sam file</span>
+<span class="sd">            - &#39;.bam&#39; unsorted bam file</span>
+<span class="sd">            - &#39;Sorted.bam&#39; The bam file is sorted</span>
+<span class="sd">            - &#39;WithHeader.bam&#39; The bam file can be used for GATK</span>
+<span class="sd">        </span>
+<span class="sd">	:returns: the output file with the progress suffix</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOutputDir</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">libName</span> <span class="o">+</span> <span class="n">progressSuffix</span>
+   </div>
+<div class="viewcode-block" id="Program.getOutputDir"><a class="viewcode-back" href="../../programs.html#programs.Program.Program.getOutputDir">[docs]</a>    <span class="k">def</span> <span class="nf">getOutputDir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method returns the output directory</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: the output directory</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputDir</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">libName</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span>
+</div>
+<div class="viewcode-block" id="Program.execute"><a class="viewcode-back" href="../../programs.html#programs.Program.Program.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">programName</span><span class="p">,</span> <span class="n">outputFile</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method executes the command created by its children</span>
+<span class="sd">        </span>
+<span class="sd">        :param command: The command to execute</span>
+<span class="sd">        :type command: str.</span>
+<span class="sd">        :param outputFile: The output file which will be checked if already exists, also will be added to the :class:`.GarbageCollector`</span>
+<span class="sd">        :type outputFile: str.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">nextProgram</span><span class="p">(</span><span class="n">programName</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">outputFile</span> <span class="o">!=</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">checkProgramExecuted</span><span class="p">(</span><span class="n">outputFile</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">logOut</span><span class="p">(</span><span class="s">&quot;Output of command: &quot;</span> <span class="o">+</span> <span class="n">command</span> <span class="o">+</span> <span class="s">&quot;already executed.</span><span class="se">\n</span><span class="s">Skipping this command&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;executing: &quot;</span> <span class="o">+</span> <span class="n">programName</span><span class="p">)</span>
+            <span class="n">error</span><span class="p">,</span><span class="n">output</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">logOut</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">logError</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;Finished!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Program.getProgramArguments"><a class="viewcode-back" href="../../programs.html#programs.Program.Program.getProgramArguments">[docs]</a>    <span class="k">def</span> <span class="nf">getProgramArguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">programName</span><span class="p">):</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">Program</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getProgramOptions</span><span class="p">(</span><span class="n">programName</span><span class="p">)</span>
+        <span class="n">argsCmd</span> <span class="o">=</span> <span class="s">&quot; &quot;</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+            <span class="n">argsCmd</span> <span class="o">=</span> <span class="n">argsCmd</span> <span class="o">+</span> <span class="n">arg</span> <span class="o">+</span> <span class="s">&quot; &quot;</span>
+            <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="n">arg</span><span class="p">]:</span>
+                <span class="n">argsCmd</span> <span class="o">=</span> <span class="n">argsCmd</span> <span class="o">+</span> <span class="n">args</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot; &quot;</span>
+        <span class="k">return</span> <span class="n">argsCmd</span>
+</div>
+<div class="viewcode-block" id="Program.checkProgramExecuted"><a class="viewcode-back" href="../../programs.html#programs.Program.Program.checkProgramExecuted">[docs]</a>    <span class="k">def</span> <span class="nf">checkProgramExecuted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputFile</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">outputFile</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">outputFile</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

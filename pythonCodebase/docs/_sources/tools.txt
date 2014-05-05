@@ -1,0 +1,19 @@
+tools Package
+=============
+
+:mod:`Tools` Module
+-------------------
+
+.. automodule:: tools.Tools
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`getAccessionsWithPheno` Module
+------------------------------------
+
+.. automodule:: tools.getAccessionsWithPheno
+    :members:
+    :undoc-members:
+    :show-inheritance:
+

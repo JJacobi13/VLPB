@@ -1,0 +1,7 @@
+##sequence-region SL2.40ch12 1 65486253
+SL2.40ch11_22900-24100	ITAG_eugene	gene	1	200	.	-	.	Alias=Solyc12g005000;ID=gene:Solyc12g005000.1;Name=Solyc12g005000.1;from_BOGAS=1;length=273
+SL2.40ch11_22900-24100	ITAG_eugene	mRNA	1065	1337	.	-	.	ID=mRNA:Solyc12g005000.1.1;Name=Solyc12g005000.1.1;Note=Unknown Protein (AHRD V1);Parent=gene:Solyc12g005000.1;from_BOGAS=1;length=273;nb_exon=1;eugene_evidence_code=10F0H0E0IEG
+SL2.40ch11_22900-24100	ITAG_eugene	exon	1065	1337	.	-	0	ID=exon:Solyc12g005000.1.1.1;Parent=mRNA:Solyc12g005000.1.1;from_BOGAS=1
+SL2.40ch11_22900-24100	ITAG_eugene	CDS	1065	1337	.	-	0	ID=CDS:Solyc12g005000.1.1.1;Parent=mRNA:Solyc12g005000.1.1;from_BOGAS=1
+SL2.40ch11_22900-24100	ITAG_eugene	gene	300	500	.	+	.	Alias=Solyc12g005010;ID=gene:Solyc12g005010.1;Name=Solyc12g005010.1;from_BOGAS=1;length=3272
+SL2.40ch11_22900-24100	ITAG_eugene	gene	600	800	.	+	.	Alias=Solyc12g005010;ID=gene:Solyc12g005010.1;Name=Solyc12g005020.1;from_BOGAS=1;length=3272

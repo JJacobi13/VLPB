@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>programs.Haplotyper &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for programs.Haplotyper</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">programs</span> <span class="kn">import</span> <span class="n">Program</span><span class="p">,</span> <span class="n">SnvCaller</span>
+<span class="kn">import</span> <span class="nn">csv</span><span class="o">,</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">model</span> <span class="kn">import</span> <span class="n">BeagleFile</span>
+
+<div class="viewcode-block" id="Haplotyper"><a class="viewcode-back" href="../../programs.html#programs.Haplotyper.Haplotyper">[docs]</a><span class="k">class</span> <span class="nc">Haplotyper</span><span class="p">(</span><span class="n">Program</span><span class="o">.</span><span class="n">Program</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The Haplotyper class regulates the haplotyping of a vcf file</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="Haplotyper.callHaplotypes"><a class="viewcode-back" href="../../programs.html#programs.Haplotyper.Haplotyper.callHaplotypes">[docs]</a>    <span class="k">def</span> <span class="nf">callHaplotypes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pool</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method callHaplotypes calls the haplotypes of a vcf file. When the vcf file is not set, first the SNVs are called with the :py:class:`SnvCaller.SnvCaller` object</span>
+<span class="sd">        In future when multiple programs for haplotyping are implemented, here the check will be performed which haplotyper to execute. First only beagle is implemented so this method will be called</span>
+<span class="sd">        :param pool: The pool a haplotyping tools has to be executed on</span>
+<span class="sd">        :type pool: an instance of a :py:class:`Pool.Pool` object</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">pool</span><span class="o">.</span><span class="n">vcf</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sc</span> <span class="o">=</span> <span class="n">SnvCaller</span><span class="o">.</span><span class="n">SnvCaller</span><span class="p">(</span><span class="n">pool</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sc</span><span class="o">.</span><span class="n">callSNVs</span><span class="p">(</span><span class="n">pool</span><span class="p">)</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">_executeBeagle</span><span class="p">(</span><span class="n">pool</span><span class="p">)</span>
+    </div>
+    <span class="k">def</span> <span class="nf">_executeBeagle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pool</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method executeBeagle executes beagle. First the vcf file is converted to a format beagle needs, then beagle is executed.</span>
+<span class="sd">        :param pool: The pool beagle has to executed on</span>
+<span class="sd">        :type pool: an instance of a :py:class:`Pool.Pool` object</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">pool</span><span class="o">.</span><span class="n">vcf</span><span class="o">.</span><span class="n">bcf</span><span class="o">==</span><span class="bp">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sc</span><span class="o">.</span><span class="n">callSNVs</span><span class="p">(</span><span class="n">pool</span><span class="p">)</span>
+        
+        <span class="n">prefixes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_createBeagleInput</span><span class="p">(</span><span class="n">pool</span><span class="p">)</span>
+        <span class="n">newPrefixes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">prefixes</span><span class="p">:</span>
+            <span class="n">inputFile</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s">&quot;.BEAGLE.PL&quot;</span>
+            <span class="n">cmd</span> <span class="o">=</span> <span class="s">&quot;java -jar &quot;</span> <span class="o">+</span> <span class="n">pool</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getProgramPath</span><span class="p">(</span><span class="s">&quot;beagle&quot;</span><span class="p">)</span>  <span class="o">+</span> <span class="s">&quot; like=&quot;</span> <span class="o">+</span> <span class="n">inputFile</span> <span class="o">+</span> <span class="s">&quot; out=&quot;</span> <span class="o">+</span> <span class="n">pool</span><span class="o">.</span><span class="n">outputDir</span> <span class="o">+</span> <span class="s">&quot;out&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="s">&quot;beagle&quot;</span><span class="p">,</span> <span class="n">pool</span><span class="o">.</span><span class="n">beagleOut</span><span class="p">)</span>
+            <span class="n">newPrefixes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">outputDir</span> <span class="o">+</span> <span class="s">&quot;out.&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">prefix</span><span class="p">))</span>
+            
+        <span class="k">return</span> <span class="n">newPrefixes</span>
+        
+    <span class="k">def</span> <span class="nf">_createBeagleInput</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pool</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method createBeagleInput prepares the vcf file of a pool for using this vcf file with beagle.</span>
+<span class="sd">        :param pool: The pool beagle has to executed on</span>
+<span class="sd">        :type pool: an instance of a :py:class:`Pool.Pool` object</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="n">outputFilePrefixes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">chrIndex</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getChromosomes</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">refGenome</span><span class="p">):</span>
+            <span class="n">pool</span><span class="o">.</span><span class="n">beagleOut</span> <span class="o">=</span> <span class="n">BeagleFile</span><span class="o">.</span><span class="n">BeagleFile</span><span class="p">(</span><span class="n">pool</span><span class="p">,</span> <span class="n">chrom</span><span class="o">=</span><span class="n">chrIndex</span><span class="p">)</span>
+            <span class="n">outputPrefix</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">beagleOut</span><span class="o">.</span><span class="n">getPreferredFileName</span><span class="p">()</span>
+            
+            <span class="c">#build the command</span>
+            <span class="n">cmd</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getProgramPath</span><span class="p">(</span><span class="s">&quot;vcftools&quot;</span><span class="p">)</span> 
+            <span class="k">if</span> <span class="n">pool</span><span class="o">.</span><span class="n">vcf</span><span class="o">.</span><span class="n">bcf</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span> <span class="o">+</span> <span class="s">&quot; --bcf &quot;</span> <span class="o">+</span> <span class="n">pool</span><span class="o">.</span><span class="n">vcf</span><span class="o">.</span><span class="n">getFile</span><span class="p">()</span> 
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span> <span class="o">+</span> <span class="s">&quot; --vcf &quot;</span> <span class="o">+</span> <span class="n">pool</span><span class="o">.</span><span class="n">vcf</span><span class="o">.</span><span class="n">getFile</span><span class="p">()</span> 
+            <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span> <span class="o">+</span> <span class="s">&quot; --out &quot;</span> <span class="o">+</span> <span class="n">outputPrefix</span> <span class="o">+</span> <span class="s">&quot; --chr &quot;</span> <span class="o">+</span> <span class="n">chrIndex</span> <span class="o">+</span> <span class="s">&quot; --BEAGLE-PL&quot;</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="s">&quot;vcftools&quot;</span><span class="p">,</span> <span class="n">pool</span><span class="o">.</span><span class="n">vcf</span><span class="p">)</span>
+            <span class="n">outputFilePrefixes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">outputPrefix</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">outputFilePrefixes</span>
+        
+    <span class="k">def</span> <span class="nf">_getChromosomes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">refGenome</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method getChromosomes retrieves the chromosomes of a reference file</span>
+<span class="sd">        :param refGenome: path to the reference genome where to retrieve the reference sequences from</span>
+<span class="sd">        :type refGenome: str</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">refIndex</span> <span class="o">=</span> <span class="n">refGenome</span> <span class="o">+</span> <span class="s">&quot;.fai&quot;</span>
+        <span class="n">chromosomes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">refIndex</span><span class="p">)</span> <span class="k">as</span> <span class="n">indexFile</span><span class="p">:</span>
+            <span class="n">indexReader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">indexFile</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">indexReader</span><span class="p">:</span>
+                <span class="n">chromosomes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">chromosomes</span>
+                </div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

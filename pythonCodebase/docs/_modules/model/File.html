@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>model.File &mdash; VLPB 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="VLPB 0.2 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for model.File</h1><div class="highlight"><pre>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Created on Jun 21, 2013</span>
+
+<span class="sd">@author: Jetse</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">programs</span> <span class="kn">import</span> <span class="n">Decompressor</span>
+<span class="kn">import</span> <span class="nn">abc</span><span class="o">,</span> <span class="nn">os</span>
+
+<div class="viewcode-block" id="File"><a class="viewcode-back" href="../../model.html#model.File.File">[docs]</a><span class="k">class</span> <span class="nc">File</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The File object represents a file. This is an abstract object, so can not be instantiated.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pool</span><span class="p">,</span> <span class="n">sample</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fileName</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A file always has a filename, this filename is set in the constructor as instance variable.</span>
+<span class="sd">        :param pool: The pool this file is from</span>
+<span class="sd">        :type poo: an instance of a :py:class:`Pool.Pool` object</span>
+<span class="sd">        :param sample: The sample this file is from, default is None because some files do not have a sample</span>
+<span class="sd">        :type sample: an instance of a :py:class:`Sample.Sample` object.</span>
+<span class="sd">        :param fileName: the name of this file, if None, the name will be set to a default name</span>
+<span class="sd">        :type fileName: str -- path to this file</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="n">sample</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">pool</span>
+        
+        
+        <span class="k">if</span> <span class="n">fileName</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">fileName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPreferredFileName</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fileName</span> <span class="o">=</span> <span class="n">fileName</span>  
+        
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fileName</span>
+        
+<div class="viewcode-block" id="File.setFile"><a class="viewcode-back" href="../../model.html#model.File.File.setFile">[docs]</a>    <span class="k">def</span> <span class="nf">setFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method setFile removes the old file and puts the new file in place.</span>
+<span class="sd">        :param fileName: The name of the new file</span>
+<span class="sd">        :type fileName: Str. -- path to the new file</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">fileName</span><span class="p">)</span> <span class="o">==</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fileName</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fileName</span><span class="p">)</span>
+            
+        <span class="n">os</span><span class="o">.</span><span class="n">renames</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPreferredFileName</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fileName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPreferredFileName</span><span class="p">()</span>
+        </div>
+<div class="viewcode-block" id="File.getPreferredFileName"><a class="viewcode-back" href="../../model.html#model.File.File.getPreferredFileName">[docs]</a>    <span class="k">def</span> <span class="nf">getPreferredFileName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Getter for retrieving the preferred file name of a file</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span> 
+            <span class="n">prefix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">outputDir</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">libName</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="n">prefix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">outputDir</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">poolName</span>
+            
+        <span class="k">return</span> <span class="n">prefix</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSuffix</span><span class="p">()</span>
+        </div>
+<div class="viewcode-block" id="File.getNewFileName"><a class="viewcode-back" href="../../model.html#model.File.File.getNewFileName">[docs]</a>    <span class="k">def</span> <span class="nf">getNewFileName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A simple getter for retrieving a new filename without overwriting the old one.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPreferredFileName</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;New&quot;</span>
+            
+    </div>
+<div class="viewcode-block" id="File.getFile"><a class="viewcode-back" href="../../model.html#model.File.File.getFile">[docs]</a>    <span class="k">def</span> <span class="nf">getFile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method returns the filename, if the file is compressed, the extracted file will be returned.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fileName</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;.gz&quot;</span><span class="p">):</span>
+            <span class="n">dc</span> <span class="o">=</span> <span class="n">Decompressor</span><span class="o">.</span><span class="n">Decompressor</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">dc</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fileName</span>
+    </div>
+    <span class="nd">@abc.abstractmethod</span>
+<div class="viewcode-block" id="File.getSuffix"><a class="viewcode-back" href="../../model.html#model.File.File.getSuffix">[docs]</a>    <span class="k">def</span> <span class="nf">getSuffix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+        <span class="sd">&quot;&quot;&quot;The method getSuffix returns the suffix of a file.</span>
+<span class="sd">        this method is implemented in all subclasses.</span>
+<span class="sd">        </span>
+<span class="sd">        :raises: a NotImplementedError when this method is not implemented in a subclass</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;getSuffix method not implemented!&quot;</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="../../index.html">VLPB 0.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jetse.
+      Last updated on Oct 31, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

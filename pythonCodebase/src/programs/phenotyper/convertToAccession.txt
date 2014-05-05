@@ -1,0 +1,83 @@
+1	PV	EA00840,EA02936,EA05097,EA10006	Moneymaker	 	PBR
+2	PV	EA00240,EA01101	Alisa Craig	old cultivar	PBR
+3	PV	EA06086	Garderners Delight	old cultivar	PBR
+4	PV	EA00465	Rutgers	old cultivar	Craig Lehoullier
+5	 	EA00325	GALINA	Hierloom, diversity	Craig Lehoullier
+6	 	EA00488	TAXI	Hierloom, diversity	 
+7	 	EA00375	Katinka Cherry	Hierloom / phylogeny	Craig Lehoullier
+8	 	EA00371	John's big orange	Hierloom / phylogeny	Craig Lehoullier
+11	LYC 1365	EA02617	All Round	Agronomic traits	IPK Gatersleben
+12	LYC 1969	EA02724	Sonato	Agronomic traits	IPK Gatersleben
+13	LYC 3897	EA03701	Cross Country	Agronomic traits	IPK Gatersleben
+14	LYC 3476	EA03362	Iidi	Plant architecture	IPK Gatersleben
+15		TR00003	Momatero	pink beef	Rijk Zwaan
+16	CGN15464	EA01965	Rote Beere	brix	TGRC
+17	LYC 3340	EA03306	 	brix	IPK Gatersleben
+18	 	EA01155	DANA	fruit size	Sand Hill Preservation Center
+19	 	EA01049	LARGE PINK	fruit weight	Sand Hill Preservation Center
+20	LYC 3153	EA03221	Lycopersicon esculentum. Mill.	fruit weight	IPK Gatersleben
+21	LYC 3155	EA03222	Bolivar' Lycopersicon esculentum. Mill. Convar. infiniens Lehm. Var. commune bail.	fruit weight	IPK Gatersleben
+22	PI 129097	EA04710	 	fruit weight	USDA, ARS, Geneva
+23	PI 272654	EA05170	 	fruit weight	USDA, ARS, Geneva
+24	 	EA00990	JERSEY DEVIL	fruit size	Sand Hill Preservation Center
+26	 	EA00157	Polish Joe	fruit locule count	 
+27	CGN20815	EA02054	Cal J TM VF	fruit locule count	TGRC
+28	PI 303721	EA05581	The Dutchman	fruit locule count	GENEVA
+29	 	EA00027	BLACK CHERRY		 
+30	V710092	EA01835	ANTO	collection date	 
+31	PC711092	EA01854	WINTER TIPE (NOR)	collection date	 
+32	PI 93302	EA04243	'Chang Li' Lycopersicon esculentum	collection date / collection iste	USDA, ARS, Geneva
+33	SG 16	EA00892	Belmonte		 
+34	 	EA01088	TIFFEN MENNONITE	phylogeny	Sand Hill Preservation Center
+35	PI 203232	EA04939	Wheatley's Frost Resistant	collection site	USDA, ARS, Geneva
+36	PI 311117	EA05701	 	collection site	USDA, ARS, Geneva
+37	PI 365925	EA05891	 	collection site	USDA, ARS, Geneva
+38	PI 158760	EA04828	Chih-Mu-Tao-Se	collection site / phylogeny	USDA, ARS, Geneva
+39	LA0113	EA00526	 	collection site / germplasm status	TGRC
+40	LYC 1410	EA02655	ES 58 Heinz' Lycopersicon esculentum Mill. Convar. infiniens Lehm. Var. pluriloculare Lehm.	phylogeny	IPK Gatersleben
+41	PI 169588	EA04861	Dolmalik	collection date / phylogeny	USDA, ARS, Geneva
+77		TR00018	Large Red Cherry		Totally Tomatoes
+78		EA00940	Porter		Tomato Growers Supply Company
+88		TR00019	Bloody Butcher		Totally Tomatoes
+89		EA01019	Brandywine		Tomato Growers Supply Company
+90		TR00020	Dixy Golden Giant		Tomato Growers Supply Company
+91		EA01037	Giant Belgium		Tomato Growers Supply Company
+93		TR00021	Kentucky Beefsteak		Tomato Growers Supply Company
+94		TR00022	Marmande VFA		Tomato Growers Supply Company
+96		TR00023	Thessaloniki		Tomato Growers Supply Company
+97		EA01640	Watermelon Beefsteak		Tomato Growers Supply Company
+102		TR00026			TGRC
+103		TR00027			TGRC
+105	LA1479	TR00028			TGRC
+42	LYC 2962	EA03107	S. lycopersicum?	 	phylogeny, not a S. habrochaite accession	IPK Gatersleben	 
+43	LYC 2910	EA03058	S. pimpinellifolium (Jusl.) Mill.	 	collection site	IPK Gatersleben	 
+44	LYC 2798	EA02994	S. pimpinellifolium (Jusl.) Mill. var. pimpinellifolium.	N 481	fruit wieght	IPK Gatersleben	 
+45	LYC 2740	EA02960	S. pimpinellifolium -> S. lycopersicum?	 	Plant architecture, Request Keygene	IPK Gatersleben	 
+46	LA1584/PY8040	EA00676	S. pimpinellifolium	 	Whitefly resistance	TGRC	Facultative-SC
+47	LA1578	EA00674	S. pimpinellifolium	 	Drought resistance	TGRC	Facultative-SC
+49	LA1278	TR00005	S. pimpinellifolium	 	Salinity / alkalinity resistance	TGRC	Autogamous-SC
+51	LA2663	TR00007	S. chiemliewskii	 	Steep banks in rocks	TGRC	Facultative-SC
+52	LA2695	EA00759	S. chiemliewskii	 	 	TGRC	Facultative-SC
+53	LA0483	EA00581	S. cheesmaniae	 	Agronomic traits	TGRC	Autogamous-SC
+54	G1.1615	TR00024	S. cheesmaniae	 	F. oxysporum resistance	CGN	 
+55	LA1401	EA00652	S. cheesmaniae	 	 	TGRC	Autogamous-SC
+56	LA2133	EA00729	S. neorickii	 	Agronomic traits	TGRC	Autogamous-SC
+57	G1.1601	TR00025	S. neorickii	 	O. neolycopersici & B. cinerea resistance	Centre for Genetic Resources, the Netherlands	 
+58	LA2157	TR00008	S. Arcanum	 	C. michiganensis resistance	TGRC	Facultative-SC
+59	LA2172	TR00009	S. Arcanum	 	 	TGRC	Allogamous-SI
+60	LA1954	EA00713	S. peruvianum	 	 	TGRC	Allogamous-SI
+62	LA1983	TR00010	S. huaylasense	 	dry habitat	TGRC	Allogamous-SI
+63	LA1365	TR00011	S. huaylasense	 	Steep dry banks	TGRC	Allogamous-SI
+64	G1.1558	TR00012	S. chilense	 	 	TGRC	 
+65	G1.1556	TR00013	S. chilense	 	 	TGRC	Allogamous-SI
+66	G1.1561	TR00014	S. habrochaites f. glabratum	 		Centre for Genetic Resources, the Netherlands	 
+67	PI134418	TR00015	S. habrochaites f. glabratum	 		USDA, ARS, Geneva	 
+68	CGN15792	TR00016	S. habrochaites f. glabratum	 		Centre for Genetic Resources, the Netherlands	 
+69	LA1718	EA00699	S. habrochaites f. glabratum	 		TGRC	Allogamous-SI
+70	LA1777	EA00703	S. habrochaites	 	Agronomic traits	TGRC	Allogamous-SI
+71	LA407	EA00558	S. habrochaites	 	C. michiganensis resistance	TGRC	Facultative-SC
+72	LYC4	TR00017	S. habrochaites		B. cinerea resistance & Agronomic traits	IPK Gatersleben	Facultative-SC
+73	LYC 1831	EA02701	S. pennellii	 	steep rocky slope, LA1272	IPK Gatersleben	Allogamous-SI
+74	LA716	EA00585	S. pennellii	 	Parent introgression lines	TGRC	Facultative-SC
+104	LA1044	TR00029	S. galapagense	 		TGRC	
+25	T 1248	EA03384	S. corneliomulleri	'La 118' Lycopersicon sp.	fruit size	IPK Gatersleben	Allogamous-SI
