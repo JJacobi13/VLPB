@@ -27,6 +27,7 @@ class AllelicDiversity():
         
         """
         allHaplotypes = {}
+        print contigs
         for key in contigs:
             haplotypes = {}
             if len(self.allContigs[key].snps) > 0:
@@ -86,6 +87,9 @@ class AllelicDiversity():
                                 else:
                                     outWriter.write("-\t")
                         outWriter.write("\n")
+            except IndexError:
+                logging.warning("No SNPs within contigs found of " + vcf)
+            
             except Exception as ex:
                 logging.error("an error occured during parsing " + vcf)
                 logging.error(ex)

@@ -19,6 +19,7 @@ class VLPBcli(object):
         argParser.add_argument('inputDirectory', help="The directory where you hid your fastq files in", action="store")
         argParser.add_argument('outputDirectory', help="The directory where to write all mess to", action="store")
         argParser.add_argument("--name", required=True, type=str, help="The name of the pool")
+        argParser.add_argument("--refGenome", required=True, type=argparse.FileType())
         argParser.add_argument("--mapper", choices=["BWA"], default="BWA")
         argParser.add_argument("--snvCaller", choices=["samtools", "GATK"], default="samtools")
         argParser.add_argument("--inFormat", choices=["fq", "bam","vcf"], default="fq")
@@ -45,6 +46,8 @@ class VLPBcli(object):
         :type args: an :py:class:`argparse.Namespace` instance
         
         """
+        args.refGenome.close()
+        Program.config.sections["paths"].setOption("refGenome", args.refGenome.name)
         Program.config.mapper = args.mapper
         Program.config.snvCaller = args.snvCaller
         if args.gff:

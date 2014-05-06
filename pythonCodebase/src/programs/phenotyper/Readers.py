@@ -192,15 +192,15 @@ class GffReader(Reader):
         try:
             contigId = GffReader.idRegex.search(info[8]).group(1)
         except AttributeError:
-            return
+            contigId = info[0] + ":" + info[3]+ "-" + info[4]
         if self.phenotypes != None:
             if contigId in self.contigs.keys():
                 self.contigs[contigId].addInfo(info[0],info[3],info[4])
               
-        elif info[2] == "gene":
-            if self.chrom == None or self.chrom == info[0]:
-                self.contigs[contigId] = Contig.Contig(contigId, None)
-                self.contigs[contigId].addInfo(info[0],info[3],info[4])
+#         elif info[2] == "gene":
+        if self.chrom == None or self.chrom == info[0]:      
+            self.contigs[contigId] = Contig.Contig(contigId, None)
+            self.contigs[contigId].addInfo(info[0],info[3],info[4])
 
 class AccessionConverter(Reader):
     
