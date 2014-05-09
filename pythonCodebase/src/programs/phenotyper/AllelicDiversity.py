@@ -27,7 +27,6 @@ class AllelicDiversity():
         
         """
         allHaplotypes = {}
-        print contigs
         for key in contigs:
             haplotypes = {}
             if len(self.allContigs[key].snps) > 0:
