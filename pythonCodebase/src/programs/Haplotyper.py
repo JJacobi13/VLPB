@@ -17,10 +17,10 @@ class Haplotyper(threading.Thread, Program.Program):
         self.chrom = chrom
         
     def run(self):
-        try:
-            self.callHaplotypes()
-        except Exception as x:
-            logging.error(x)
+#         try:
+        self.callHaplotypes()
+#         except Exception as x:
+#             logging.error(x)
     
     def callHaplotypes(self):
         """The method callHaplotypes calls the haplotypes of a vcf file. When the vcf file is not set, first the SNVs are called with the :py:class:`SnvCaller.SnvCaller` object
@@ -29,9 +29,11 @@ class Haplotyper(threading.Thread, Program.Program):
         :type pool: an instance of a :py:class:`Pool.Pool` object
         
         """
-        
         if self.chrom in self.pool.vcf:
-            logging.info("SNP calling already done on " + self.chrom)
+            if self.chrom == None:
+                logging.info("SNP calling already done")
+            else:
+                logging.info("SNP calling already done on " + self.chrom)
         else:
             snvCaller = Program.config.snvCaller  # @UndefinedVariable
             if snvCaller == "samtools":
@@ -46,14 +48,22 @@ class Haplotyper(threading.Thread, Program.Program):
                 
         self._executeBeagle(self.pool, self.chrom)
     
+    def getPhased(self, fileName):
+        with open(fileName) as fileReader:
+            for line in fileReader:
+                if line.startswith("#"):
+                    continue
+                if "|" in line.split("\t")[-1]:
+                    return True
+                return False
+    
     def _executeBeagle(self, pool, chrom):
         """The method executeBeagle executes beagle. First the vcf file is converted to a format beagle needs, then beagle is executed.
         :param pool: The pool beagle has to executed on
         :type pool: an instance of a :py:class:`Pool.Pool` object
         
         """
-        
-        if pool.vcf[chrom].phased == True:
+        if self.getPhased(pool.vcf[chrom].fileName):
             return
         
         if pool.vcf[chrom].bcf == True:
@@ -122,6 +132,12 @@ class Haplotyper(threading.Thread, Program.Program):
     
 def executeBeagleMultiThread(pool):  
     Grid.useGrid=False
+    if None in pool.vcf:
+        beagle = Haplotyper(pool, None)
+        beagle.start()
+        beagle.join()
+        return
+    
     threads = []
     for chrom in Tools.getChromosomes(Program.config.getPath("refGenome")):
         beagle = Haplotyper(pool, chrom)

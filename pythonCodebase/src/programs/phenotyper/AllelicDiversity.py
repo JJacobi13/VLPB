@@ -62,9 +62,13 @@ class AllelicDiversity():
             Haplotyper.executeBeagleMultiThread(self.pool)
         
         for vcf in self.pool.vcf: 
-            logging.info("calculating allelic diversity of " + vcf)
-            try:
+            if vcf == None:
+                logging.info("Starting to calculate the allelic diversity")
+                outputFile = self.pool.outputDir + "/allelicDiversity.csv"  
+            else:
+                logging.info("calculating allelic diversity of " + vcf)
                 outputFile = self.pool.outputDir + "/"+vcf + "_" + "allelicDiversity.csv"  
+            try:
                 self.vcfFile = self.pool.vcf[vcf].getFile()
                 self._parseFiles(vcf)
                 haplotypes = self._getAllHaplotypesByAccession(self.allContigs)
@@ -87,11 +91,16 @@ class AllelicDiversity():
                                     outWriter.write("-\t")
                         outWriter.write("\n")
             except IndexError:
-                logging.warning("No SNPs within contigs found of " + vcf)
+                if vcf == None:
+                    logging.warning("No SNPs within contigs found")
+                else:
+                    logging.warning("No SNPs within contigs found of " + vcf)
             
             except Exception as ex:
-                logging.error("an error occured during parsing " + vcf)
+                if vcf == None:
+                    logging.error("an error occured during parsing the vcf file")
+                else:
+                    logging.error("an error occured during parsing " + vcf)
                 logging.error(ex)
                 traceback.print_exc()
-                exit()
                 

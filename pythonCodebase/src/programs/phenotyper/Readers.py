@@ -27,12 +27,13 @@ class Reader(object):
                             self.header = line[1:].split()     #remove the '#' so line[1:] instead of line
                         else:
                             continue
-                    if noOfParsedLines % 100000 == 0:
-                        if noOfParsedLines == 0:
-                            logging.info("starting to parse " + os.path.basename(inFile))
-                        else: logging.info("parsed " + str(noOfParsedLines) + " lines.")
-                    noOfParsedLines = noOfParsedLines +1
-                    self._parseLine(line.split("\t"))
+                    elif line.strip():
+                        if noOfParsedLines % 100000 == 0:
+                            if noOfParsedLines == 0:
+                                logging.info("starting to parse " + os.path.basename(inFile))
+                            else: logging.info("parsed " + str(noOfParsedLines) + " lines.")
+                        noOfParsedLines = noOfParsedLines +1
+                        self._parseLine(line.split())
         self._actionAfterReading()
         
     def _parseLine(self, info, header):
@@ -121,7 +122,7 @@ class VcfReader(Reader):
         
         for contig in self.contigs:
             
-            if pos > int(contig.start) and pos < int(contig.end):
+            if pos > int(contig.start) and pos < int(contig.end) and info[0]==contig.chrom:
                 contig.addSnp(info, self.header)
               
     def _actionAfterReading(self):
@@ -191,7 +192,7 @@ class GffReader(Reader):
         """
         try:
             contigId = GffReader.idRegex.search(info[8]).group(1)
-        except AttributeError:
+        except (AttributeError, IndexError):
             contigId = info[0] + ":" + info[3]+ "-" + info[4]
         if self.phenotypes != None:
             if contigId in self.contigs.keys():

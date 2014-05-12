@@ -117,7 +117,7 @@ class VLPBcli(object):
             for line in vcfReader:
                 if line.startswith("#"):
                     continue
-                return line.split("\t")[0]
+                return line.split()[0]
 
     def findFastqFiles(self, directory, inFormat):
         """The method findFastqFiles finds all fastq files recursively in a directory, from each directory with fastq files a sample is created.
@@ -143,7 +143,10 @@ class VLPBcli(object):
                         fastqFiles.append(fileName)
                 elif inFormat == "vcf":
                     if fileName.endswith(".vcf") or fileName.endswith(".vcf.gz"):
-                        chrom = self.getChromosomeFromVcf(fileName)
+                        if len(os.listdir(directory)) == 1:
+                            chrom = None
+                        else:
+                            chrom = self.getChromosomeFromVcf(fileName)
                         self.pool.vcf[chrom] = VcfFile.VcfFile(self.pool, fileName, bcf=False, filtered=True, phased=True, chrom=chrom)
                     elif fileName.endswith(".bcf") or fileName.endswith(".bcf.gz"):
                         chrom = Tools.getChromosomeOfFile(Program.config.getPath("refGenome"), fileName)
