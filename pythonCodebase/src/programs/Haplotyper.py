@@ -77,7 +77,7 @@ class Haplotyper(threading.Thread, Program.Program):
         beagleFile = self._createBeagleInput(origVcf, chrom)
         
         #execute beagle
-        cmd = "java -Djava.io.tmpdir=/state/partition1/jaco001/ -jar -Xmx30g " + Program.config.getPath("beagle")  + " like=" + beagleFile.fileName + " out=" + pool.outputDir + "out"
+        cmd = "java -Djava.io.tmpdir="+Program.config.getPath("tmp")+" -jar -Xmx30g " + Program.config.getPath("beagle")  + " like=" + beagleFile.fileName + " out=" + pool.outputDir + "out"
         self.execute(cmd, "beagle", beagleFile)
         
         #update status of beagle file
