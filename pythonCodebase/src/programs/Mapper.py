@@ -1,5 +1,6 @@
 from programs import Program, QualityControl
 from model import BamFile
+import subprocess, os
 
 class Mapper(Program.Program):
     """The class Mapper regulates all mapping processes, available mapper: BWA
@@ -14,7 +15,6 @@ class Mapper(Program.Program):
         :type sample: an instance of :py:class:`Sample.Sample`
         
         """
-        
         QualityControl.QualityControl().doQualityControl(sample)
 
         if Program.config.getProgram(["BWA"]):
@@ -29,7 +29,11 @@ class Mapper(Program.Program):
         :type reversedFq: an instance of :py:class:`FastqFile.FastqFile`, None if the data has no paired end reads.
         
         """
-        
+        if os.path.exists(Program.config.getPath("refGenome") + ".pac") == False:
+            exitStatus = subprocess.call("bwa index " + Program.config.getPath("refGenome"))
+            if exitStatus == 1:
+                print("ERROR: Failed to create a bwa index file for the reference genome, do I have permissions to write in the directory of the reference genome?")
+                exit(1)
         ##Build the command
         cmd = Program.config.getPath("bwa")  # @UndefinedVariable
         if reversedFq == None:

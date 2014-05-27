@@ -115,6 +115,7 @@ class Haplotyper(threading.Thread, Program.Program):
         """The method convertToVcf converts the beagle output to a phased vcf file.
         
         """
+        
         vcfFile = VcfFile.VcfFile(origVcf.pool, origVcf.pool.outputDir + chrom + "_" + os.path.basename(origVcf.fileName), chrom=chrom)
         cmd = ("java -jar -Xmx30g " + Program.config.getPath("gatk") + 
             " -R " + Program.config.getPath("refGenome") + 
@@ -124,7 +125,7 @@ class Haplotyper(threading.Thread, Program.Program):
             " -beaglePhased:BEAGLE " + beagleFile.getFile("phased") +
             " -beagleProbs:BEAGLE " + beagleFile.getFile("gprobs") +
             " -o " + vcfFile.fileName +
-            " --unsafe LENIENT_VCF_PROCESSING -l DEBUG")
+            " --unsafe LENIENT_VCF_PROCESSING")
         self.execute(cmd, "gatk", vcfFile)
         beagleFile.pool.vcf[chrom] = vcfFile
         vcfFile.phased = True

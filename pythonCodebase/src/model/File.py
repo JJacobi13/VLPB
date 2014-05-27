@@ -13,19 +13,19 @@ class File(object):
     
     __metaclass__ = abc.ABCMeta
     
-    @property
-    def fileName(self):
-        """Getter for getting the filename so always the absolute path is returned.
-        
-        """
-        return os.path.abspath(self._fileName)
-    
-    @fileName.setter
-    def fileName(self, value):
-        """Setter for setting the filename, required for getter...
-        
-        """
-        self._fileName = value
+#     @property
+#     def fileName(self):
+#         """Getter for getting the filename so always the absolute path is returned.
+#         
+#         """
+#         return os.path.abspath(self._fileName)
+#     
+#     @fileName.setter
+#     def fileName(self, value):
+#         """Setter for setting the filename, required for getter...
+#         
+#         """
+#         self._fileName = value
     
     def __init__(self, pool, sample=None, fileName=None):
         """A file always has a filename, this filename is set in the constructor as instance variable.

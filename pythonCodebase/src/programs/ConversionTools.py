@@ -76,7 +76,7 @@ class ConversionTools(Program.Program):
             return
         
         outputFile = sample.bam.getNewFileName()
-        cmd = "java -jar -Djava.io.tmpdir=" + sample.bam.pool.outputDir + " " + Program.config.getPath("picardTools") + "AddOrReplaceReadGroups.jar I=" + sample.bam.getFile() + " VALIDATION_STRINGENCY=SILENT O=" + outputFile + " LB=" + sample.bam.sample.libName + " PL=illumina PU=lane SM="+sample.bam.sample.libName
+        cmd = "java -jar -Djava.io.tmpdir=" + sample.bam.pool.outputDir + " " + Program.config.getPath("picardTools") + "/AddOrReplaceReadGroups.jar I=" + sample.bam.getFile() + " VALIDATION_STRINGENCY=SILENT O=" + outputFile + " LB=" + sample.bam.sample.libName + " PL=illumina PU=lane SM="+sample.bam.sample.libName
         self.execute(cmd, "picardtools AddOrReplaceReadGroups", sample.bam)
         sample.bam.headerLine = True
         sample.bam.setFile(outputFile)

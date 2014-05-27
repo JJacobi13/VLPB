@@ -30,13 +30,13 @@ class LociFinder(object):
         converter.readFile(os.path.dirname(os.path.realpath(__file__)) + "/convertToAccession.txt")
         for phenotype in  phenReader.phenotypes:
             deletedKeys = 0
-            for oldKey in phenotype.alleles.keys():
-                try:
-                    newKey = converter.getAccession(oldKey)
-                    phenotype.alleles[newKey] = phenotype.alleles.pop(oldKey)
-                except KeyError:
-                    deletedKeys += 1
-                    del phenotype.alleles[oldKey]
+#             for oldKey in phenotype.alleles.keys():
+#                 try:
+#                     newKey = converter.getAccession(oldKey)
+#                     phenotype.alleles[newKey] = phenotype.alleles.pop(oldKey)
+#                 except KeyError:
+#                     deletedKeys += 1
+#                     del phenotype.alleles[oldKey]
             for (chrom, vcfFile) in pool.vcf.items():
                 gffReader = Readers.GffReader(chrom=chrom)
                 gffReader.readFile(Program.config.gffFile)  # @UndefinedVariable
@@ -57,7 +57,6 @@ class LociFinder(object):
     def findLociInPheno(self, phenotype):
         numpy.seterr(all="raise")
         pValues = {}
-        print phenotype
         for contig in phenotype.contigs:
             if len(phenotype.contigs[contig].haplotypes) == 0:
                 continue
@@ -65,16 +64,15 @@ class LociFinder(object):
             for accession in phenotype.alleles.keys():
                 for (haplotype,contigAccessions) in phenotype.contigs[contig].haplotypes.items():
                     for contigAccession in contigAccessions:
-                        if accession in contigAccession.zfill(3):
-                            if haplotype in accessions:
-                                try:
-                                    accessions[haplotype].append(float(phenotype.alleles[accession]))
-                                except:
-                                    pass
-                            else:
-                                try:
-                                    accessions[haplotype] = [float(phenotype.alleles[accession])]
-                                except: pass
+                        if haplotype in accessions:
+                            try:
+                                accessions[haplotype].append(float(phenotype.alleles[accession]))
+                            except:
+                                pass
+                        else:
+                            try:
+                                accessions[haplotype] = [float(phenotype.alleles[accession])]
+                            except: pass
             try:
                 pValues[contig] = stats.f_oneway(*accessions.values())
             except Exception as err:

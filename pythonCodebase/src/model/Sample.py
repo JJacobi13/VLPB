@@ -44,7 +44,9 @@ class Sample(object):
         self.bam = BamFile.BamFile(self.pool, self, fileName)
         
     def __str__(self):
-        return "Sample[forwardFq: " + str(self.forwardFq) + ", " + "reversedFq: " + str(self.reversedFq) + " Library name: " + self.libName + " bam: " + str(self.bam) + " ]"
+        print self.forwardFq
+        return "Sample[ Library name: " + self.libName + "]"
+#         return "Sample[forwardFq: " + str(self.forwardFq.file) + ", " + "reversedFq: " + str(self.reversedFq.file) + " Library name: " + self.libName + " bam: " + str(self.bam) + " ]"
 
     def __repr__(self):
         return self.__str__()

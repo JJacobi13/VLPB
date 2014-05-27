@@ -11,6 +11,7 @@ class SnvCaller(threading.Thread, Program.Program):
     """
     def __init__(self, pool, chromosome = None):
         super(SnvCaller, self).__init__()
+        self.pool = pool
         self.checkInput(pool)
         self.chromosome = chromosome
     

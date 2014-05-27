@@ -3,7 +3,7 @@ Created on Sep 13, 2013
 
 @author: Jetse
 '''
-import os
+import os, subprocess
 from programs.snvCallers import SnvCaller
 from programs import Program
 from model import VcfFile
@@ -19,6 +19,13 @@ class Gatk(SnvCaller.SnvCaller):
         """
         if len(self.pool.samples) == 0:
                 raise LookupError("no samples for executing samtools")
+        
+        if os.path.exists(Program.config.getPath("refGenome") + ".dict") == False:
+            exitStatus = subprocess.call("java -jar CreateSequenceDictionary.jar R="+Program.config.getPath("refGenome")+" O="+Program.config.getPath("refGenome")+".dict ")
+            if exitStatus == 1:
+                print("ERROR: Failed to create a bwa index file for the reference genome, do I have permissions to write in the directory of the reference genome?")
+                exit(1)
+        
             
         if self.chromosome not in self.pool.vcf:
             self.pool.vcf[self.chromosome] = VcfFile.VcfFile(self.pool, chrom=self.chromosome, bcf=False)

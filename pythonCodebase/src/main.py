@@ -5,6 +5,7 @@ from programs.snvCallers import SamtoolsMpileup, Gatk
 from model.cluster import Grid
 from programs.phenotyper import AllelicDiversity, LociFinder
 from tools import Tools
+
 class VLPBcli(object):
     """The VLPBcli represents the commandline interface of the VLPB project. This class regulates the input parameters and gives the command to execute a program.
     
@@ -23,10 +24,9 @@ class VLPBcli(object):
         argParser.add_argument("--mapper", choices=["BWA"], default="BWA")
         argParser.add_argument("--snvCaller", choices=["samtools", "GATK"], default="samtools")
         argParser.add_argument("--inFormat", choices=["fq", "bam","vcf"], default="fq")
-        argParser.add_argument("--end", choices=["mapping","snvCalling", "haplotyping","phenotyping","allelicDiversity","findLoci"], default="phenotyping")
+        argParser.add_argument("--end", choices=["mapping","snvCalling", "haplotyping","allelicDiversity","findLoci"], default="snvCalling")
         argParser.add_argument("--gff", required=False, type=argparse.FileType())
         argParser.add_argument("--phen", required=False, type=argparse.FileType())
-        argParser.add_argument("--bed", required=False, type=argparse.FileType())
         argParser.add_argument("--grid", required=False,action="store_true")
         argParser.add_argument("--multiThread", required=False,action="store_true")
         
@@ -65,18 +65,13 @@ class VLPBcli(object):
             Grid.useGrid = True
         if args.multiThread == True:
             Program.config.multiThread = True
-        if args.bed:
-            args.bed.close()
-            Program.config.bedFile = args.bed.name
         
     def execute(self, executable):
         """The method execute checks which program has to be executed and executes this program
         :param executable: the argument of the commandline which determines which program has to be executed
         :type executable: str
         """
-        if executable == "phenotyping":
-            print("pheno!")
-        elif executable == "haplotyping":
+        if executable == "haplotyping":
             if Grid.useGrid == True:
                 Haplotyper.executeBeagleCluster(self.pool)
             else:
@@ -98,7 +93,7 @@ class VLPBcli(object):
             allelicDiverityCalculator.getAllelicDiversity()
         elif executable == "findLoci":
             if Program.config.phenoData == None:  # @UndefinedVariable
-                print("When finding loci, a gff file is needed, this option can be set with the option --phen <file>")
+                print("When finding loci, a csv file is needed with the phenotype data, this option can be set with the option --phen <file>")
                 exit()
             if Program.config.gffFile == None:  # @UndefinedVariable
                 print("When finding loci, a file with phenotype data is needed, this option can be set with the option --gff <file>")
@@ -126,7 +121,6 @@ class VLPBcli(object):
         
         """
         fastqFiles = []
-        self.samples = []
         for fileName in os.listdir(directory):
             fileName = directory + "/" + fileName
             if os.path.isdir(fileName):
@@ -166,14 +160,14 @@ class VLPBcli(object):
                 
             #create the sample
             sample = Sample.Sample(self.pool, libName)
-            self.samples.append(sample)
-            
+            self.pool.addSample(sample)
             #add the fastq files to the sample
             if len(fastqFiles) == 1:
                 sample.setForwardFq(fastqFiles[0])
-            elif len(fastqFiles == 2):
+            elif len(fastqFiles) == 2:
+                sample.setForwardFq(fastqFiles[0])
                 sample.setReversedFq(fastqFiles[1])
-            elif len(fastqFiles > 2):
+            elif len(fastqFiles) > 2:
                 if fastqFiles[0].endswith("_1.fq"):
                     suffix = "_1.fq"
                 elif fastqFiles[0].endswith("_1.fq.gz"):
@@ -181,24 +175,24 @@ class VLPBcli(object):
                 else:
                     print("WARNING: files do not end with _1.fq or _1.fq.gz or _2.fq or _2.fq.gz, using all files in one directory as 1 sample with only forward reads")
                     suffix = fastqFiles[0][-3:]
-                #create a list of forward fastq files and one of reversed fastq files
-                forward = []
-                reversedFastq = []
-                for fastqFile in fastqFiles:
-                    if fastqFile.endswith(suffix):
-                        forward.append(fastqFile)
-                    else:
-                        reversedFastq.append(fastqFile)
+                    #create a list of forward fastq files and one of reversed fastq files
+                    forward = []
+                    reversedFastq = []
+                    for fastqFile in fastqFiles:
+                        if fastqFile.endswith(suffix):
+                            forward.append(fastqFile)
+                        else:
+                            reversedFastq.append(fastqFile)
+                            
+                    #Convert files to fastqFile objects
+                    for i in range(len(forward)):
+                        forward[i] = FastqFile.FastqFile(self.pool, sample, forward[i])
+                    for i in range(len(reversedFastq)):
+                        reversedFastq[i] = FastqFile.FastqFile(self.pool, sample, reversedFastq[i], forward=False)
                         
-                #Convert files to fastqFile objects
-                for i in range(len(forward)):
-                    forward[i] = FastqFile.FastqFile(self.pool, sample, forward[i])
-                for i in range(len(reversedFastq)):
-                    reversedFastq[i] = FastqFile.FastqFile(self.pool, sample, reversedFastq[i], forward=False)
-                    
-                #add the fastq files to the sample
-                sample.forwardFq = forward
-                sample.reversedFq = reversedFastq
+                    #add the fastq files to the sample
+                    sample.forwardFq = forward
+                    sample.reversedFq = reversedFastq
  
 if __name__ == '__main__':        
     VLPBcli().main()           

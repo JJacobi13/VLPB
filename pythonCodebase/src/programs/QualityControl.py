@@ -18,11 +18,11 @@ class QualityControl(Program.Program):
         if sample.forwardFq == None:
             raise ValueError("The sample has no forward fastq file!")
         
-        if sample.forwardFq.hq == False:  
-            self._doQualityControlOnFile(sample.forwardFq)
+#         if sample.forwardFq.hq[0] == False:  
+#         self._doQualityControlOnFile(sample.forwardFq)
         
-        if sample.reversedFq != None and sample.reversedFq.hq == False:
-            self._doQualityControlOnFile(sample.reversedFq)
+#         if sample.reversedFq != None and sample.reversedFq.hq == False:
+#             self._doQualityControlOnFile(sample.reversedFq)
         
     def _doQualityControlOnFile(self, fqFile):
         """This method regulates the multiple input fastq files of the sample. This method calls the method _executeQualityControl for each file in given files, 
@@ -54,7 +54,7 @@ class QualityControl(Program.Program):
         """
         
         inFile = fqFile.getFile()   
-        self.execute("cat " + inFile + " >> " + outFile, "qc (not yet implemented, just making a copy, with merging the fastq files...)", fqFile)
+        self.execute("cat " + inFile + " >> " + outFile, "qc (not implemented, just merging the fastq files...)", fqFile)
         os.chmod(outFile, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH | stat.S_IWUSR)
         fqFile.setFile(outFile)
         fqFile.hq = True
